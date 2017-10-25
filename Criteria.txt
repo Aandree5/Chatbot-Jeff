@@ -1,0 +1,3 @@
+Criteria for the chatbot to meet by the end of the project:
+  - Respond to user input
+  
