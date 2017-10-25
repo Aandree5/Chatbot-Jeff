@@ -1,3 +1,19 @@
-Criteria for the chatbot to meet by the end of the project:
-  - Respond to user input
-  
+Elements of the chatbot
+- Finding and storing questions and answers
+- CSV Files
+- API interaction
+- JSON Files
+
+Text Recognition
+- Read user input
+- Determine meaning/ request
+
+Response
+- Select appropriate response
+- Read from .CSV file
+- Form coherent responses
+
+Error/ Testing
+- Trying inputs to break chatbot
+- Find and  log breaking points
+- Fix breaks
