@@ -76,7 +76,7 @@ def getOpenDB(category, difficulty, nrQuestions = 1):
     catID = None
     for i in cats:
         if (category is not None and category != ""
-            and category.lower() in i["name"].lower()):
+            and category.casefold() in i["name"].casefold()):
             catID = i["id"]
             break
     
@@ -86,7 +86,7 @@ def getOpenDB(category, difficulty, nrQuestions = 1):
 
     ### Check difficulty
     if (difficulty is None or difficulty == ""
-        or difficulty.lower() not in ["easy","medium","hard"]):
+        or difficulty.casefold() not in ["easy","medium","hard"]):
         print("Difficulty not valid")
         return(None)
 
@@ -111,7 +111,7 @@ def getOpenDB(category, difficulty, nrQuestions = 1):
             questions = html.unescape(data["question"])
             rightAns = html.unescape(data["correct_answer"])
             if (data["type"] == "boolean"):
-                worngAns = worngAns.append(html.unescape(data["incorrect_answers"]))
+                worngAns = html.unescape(data["incorrect_answers"][0])
             elif (data["type"] == "multiple"):
                 worngAns = [html.unescape(data["incorrect_answers"][0]),
                             html.unescape(data["incorrect_answers"][1]),
