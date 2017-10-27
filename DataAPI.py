@@ -41,6 +41,24 @@ def tokenGetSet():
 
     return(tk)
 
+def openDBCats(onlyCategories = False):
+    ''' Gets openDB possibible categories and ID, if true just show the categories '''
+    import html
+    dbcats = readJSON('https://opentdb.com/api_category.php')
+    if (dbcats == None):
+        print("Error getting categories")
+        return(None)
+    cats = []
+    if (onlyCategories):
+        for i in dbcats["trivia_categories"]:
+            cats.append(html.unescape(i["name"].replace("Entertainment: ","")
+                                               .replace("Science: ", "")))
+    else:
+        for i in dbcats["trivia_categories"]:
+            cats.append(html.unescape(i))
+    return(cats)
+    
+
 def getOpenDB(category, difficulty, nrQuestions = 1):
     ''' With a set number of questions, category and difficulty level
         outputs the questions with that criteria '''
@@ -54,13 +72,9 @@ def getOpenDB(category, difficulty, nrQuestions = 1):
         return(None)
 
     ### Get possible categories, check for validity and respective ID
-    openDBCat = readJSON('https://opentdb.com/api_category.php')
-    if (openDBCat == None):
-        print("Error getting categories")
-        return(None)
-
+    cats = openDBCats()
     catID = None
-    for i in openDBCat["trivia_categories"]:
+    for i in cats:
         if (category is not None and category != ""
             and category.lower() in i["name"].lower()):
             catID = i["id"]
