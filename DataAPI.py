@@ -41,7 +41,7 @@ def tokenGetSet():
 
     return(tk)
 
-def getOpenDB(nrQuestions, category, difficulty):
+def getOpenDB(category, difficulty, nrQuestions = 1):
     ''' With a set number of questions, category and difficulty level
         outputs the questions with that criteria '''
     import html
@@ -92,24 +92,37 @@ def getOpenDB(nrQuestions, category, difficulty):
 
     #Check website response message
     if (openDBJson["response_code"] == 0): #Success - Read the data into variables
-        questions = []
-        rightAns = []
-        worngAns = []
-        qTypes = []
-        for i in openDBJson["results"]:
-            questions.append(html.unescape(i["question"]))
-            rightAns.append(html.unescape(i["correct_answer"]))
-            
-            if (i["type"] == "boolean"):
-                worngAns.append(html.unescape(i["incorrect_answers"][0]))
-            elif (i["type"] == "multiple"):
-                worngAns.append([html.unescape(i["incorrect_answers"][0]),
-                                 html.unescape(i["incorrect_answers"][1]),
-                                 html.unescape(i["incorrect_answers"][2])])
+        if (nrQuestions == 1):
+            data = openDBJson["results"][0]
+            questions = html.unescape(data["question"])
+            rightAns = html.unescape(data["correct_answer"])
+            if (data["type"] == "boolean"):
+                worngAns = worngAns.append(html.unescape(data["incorrect_answers"]))
+            elif (data["type"] == "multiple"):
+                worngAns = [html.unescape(data["incorrect_answers"][0]),
+                            html.unescape(data["incorrect_answers"][1]),
+                            html.unescape(data["incorrect_answers"][2])]
             else:
-                worngAns.append(html.unescape(i["incorrect_answers"]))
-                                               
-            qTypes.append(html.unescape(i["type"]))
+                worngAns = html.unescape(data["incorrect_answers"])
+            qTypes = html.unescape(data["type"])
+        else:
+            questions = []
+            rightAns = []
+            worngAns = []
+            qTypes = []
+            for i in openDBJson["results"]:
+                questions.append(html.unescape(i["question"]))
+                rightAns.append(html.unescape(i["correct_answer"]))
+
+                if (i["type"] == "boolean"):
+                    worngAns.append(html.unescape(i["incorrect_answers"][0]))
+                elif (i["type"] == "multiple"):
+                    worngAns.append([html.unescape(i["incorrect_answers"][0]),
+                                     html.unescape(i["incorrect_answers"][1]),
+                                     html.unescape(i["incorrect_answers"][2])])
+                else:
+                    worngAns.append(html.unescape(i["incorrect_answers"]))
+                qTypes.append(html.unescape(i["type"]))            
     elif (openDBJson["response_code"] == 1): #No Results
         print("No results were found")
         return(None)
@@ -125,16 +138,14 @@ def getOpenDB(nrQuestions, category, difficulty):
     return(questions, rightAns, worngAns, qTypes)
 
 
-allData = getOpenDB(1,"Music","hard")
-if (allData is None):
-    print("Data is none, an error as occurred")
-    exit()
-else:
-    questions, rightAnswers, wrongAnswers, qTypes = allData
-    for i in range(0, len(questions)):
-        print(" Q: {} \n A: {} \n W: {} \n T: {} \n\n"
-              .format(questions[i], rightAnswers[i], wrongAnswers[i], qTypes[i]))
-
-
-
-
+#allData = getOpenDB("Music","hard")
+#if (allData is None):
+#    print("Data is none, an error as occurred")
+#    exit()
+#else:
+#    questions, rightAnswers, wrongAnswers, qTypes = allData
+#    for i in range(0, len(questions)):
+#        print(" Q: {} \n A: {} \n W: {} \n T: {} \n\n"
+#              .format(questions[i], rightAnswers[i], wrongAnswers[i], qTypes[i]))
+#    print(" Q: {} \n A: {} \n W: {} \n T: {} \n\n"
+#              .format(questions, rightAnswers, wrongAnswers, qTypes))
