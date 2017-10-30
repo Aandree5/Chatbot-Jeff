@@ -76,6 +76,8 @@ def getOpentDB(category, difficulty, nrQuestions = 1):
         return("Error" , 2)
 
     ### Get possible categories, check for validity and respective ID
+    if (category is None):
+        return("Error" , 3)        
     if (category != "" and category.casefold() != "Any".casefold()
     and category.casefold() != "Random".casefold()):
         cat = opentDBCat()
@@ -92,6 +94,8 @@ def getOpentDB(category, difficulty, nrQuestions = 1):
         catID = ""
 
     ### Check difficulty
+    if (difficulty is None):
+        return("Error" , 4)   
     if (difficulty != "" and difficulty.casefold() != "Any".casefold()
     and difficulty.casefold() != "Random".casefold()):
         if (difficulty.casefold() in ["easy","medium","hard"]):
@@ -193,18 +197,118 @@ def getQuestion(category, difficulty, nrQuestions = 1, database = "opentDB"):
             return(allData)
     else:
         print("No more databases")
-                    
+
+# Testing area, test all funcions with possible inputs
+if (__name__ == "__main__"):
+    import json
+    import os
+    import time
+    import html
     
+    ########## Test readJSON function ##########
+    print("#" * 50)
+    print("# Checking readJSON function, read JSON from url")
+    time_Start = time.perf_counter()
+    test_Json = readJSON("https://opentdb.com/api.php?amount=1")
+    # Test 1 - If JSON had the required fields
+    test_Error = (False if ("response_code" in test_Json and
+                            "results" in test_Json and
+                            "category" in test_Json["results"][0] and
+                            "correct_answer" in test_Json["results"][0] and
+                            "difficulty" in test_Json["results"][0] and
+                            "incorrect_answers" in test_Json["results"][0] and
+                            "question" in test_Json["results"][0] and
+                            "type" in test_Json["results"][0]) else True)
 
+    print(" - Read JSON: {}".format("OK" if not test_Error else
+                                    "NOT OK\n - JSON:\n{}".format(test_Json)))
+    print("# Ran 1 test in {}s".format(round(time.perf_counter() - time_Start, 3)))
 
-#questData = getQuestion("game","", 1)
-#if (questData == None or "Error" in questData):
-#    print(questData[1])
-#else:
-#    questions, rightAnswers, wrongAnswers, qTypes = questData
-#
-#    for i in range(0, len(questions)):
-#        print(" Q: {} \n A: {} \n W: {} \n T: {} \n\n"
-#              .format(questions[i], rightAnswers[i], wrongAnswers[i], qTypes[i]))
-#    print(" Q: {} \n A: {} \n W: {} \n T: {} \n\n"
-#            .format(questions, rightAnswers, wrongAnswers, qTypes))
+    ########## Test tokenGetSet function ##########
+    print()    
+    print("#" * 50)
+    print("# Checking tokenGetSet function, get a token, store an read it")
+    os.rename("./data/token.jeff", "./data/temp_tk.jeff")
+    time_Start = time.perf_counter()
+    # Test 1 - If token works on the website API
+    test_Token = tokenGetSet()
+    test_UseToken = readJSON("https://opentdb.com/api.php?amount=1&token={}"
+                             .format(test_Token))
+    test_Error = (False if (test_UseToken["response_code"] != 3) else True)
+    print(" - Get token: {}".format("OK" if not test_Error else
+                                    "NOT OK\n - TOKEN: {}".format(test_Token)))
+    # Test 2 -  If token was kept in file, and if function reads it
+    with open('./data/token.jeff', "r") as test_TkFile:
+        test_tokenFile = test_TkFile.read()
+    print(" - Read token: {}".format("OK" if test_Token == test_tokenFile
+                                     else "NOT OK\n - TOKEN: {}".format(test_Token)))
+
+    print("# Ran 2 tests in {}s".format(round(time.perf_counter() - time_Start, 3)))
+    os.remove("./data/token.jeff")
+    os.rename("./data/temp_tk.jeff", "./data/token.jeff")
+
+    ########## Test opentDBCat function ##########
+    print()  
+    print("#" * 50)
+    print("# Checking opentDBCat function, get possible categories")
+    time_Start = time.perf_counter()
+    test_categories = opentDBCat();
+    # Test 1 - If categories has the required fields
+    test_Error = (False if ("id" in test_categories[0] and
+                           "name" in test_categories[0]) else True)
+    print(" - Get Categories: {}".format("OK" if not test_Error else
+                                         "NOT OK\nCATEGORIES:\n{}".format(test_categories)))
+    # Test 2 - If function sorts only the categories
+    test_temp_cat = []
+    for i in test_categories:
+        test_temp_cat.append(html.unescape(i["name"].replace("Entertainment: ","")
+                                                    .replace("Science: ", "")))
+    test_onlyCategories = opentDBCat(True);
+    print(" - Only Categories: {}".format("OK" if (test_onlyCategories == test_temp_cat) else
+                                          "NOT OK\nONLY CATEGORIES:\n{}".format(test_onlyCategories)))
+    print("# Ran 2 tests in {}s".format(round(time.perf_counter() - time_Start, 3)))
+    
+    ########## Test getOpentDB function ##########
+    print()
+    print("#" * 50)
+    print("# Checking getOpentDB function, get data from OpentDB")
+    time_Start = time.perf_counter()
+    # Test 1 - If function gets random data
+    test_Data = getOpentDB("", "")
+    test_Error = (False if (len(test_Data) == 4) else True)
+    print(" - Random data: {}".format("OK" if not test_Error else
+                                    "NOT OK\n - RANDOM:\n{}".format(test_Data)))
+    # Test 2 - If function gets all categories
+    test_Error = False
+    test_catList = opentDBCat(True)
+    test_catList.append(None)
+    for i in test_catList:
+        test_Data = getOpentDB(i, "")
+        if (len(test_Data) != 4 and test_Data[1] != 3):
+            test_Error = True
+            test_Cat = test_Data
+            break
+    print(" - All Categories: {}".format("OK" if not test_Error else
+                                       "NOT OK\n - CATEGORY:\n{}".format(test_Cat)))
+    # Test 3 - If function gets all difficulties
+    test_Error = False
+    for i in ["easy", "medium", "hard", None]:
+        test_Data = getOpentDB("", i)
+        if (len(test_Data) != 4 and test_Data[1] != 4):
+            test_Error = True
+            test_Dif = test_Data
+            break
+    print(" - All Difficulties: {}".format("OK" if not test_Error else
+                                       "NOT OK\n - DIFFICULTY:\n{}".format(test_Dif)))
+    # Test 4 - If function possible number of questions Input
+    test_Error = False
+    test_nrQuest = [-50, -1, 0, 1, 50, None]
+    for i in test_nrQuest:
+        test_Data = getOpentDB("", "", i)
+        if (len(test_Data) != 4 and test_Data[1] != 2):
+            test_Error = True
+            test_Ques = test_Data
+            break
+    print(" - Questions: {}".format("OK" if not test_Error else
+                                    "NOT OK\n - QUESTIONS:\n{}".format(test_Ques)))
+    print("# Ran 4 test in {}s".format(round(time.perf_counter() - time_Start, 3)))
