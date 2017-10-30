@@ -81,6 +81,8 @@ def getOpentDB(category, difficulty, nrQuestions = 1):
     if (category != "" and category.casefold() != "Any".casefold()
     and category.casefold() != "Random".casefold()):
         cat = opentDBCat()
+        if ("Error" in cat):
+            return(cat)
         catID = None
         for i in cat:
             if (category is not None and category != ""
