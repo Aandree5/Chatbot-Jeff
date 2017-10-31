@@ -1,5 +1,5 @@
 import random
-from DataAPI import getQuestion, opentDBCats
+from DataAPI import getQuestion, opentDBCat
 
 greetings = ["hi","hello","hey","sup","howdy","henlo","waddup","wassup","heyo","hiya"]
 
