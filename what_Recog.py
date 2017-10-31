@@ -18,7 +18,7 @@ def determineUserInput(sentence):
                 elif i in operatorList[4:len(operatorList)]:
                     operatorType = "words"
                     
-            equationReformated = reformatSentence(sentence,operatorType)
+            equationReformated = reformatSentence(sentence, operatorType)
             answer = eval(equationReformated)
             return answer
         
@@ -33,7 +33,7 @@ def reformatSentence(sentence,operatorType):
     if operatorType == "symbols": # this part runs if the equation is using + - * /
         for i in sentence:
             if i not in "what is ":
-                i = char
+                char = i
                 if char == "^":
                     equation = equation + "**"
                 else:
@@ -41,7 +41,7 @@ def reformatSentence(sentence,operatorType):
     elif operatorType == "words": # this part runs if the equation uses words, like "plus"
         for u in sentence:
             if u not in "what is ":
-                u = char
+                char = u
                 if char != " ":
                     equation = equation + char
         for part in equation:
@@ -49,7 +49,7 @@ def reformatSentence(sentence,operatorType):
                 equation = equation + "+"
             elif part == "dividedby":
                 equation = equation + "/"
-            elif part == "times" or i == "multipliedby":
+            elif part == "times" or part == "multipliedby":
                 equation = equation + "*"
             elif part == "tothepowerof":
                 equation = equation + "**"
