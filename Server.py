@@ -1,14 +1,12 @@
 import socket
 import time
 import random
-from DataAPI import getQuestion, opentDBCat
+from DataAPI import getQuestion, getCategories
+from Get_Functions import getName
 
-#### Start the server
-host = "127.0.0.1"
-port = 5001
 # Create Socket and bind server to socket
 thisSocket = socket.socket()
-thisSocket.bind((host, port))
+thisSocket.bind(("127.0.0.1", 5001))
 # Listen for clients
 thisSocket.listen(1)
 # Connect to client
@@ -45,43 +43,45 @@ def receiveMessage():
     return(message)
     
 
-# Say hi to client amd get his name
-sendMessage("Hi! What's your name?")
-clientName = receiveMessage()
+receiveMessage()
 
-sendMessage("So, {} choose a category for today?".format(clientName.title()))
+# Say hi to client and get name
+sendMessage("Hi! What's your name?")
+clientName = getName(receiveMessage())
+
+sendMessage("So, {}, I will teach you something today!"
+            .format(clientName.title()), False)
+sendMessage("Pick a subject.", False)
+cat = getCategories(True, 3)
+sendMessage(cat[0], False)
+sendMessage(cat[1], False)
+sendMessage(cat[2])
 
 while True:
     receivedMessage = receiveMessage()
 
     # Get a question and answers, from the user choice
-    data = getQuestion(receivedMessage, "")
-    if ("Error" in data):
-        sendMessage(data[1], False)
+    questionSet = getQuestion(receivedMessage, "")
+    if ("Error" in questionSet):
+        sendMessage(questionSet[1], False)
         sendMessage("Try again.")
         continue
 
-    question, answer, wrong, qType = data
-
-    if (qType == "bollean"):
-        # Mix right answer and the worng one
-        ansList = [answer, wrong]
-        random.shuffle(ansList)
-        sendMessage("{}".format(question), False)
-        sendMessage("{}".format(ansList[0]), False)
-        sendMessage("{}".format(ansList[1]), False)
+    print(questionSet)
+    
+    if (questionSet["Type"] == "multiple"):
+        sendMessage(questionSet["Question"], False)
+        sendMessage("A: {}".format(questionSet["A"]), False)
+        sendMessage("B: {}".format(questionSet["B"]), False)
+        sendMessage("C: {}".format(questionSet["C"]), False)
+        sendMessage("D: {}".format(questionSet["D"]))
     else:
-        # Mix right answer in the worng ones
-        wrong.append(answer)
-        random.shuffle(wrong)
-        sendMessage("{}".format(question), False)
-        sendMessage("{}".format(wrong[0]), False)
-        sendMessage("{}".format(wrong[1]), False)
-        sendMessage("{}".format(wrong[2]), False)
-        sendMessage("{}".format(wrong[3]))
-
+        sendMessage(questionSet["Question"], False)
+        sendMessage("A: {}".format(questionSet["A"]), False)
+        sendMessage("B: {}".format(questionSet["B"]))
+        
     receivedMessage = receiveMessage()
-    if (answer.casefold() == receivedMessage.casefold()):
+    if (receivedMessage.casefold() == questionSet["corrAnswer"].casefold()):
         sendMessage("Congratulations! That was the right answer!!", False)
         sendMessage("-" * 50, False)
         sendMessage("Would you like to answer another question?")
@@ -90,10 +90,17 @@ while True:
         if (receivedMessage.casefold() == "No".casefold()):
             break
         else:
-            sendMessage("Choose a category.")
+            sendMessage("Pick a new subject.", False)
+            cat = getCategories(True, 3)
+            sendMessage(cat[0], False)
+            sendMessage(cat[1], False)
+            sendMessage(cat[2])
     else:
         sendMessage("Nice try, but that's not the right answer.", False)
-        sendMessage("The right answer is {}.".format(answer), False)
+        sendMessage("The right answer was {} ({})."
+                    .format(questionSet["corrAnswer"],
+                            questionSet[questionSet["corrAnswer"]]), False)
+        sendMessage("I know you can get the next one!!", False)
         sendMessage("-" * 50, False)
         sendMessage("Would you like to answer another question?")
         
@@ -101,7 +108,11 @@ while True:
         if (receivedMessage.casefold() == "No".casefold()):
             break
         else:
-            sendMessage("Choose a category.")
+            sendMessage("Pick a new subject.", False)
+            cat = getCategories(True, 3)
+            sendMessage(cat[0], False)
+            sendMessage(cat[1], False)
+            sendMessage(cat[2])
 
 
 
