@@ -1,14 +1,16 @@
-#### Functions
-getQuestion 
--Input (category, difficulty, nrQuestions = 1, database = "opentDB") 
-	Random = "" or "Any" or "Random" 
+# Functions
 
--Output (questions, rightAns, worngAns, qTypes) 
+### getQuestion 
+-Input (category, difficulty, nrQuestions = 1) 
+	To get a random category or difficulty ("" or "Any" or "Random")
+
+-Output (questionsSet) 
 
 
-opentDBCat 
--Input (onlyCategories = False) 
-	True returns categories without IDs 
+### getCategories
+-Input (onlyCategories = False, , nrCat = 0) 
+	True returns categories without ID numbers 
+	nrCat returns a set number of random categories
 
 -Output (categories) 
 
