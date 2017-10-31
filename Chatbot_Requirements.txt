@@ -1,0 +1,22 @@
+Must Have Elements (Highest Priority):
+  - Recognise user input
+  - Respond to user input with appropriate responses
+  - Use clarification responses when user input is not understood
+  - Pull data from the internet to use in the conversation with the user
+  - Have a specific theme such as being a teacher
+  - Have a personality with set characteristics such as age, gender, strict or easy-going etc.
+  - Work using a client-server system
+  - Determine whether or not to respond to a message or not
+  - Identify the topic of conversation with the user
+  - Have an interface that is not just the terminal
+  
+Preferable Elements (Middle Priority):
+  - Personalise responses to specific users such as using their name or age
+  - Be able to fool the user into thinking that they are talking to a real person
+  - Recognise the emotional state of the user from certain messages
+  - Recognise the role it has in the conversation with the user
+  - Be able to maintain a conversation with the user
+  - Be able to give appropriate and relevant advice to a user whilst sticking to its set characteristics
+  
+Additional Elements (Low Priority):
+  - Recognise and answer both factual questions and opinion-based questions
