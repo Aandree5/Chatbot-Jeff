@@ -1,4 +1,5 @@
 import tkinter
+import Get_Functions
 
 window = tkinter.Tk()
 window.title("Chatbot Jeff")
