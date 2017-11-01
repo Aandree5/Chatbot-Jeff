@@ -1,7 +1,7 @@
 operatorList = ["+","-","*","/","plus","minus","times","divided"]
 numberList = ["1","2","3","4","5","6","7","8","9","0"]
 
-from get_Funtions import *
+from Get_Funtions import *
 
 def determineUserInput(sentence):
     """determines what the user asks and responses accordingly"""
