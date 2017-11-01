@@ -1,33 +1,20 @@
 operatorList = ["+","-","*","/","plus","minus","times","divided"]
 numberList = ["1","2","3","4","5","6","7","8","9","0"]
 
+from get_Funtions import *
+
 def determineUserInput(sentence):
     """determines what the user asks and responses accordingly"""
     response = ""
     sentence = sentence.lower()
+    sentenceParce = sentence.split()
     if "what" in sentence:  # ------------- execute the "what is" code here ---------------
-        numberQuestion = False
-        for i in sentence:
-            if i in numberList: #checks whether the question involves numbers, like 1 + 1
-                numberQuestion = True
-                
-        if numberQuestion == True:
-            operatorType = ""
-            sentenceParce = sentence.split()
-            for i in sentenceParce:
-                if i in operatorList[0:4]:  #checks what type is used - Symbols or Words
-                    operatorType = "symbols"
-                elif i in operatorList[4:8]:
-                    operatorType = "words"
-                    
-            equationReformated = reformatSentence(sentence, operatorType)
-            response = round(eval(str(equationReformated)), 2)
-            return response
-        
-        else:
-            response = "Please ask with correct spellings and grammar"
-            return response
-
+        return executeWhatFunction(sentence)
+    elif sentenceParce[0] in greetings:
+        return getName(sentence)
+           
+    else:
+        return sentence
 
 def reformatSentence(sentence, operatorType):
     """reformats the sentence so we're left with just the equation"""
@@ -67,7 +54,29 @@ def reformatSentence(sentence, operatorType):
                 equation = equation + part
     return equation
 
-
+def executeWhatFunction(sentence):
+    numberQuestion = False
+    for i in sentence:
+        if i in numberList: #checks whether the question involves numbers, like 1 + 1
+            numberQuestion = True
+                
+    if numberQuestion == True:
+        operatorType = ""
+        sentenceParce = sentence.split()
+        for i in sentenceParce:
+            if i in operatorList[0:4]:  #checks what type is used - Symbols or Words
+                operatorType = "symbols"
+            elif i in operatorList[4:8]:
+                operatorType = "words"
+                    
+        equationReformated = reformatSentence(sentence, operatorType)
+        response = round(eval(str(equationReformated)), 2)
+        return response
+        
+    else:
+        response = "Please ask with correct spellings and grammar"
+        return response
+    
 # ----------------------------------------
 # testing zone
 # ----------------------------------------
