@@ -1,5 +1,5 @@
 import random
-from DataAPI import getQuestion, getCategories
+from DataAPI import getQuestion, opentDBCat
 
 greetings = ["hi","hello","hey","sup","howdy","henlo","waddup","wassup","heyo","hiya"]
 
@@ -41,29 +41,16 @@ def getName(sentence):
                 foundWord = True
         if foundWord == False:
             userName = userName + userWords[i] + " "
-
-    #ask the user if their first word is a greeting
-    if userWords[0] not in greetings:
-        while True:            
-            newGreeting = input('Is your first word a greeting, like "Hello"? \n').lower()
-            if newGreeting == "yes":
-                greetings.append(userWords[0])
-                break
-            elif newGreetings == "no":
-                break
-            else:
-                print("Please, type in 'yes' or 'no' \n")
-    
-    return userName #this is the found name
+        return userName #this is the found name
 
 #=========================================================================================================
 
 def getQuestion():
     """just call this ... I guess, if you want questions ... (need some revision)"""
-    cats = getCategories(True)
+    cats = opentDBCats(True)
     print("--- Categories ---")
     for i in range(3):
-        print(cats)
+        print(random.choice(cats))
     userInput = input("Please, pick a subject: \n").casefold()
 
 
