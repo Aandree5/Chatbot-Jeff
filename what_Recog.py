@@ -12,21 +12,24 @@ def determineUserInput(sentence):
                 
         if numberQuestion == True:
             operatorType = ""
-            for i in sentence:
+            sentenceParce = sentence.split()
+            print(sentenceParce)
+            for i in sentenceParce:
                 if i in operatorList[0:4]:  #checks what type is used - Symbols or Words
                     operatorType = "symbols"
-                elif i in operatorList[4:len(operatorList)]:
+                elif i in operatorList[4:8]:
                     operatorType = "words"
-                    
+
+            print(operatorType)
             equationReformated = reformatSentence(sentence, operatorType)
-            answer = eval(equationReformated)
+            answer = round(eval(str(equationReformated)), 2)
             return answer
         
         else:
-            return "null"
+            return False
 
 
-def reformatSentence(sentence,operatorType):
+def reformatSentence(sentence, operatorType):
     """reformats the sentence so we're left with just the equation"""
     equation = ""
     char = ""
@@ -39,12 +42,17 @@ def reformatSentence(sentence,operatorType):
                 else:
                     equation = equation + char
     elif operatorType == "words": # this part runs if the equation uses words, like "plus"
-        for u in sentence:
-            if u not in "what is ":
-                char = u
-                if char != " ":
-                    equation = equation + char
-        for part in equation:
+        sentenceParce = sentence.split()
+        for i in sentenceParce:
+            if i == 'what' or i == 'is':
+                continue
+            else:
+                equation = equation + " " + i
+
+        equationParce = equation.split()
+        equation = ""
+        print(equationParce)
+        for part in equationParce:
             if part == "plus":
                 equation = equation + "+"
             elif part == "dividedby":
@@ -57,6 +65,7 @@ def reformatSentence(sentence,operatorType):
                 equation = equation + "-"
             else:
                 equation = equation + part
+        print(equation)
     return equation
 
 
