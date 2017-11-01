@@ -8,14 +8,15 @@ def determineUserInput(sentence):
     response = ""
     sentence = sentence.lower()
     sentenceParce = sentence.split()
+ 
     if "what" in sentence:  # ------------- execute the "what is" code here ---------------
-        response =executeWhatFunction(sentence)
-        return response
+        response = executeWhatFunction(sentence)
+        return response, 2
     elif sentenceParce[0] in greetings:
-        return getName(sentence)
+        return getName(sentence), 1
            
     else:
-        return sentence
+        return sentence, 0
 
 def reformatSentence(sentence, operatorType):
     """reformats the sentence so we're left with just the equation"""
