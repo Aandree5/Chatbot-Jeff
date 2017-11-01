@@ -41,13 +41,13 @@ def getName(sentence):
                 foundWord = True
         if foundWord == False:
             userName = userName + userWords[i] + " "
-        return userName #this is the found name
+    return userName #this is the found name
 
 #=========================================================================================================
 
 def getQuestion():
     """just call this ... I guess, if you want questions ... (need some revision)"""
-    cat = getCategories(True, 3)
+    cat = getCategories(True)
     print("--- Categories ---")
     print(cat[0])
     print(cat[1])
