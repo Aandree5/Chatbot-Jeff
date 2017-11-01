@@ -80,7 +80,9 @@ def executeWhatFunction(sentence):
 # ----------------------------------------
 # testing zone
 # ----------------------------------------
-              
-userInput = input("Input a question: \n")
 
-print(determineUserInput(userInput))
+if (__name__ == "__main__"):
+              
+    userInput = input("Input a question: \n")
+
+    print(determineUserInput(userInput))
