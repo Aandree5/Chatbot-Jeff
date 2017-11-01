@@ -2,7 +2,7 @@ import socket
 import time
 import random
 from DataAPI import getQuestion, getCategories
-from Get_Functions import getName
+from what_Recog import determineUserInput
 
 # Create Socket and bind server to socket
 thisSocket = socket.socket()
@@ -29,28 +29,41 @@ def sendMessage(message, EOM = True):
             print("SERVER: {}".format(message))
             resp = conn.recv(1024).decode() # Waits for client feedback 
 
-def receiveMessage():
+def receiveMessage(expectedType = "Igone"):
     ''' Receive a message from the client and check if received correctly,
         returns the message '''
-    message = conn.recv(1024).decode()
-    if not message: # If message is None, try to receive again
-        sendMessage("Sorry, I couldn't get that, can you repeat?")
+    if (expectedType != "Ignore"):
         message = conn.recv(1024).decode()
-        if not message: # Couldn't receive message, exit
-            sendMessage("Sorry, I not able to receive that, plese try again another day.")
-            exit()
-    print ("CLIENT: {}".format(message))
-    return(message)
+        if not message: # If message is None, try to receive again
+            sendMessage("Sorry, I couldn't get that, can you repeat?")
+            message = conn.recv(1024).decode()
+            if not message: # Couldn't receive message, exit
+                sendMessage("Sorry, I not able to receive that, plese try again another day.")
+                exit()
+            
+        print ("CLIENT: {}".format(message))
+        
+        answerUserInput = determineUserInput(message)
+        
+        return(message)
+    else:
+        return (None)
     
 
 receiveMessage()
 
 # Say hi to client and get name
 sendMessage("Hi! What's your name?")
-clientName = getName(receiveMessage())
+clientName = receiveMessage()
+
+
+while userInput[1] != expectedType:
+    sendMessage("The answer to your question is {}".format(userInput[0]))
+
 
 sendMessage("So, {}, I will teach you something today!"
             .format(clientName.title()), False)
+print()
 sendMessage("Pick a subject.", False)
 cat = getCategories(True, 3)
 sendMessage(cat[0], False)

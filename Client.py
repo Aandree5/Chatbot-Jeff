@@ -12,6 +12,7 @@ def receiveMessage():
         print("Jeff: {}".format(message))
         thisSocket.send("Received".encode())
         message = thisSocket.recv(1024).decode()
+
     
 print ("Connected to Jeff")
 while True:
