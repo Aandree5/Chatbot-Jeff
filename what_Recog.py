@@ -3,6 +3,7 @@ numberList = ["1","2","3","4","5","6","7","8","9","0"]
 
 def determineUserInput(sentence):
     """determines what the user asks and responses accordingly"""
+    response = ""
     sentence = sentence.lower()
     if "what" in sentence:  # ------------- execute the "what is" code here ---------------
         numberQuestion = False
@@ -13,20 +14,19 @@ def determineUserInput(sentence):
         if numberQuestion == True:
             operatorType = ""
             sentenceParce = sentence.split()
-            print(sentenceParce)
             for i in sentenceParce:
                 if i in operatorList[0:4]:  #checks what type is used - Symbols or Words
                     operatorType = "symbols"
                 elif i in operatorList[4:8]:
                     operatorType = "words"
-
-            print(operatorType)
+                    
             equationReformated = reformatSentence(sentence, operatorType)
-            answer = round(eval(str(equationReformated)), 2)
-            return answer
+            response = round(eval(str(equationReformated)), 2)
+            return response
         
         else:
-            return False
+            response = "Please ask with correct spellings and grammar"
+            return response
 
 
 def reformatSentence(sentence, operatorType):
@@ -48,24 +48,23 @@ def reformatSentence(sentence, operatorType):
                 continue
             else:
                 equation = equation + " " + i
-
         equationParce = equation.split()
         equation = ""
-        print(equationParce)
         for part in equationParce:
             if part == "plus":
                 equation = equation + "+"
-            elif part == "dividedby":
+            elif part == "divided":
                 equation = equation + "/"
             elif part == "times" or part == "multipliedby":
                 equation = equation + "*"
-            elif part == "tothepowerof":
+            elif part == "power":
                 equation = equation + "**"
             elif part == "minus":
                 equation = equation + "-"
+            elif part in ["by","to","the","of"]:
+                continue
             else:
                 equation = equation + part
-        print(equation)
     return equation
 
 
