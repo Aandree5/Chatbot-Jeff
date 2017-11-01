@@ -9,7 +9,8 @@ def determineUserInput(sentence):
     sentence = sentence.lower()
     sentenceParce = sentence.split()
     if "what" in sentence:  # ------------- execute the "what is" code here ---------------
-        return executeWhatFunction(sentence)
+        response =executeWhatFunction(sentence)
+        return response
     elif sentenceParce[0] in greetings:
         return getName(sentence)
            
@@ -70,7 +71,7 @@ def executeWhatFunction(sentence):
                 operatorType = "words"
                     
         equationReformated = reformatSentence(sentence, operatorType)
-        response = round(eval(str(equationReformated)), 2)
+        response = round(eval(equationReformated), 2)
         return response
         
     else:
