@@ -1,5 +1,5 @@
 import random
-from DataAPI import getQuestion, opentDBCat
+from DataAPI import getQuestion, getCategories
 
 greetings = ["hi","hello","hey","sup","howdy","henlo","waddup","wassup","heyo","hiya"]
 
@@ -60,10 +60,10 @@ def getName(sentence):
 
 def getQuestion():
     """just call this ... I guess, if you want questions ... (need some revision)"""
-    cats = opentDBCats(True)
+    cats = getCategories(True)
     print("--- Categories ---")
     for i in range(3):
-        print(random.choice(cats))
+        print(cats)
     userInput = input("Please, pick a subject: \n").casefold()
 
 
