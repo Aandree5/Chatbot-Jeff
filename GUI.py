@@ -1,34 +1,33 @@
-import tkinter #imports the tkinter GUI framework
-import Get_Functions #imports the Get_Functions.py file so that the GUI can access the chatbot text recognition functions
+import tkinter as tk
+import Get_Functions as gf
 
-window = tkinter.Tk() #creates an object called window, this is the main window which all the GUI elements are displayed in
-
-#configures the window so it displays correctly
+window = tk.Tk()
 window.title("Chatbot Jeff")
-window.geometry("600x800")
+window.geometry("300x300")
 window.configure(background="cornflower blue")
 
-#creates title text displayed in the window
-lblTitle = tkinter.Label(window, text="CHATBOT JEFF\n\n", bg="cornflower blue", font=(24))
-lblTitle.grid(row = 0, column = 1)
+lblTitle = tk.Label(window, text="CHATBOT JEFF\n\n", bg="cornflower blue", font=(24))
+lblTitle.pack()
 
-#creates intro text
-lblDesc = tkinter.Label(window, text="Welcome to Chatbot-Jeff\n\nThis chatbot was created by ALL group A1\n\n\n", bg="cornflower blue")
-lblDesc.grid(row = 2, column = 1)
+userInput = tk.Entry(window)
+userInput.pack()
 
-#creates the button (currently a non-functional button)
-btnBegin = tkinter.Button(window, text="Click To Launch Chatbot")
-btnBegin.grid(row = 3, column = 1)
+lbl = tk.Label(window, text="\nChatHistory", bg="cornflower blue")
+lbl.pack()
 
-def fetchFunc():
-    usrInput = entry.get()
-    lblUsrIn = tkinter.Label(window, text=usrInput)
-    lblUsrIn.grid(row = 6, column = 2)
-    return 0
+def cb(event):
+    userText = userInput.get()
+    userName = gf.getName(userText)
+    userName = userName.title()
+    botText = "Hello " + userName + ", it's nice to meet you"
+    msgBox.configure(state="normal")
+    msgBox.insert(tk.END, userText)
+    msgBox.insert(tk.END, "\n")
+    msgBox.insert(tk.END, botText)
+    msgBox.configure(state="disabled")
 
-entry = tkinter.Entry(window)
-entry.grid(row = 5, column = 1)
-btnSubmit = tkinter.Button(window, text="Submit", command=fetchFunc)
-btnSubmit.grid(row = 6, column = 1)
+userInput.bind("<Return>", cb)
+msgBox = tk.Text(window)
+msgBox.pack()
 
-window.mainloop()
+tk.mainloop()
