@@ -51,16 +51,21 @@ def askSomething(answerType, sendMessages, noAnswers, defaultAnswer):
         a list of sentences if not expected answer, and the default fallback
         answer returns the answer to the question '''
     qAnswerCodes = [2] # List of all answer codes, of questions
+    dAnswerCodes = [0] # List of all answer codes, user don't want to answer
 
     for i, item in enumerate(sendMessages):
         sendMessage(item, (True if i == len(sendMessages) - 1 else False))
         
     answer = receiveMessage()
-    while (answer[1] != answerType and len(noAnswers) > 0):
+    while ((answer[1] != answerType and len(noAnswers) > 0) or
+           ((answer[0] == "" or answer[1] != dAnswerCodes) and len(noAnswers) > 0)):
         if (answer[1] in qAnswerCodes):
             sendMessage("The answer to that is {}.".format(answer[0]), False)
             sendMessage(noAnswers[0])
             noAnswers.pop(0)
+        elif (answer[1] != dAnswerCodes):
+            sendMessage("You should, it would be more fun!")
+            noAnswers.pop(len(noAnswers) - 1)
         else:
             sendMessage("Sorry I didn't undertood that.", False)
             sendMessage("Can you repeat please.")
