@@ -22,6 +22,7 @@ def reformatSentence(sentence, operatorType):
     """reformats the sentence so we're left with just the equation"""
     equation = ""
     char = ""
+
     if operatorType == "symbols": # this part runs if the equation is using + - * /
         for i in sentence:
             if i not in "what is ":
@@ -36,7 +37,7 @@ def reformatSentence(sentence, operatorType):
             if i == 'what' or i == 'is':
                 continue
             else:
-                equation = equation + " " + i
+                equation = equation + i
         equationParce = equation.split()
         equation = ""
         for part in equationParce:
@@ -61,7 +62,21 @@ def executeWhatFunction(sentence):
     for i in sentence:
         if i in numberList: #checks whether the question involves numbers, like 1 + 1
             numberQuestion = True
-                
+
+    #add spaces to the sentence
+    addedSpaceSentence = ""
+    for i in sentence:
+        if i not in "what is":
+            if i in numberList or i in operatorList[0:4]:
+                addedSpaceSentence = addedSpaceSentence + i + " "
+            elif i == " ":
+                continue
+            else:
+                addedSpaceSentence = addedSpaceSentence + i
+        else:
+            addedSpaceSentence = addedSpaceSentence + i        
+    sentence = addedSpaceSentence
+    
     if numberQuestion == True:
         operatorType = ""
         sentenceParce = sentence.split()
