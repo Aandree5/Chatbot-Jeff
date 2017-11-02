@@ -15,6 +15,7 @@ def receiveMessage():
 
     
 print ("Connected to Jeff")
+receiveMessage()
 while True:
     sendMessage = input("Send: ")
     if (sendMessage is None or sendMessage == ""):
