@@ -24,6 +24,7 @@ def cb(event):
     msgBox.insert(tk.END, userText)
     msgBox.insert(tk.END, "\n")
     msgBox.insert(tk.END, botText)
+    msgBox.insert(tk.END, "\n")
     msgBox.configure(state="disabled")
 
 userInput.bind("<Return>", cb)
