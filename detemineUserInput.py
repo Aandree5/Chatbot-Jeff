@@ -37,7 +37,7 @@ def reformatSentence(sentence, operatorType):
             if i == 'what' or i == 'is':
                 continue
             else:
-                equation = equation + i
+                equation = equation + " " + i
         equationParce = equation.split()
         equation = ""
         for part in equationParce:
@@ -54,7 +54,7 @@ def reformatSentence(sentence, operatorType):
             elif part in ["by","to","the","of"]:
                 continue
             else:
-                equation = equation + part
+                equation = equation + part          
     return equation
 
 def executeWhatFunction(sentence):
@@ -62,13 +62,13 @@ def executeWhatFunction(sentence):
     for i in sentence:
         if i in numberList: #checks whether the question involves numbers, like 1 + 1
             numberQuestion = True
-
+    
     #add spaces to the sentence
-    addedSpaceSentence = ""
+    addedSpaceSentence = ""    
     for i in sentence:
         if i not in "what is":
             if i in numberList or i in operatorList[0:4]:
-                addedSpaceSentence = addedSpaceSentence + i + " "
+                addedSpaceSentence = addedSpaceSentence + " " + i + " "
             elif i == " ":
                 continue
             else:
@@ -76,7 +76,8 @@ def executeWhatFunction(sentence):
         else:
             addedSpaceSentence = addedSpaceSentence + i        
     sentence = addedSpaceSentence
-    
+    print(sentence)
+
     if numberQuestion == True:
         operatorType = ""
         sentenceParce = sentence.split()
@@ -85,7 +86,8 @@ def executeWhatFunction(sentence):
                 operatorType = "symbols"
             elif i in operatorList[4:8]:
                 operatorType = "words"
-                    
+
+        print("execute sentenceFormat ", operatorType)
         equationReformated = reformatSentence(sentence, operatorType)
         response = round(eval(equationReformated), 2)
         return response
