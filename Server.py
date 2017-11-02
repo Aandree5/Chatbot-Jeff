@@ -81,6 +81,11 @@ def askSomething(answerType, sendMessages, noAnswers, defaultAnswer):
 def qChallenge():
     ''' Question challenge, test user knowledge with some questions '''
     cat = getCategories(True, 3)
+    if ("Error" in cat):
+        sendMessage(cat[1], False)
+        sendMessage("Lets try again.")
+        return (True)
+    
     receivedMessage = askSomething(0, ["Pick a subject.", cat[0], cat[1], cat[2]],
                 ["You can choose a category from the list above, like 'Music'.",
                  "Hmmm, I see you are afraid of making a mistake."], "")
