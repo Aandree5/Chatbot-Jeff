@@ -85,7 +85,7 @@ def qChallenge():
     if ("Error" in questionSet):
         sendMessage(questionSet[1], False)
         sendMessage("Lets try again.")
-        return (None)
+        return (True)
     
     if (questionSet["Type"] == "multiple"):
         receivedMessage = askSomething(0, [questionSet["Question"],
