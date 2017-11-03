@@ -2,8 +2,8 @@ Below are the job roles for this week. Please add what you plan to work on so no
 
 Everyone: Flowcharts for the code you have made so far and for the code you are currently working on
 
-Suraj: Use opentDB API to create a pub quiz interaction
-Delia:
-Andre:
-Jasper:
+Suraj: 
+Delia: 
+Andre: 
+Jasper: 
 Richard: Make the GUI look less awful
