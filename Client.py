@@ -9,7 +9,7 @@ def receiveMessage():
         sends EndOfMessage '''
     message = thisSocket.recv(1024).decode()
     while (message != "EndOfMessage"):
-        print("Jeff: {}".format(message))
+        print("Jeff: {}".format(message)) #response from server, needs to show on interface
         thisSocket.send("Received".encode())
         message = thisSocket.recv(1024).decode()
 
@@ -17,7 +17,7 @@ def receiveMessage():
 print ("Connected to Jeff")
 receiveMessage()
 while True:
-    sendMessage = input("Send: ")
+    sendMessage = input("Send: ") #input from user, needs to come from interface
     if (sendMessage is None or sendMessage == ""):
         continue
     if (sendMessage == "end"):
