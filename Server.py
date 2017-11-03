@@ -2,7 +2,7 @@ import socket
 import time
 import random
 from DataAPI import getQuestion, getCategories
-from detemineUserInput import determineUserInput
+from determineUserInput import determineUserInput
 
 # Create Socket and bind server to socket
 thisSocket = socket.socket()
@@ -50,20 +50,25 @@ def askSomething(answerType, sendMessages, noAnswers, defaultAnswer):
     ''' With input of the type of answer code expected and a string question,
         a list of sentences if not expected answer, and the default fallback
         answer returns the answer to the question '''
-    qAnswerCodes = [2] # List of all answer codes, of questions
-    dAnswerCodes = [0] # List of all answer codes, user don't want to answer
 
     for i, item in enumerate(sendMessages):
         sendMessage(item, (True if i == len(sendMessages) - 1 else False))
         
     answer = receiveMessage()
     while ((answer[1] != answerType and len(noAnswers) > 0) or
-           ((answer[0] == "" or answer[1] != dAnswerCodes) and len(noAnswers) > 0)):
-        if (answer[1] in qAnswerCodes):
+           ((answer[0] == "" or answer[1] in [0, 2]) and len(noAnswers) > 0)):
+
+        if(answerType == -1):
+            for cat in sendMessages:
+                if (answer[0].casefold() in cat.casefold()):
+                    answer[1] = -1
+                    break
+        
+        if (answer[1] == 2): # If the use  asked a questions
             sendMessage("The answer to that is {}.".format(answer[0]), False)
             sendMessage(noAnswers[0])
             noAnswers.pop(0)
-        elif (answer[1] != dAnswerCodes):
+        elif (answer[1] == 0): # If the user doesn't want to answer
             sendMessage("You should, it would be more fun!")
             noAnswers.pop(len(noAnswers) - 1)
         else:
@@ -74,7 +79,7 @@ def askSomething(answerType, sendMessages, noAnswers, defaultAnswer):
             
 
     if (answer[1] != answerType):
-        answer = defaultAnswer
+        answer = (defaultAnswer, 0)
         
     return (answer[0])
 
@@ -86,19 +91,19 @@ def qChallenge():
         sendMessage("Lets try again.")
         return (True)
     
-    receivedMessage = askSomething(0, ["Pick a subject.", cat[0], cat[1], cat[2]],
+    receivedMessage = askSomething(-1, ["Pick a subject.", cat[0], cat[1], cat[2]],
                 ["You can choose a category from the list above, like 'Music'.",
-                 "Hmmm, I see you are afraid of making a mistake."], "")
+                 "Hmmm, I see you are afraid of making a mistake."], "Any")
 
     # Get a question and answers, from the user choice
     questionSet = getQuestion(receivedMessage, "")
     if ("Error" in questionSet):
         sendMessage(questionSet[1], False)
-        sendMessage("Lets try again.")
+        sendMessage("Lets try again.", False)
         return (True)
     
     if (questionSet["Type"] == "multiple"):
-        receivedMessage = askSomething(0, [questionSet["Question"],
+        receivedMessage = askSomething(3, [questionSet["Question"],
                                            "A: {}".format(questionSet["A"]),
                                            "B: {}".format(questionSet["B"]),
                                            "C: {}".format(questionSet["C"]),
