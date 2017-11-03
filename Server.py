@@ -61,7 +61,7 @@ def askSomething(answerType, sendMessages, noAnswers, defaultAnswer):
         if(answerType == -1):
             for cat in sendMessages:
                 if (answer[0].casefold() in cat.casefold()):
-                    answer[1] = -1
+                    answer = (answer[0], -1)
                     break
         
         if (answer[1] == 2): # If the use  asked a questions
