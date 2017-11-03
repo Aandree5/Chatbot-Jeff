@@ -14,15 +14,7 @@ randomStuff = ["Cherophobia is the fear of fun","A flock of crows is called a mu
 
 def getName(sentence):
     """get the name of the user from the inputed sentence"""
-    #first - getting rid of unwanted chars
-    unwantedChar = [".","'","!","?",","]
-    newSentence = ""
-    for char in sentence:
-        if char not in unwantedChar:
-            newSentence = newSentence + char
-    newSentence = newSentence.lower() # makes all letters into lowercase - much easier and more efficient
-    
-    userWords = newSentence.split() #the sentence is split up into words and put into a list
+    userWords = sentence.split() #the sentence is split up into words and put into a list
 
     # ways of introduction:
     # "Hello, my name is ___"

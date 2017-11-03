@@ -9,12 +9,17 @@ def determineUserInput(sentence):
     response = ""
     sentence = sentence.lower()
     sentenceParse = sentence.split()
- 
+    #first - getting rid of unwanted chars
+    unwantedChar = [".","'","!","?",","]
+    newSentence = ""
+    for char in unwantedChar:
+        sentence.replace(char,"")
+
     if sentenceParse[0] in questionStarters:  # ------------- execute the "what is" code here ---------------
         response = respondQuestion(sentence), 2
     elif sentenceParse[0] in greetings:
         response = getName(sentence), 1
-    elif sentence[0] in "abcd":
+    elif sentenceParse[0] in "abcd":
         response = sentence, 3
     else:
         response = sentence, 0
