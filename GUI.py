@@ -22,9 +22,7 @@ def cb(event):
     botText = "Hello " + userName + ", it's nice to meet you"
     msgBox.configure(state="normal")
     msgBox.insert(tk.END, "User: " + userText + "\n")
-    #msgBox.insert(tk.END, "\n")
     msgBox.insert(tk.END, "Bot: " + botText + "\n")
-    #msgBox.insert(tk.END, "\n")
     msgBox.configure(state="disabled")
 
 userInput.bind("<Return>", cb)
