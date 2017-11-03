@@ -8,11 +8,11 @@ def determineUserInput(sentence):
     """determines what the user asks and responses accordingly"""
     response = ""
     sentence = sentence.lower()
-    sentenceParce = sentence.split()
+    sentenceParse = sentence.split()
  
-    if sentenceParce[0] in questionStarters:  # ------------- execute the "what is" code here ---------------
-        response = respondQuestion(sentence)
-    elif sentenceParce[0] in greetings:
+    if sentenceParse[0] in questionStarters:  # ------------- execute the "what is" code here ---------------
+        response = respondQuestion(sentence), 2
+    elif sentenceParse[0] in greetings:
         return getName(sentence), 1
            
     else:
@@ -35,7 +35,6 @@ def determineUserInput(sentence):
 
 import random
 
-
 feelingList = ["feeling great","feeling good","fine","well","great","good"]
 
 # branches from determineUserInput()
@@ -49,6 +48,8 @@ def respondQuestion(sentence):
         response = executeAre(sentence)
             
     return response
+
+# ----------------------------------------------------------------------------------------------------------
 
 def executeHow(sentence):
     """this is where all the "how" questions are dealt with"""
@@ -87,8 +88,8 @@ def executeWhat(sentence):
 
         
         operatorType = ""
-        sentenceParce = sentence.split()
-        for i in sentenceParce:
+        sentenceParse = sentence.split()
+        for i in sentenceParse:
             if i in operatorList[0:4]:  #checks what type is used - Symbols or Words
                 operatorType = "symbols"
             elif i in operatorList[4:8]:
@@ -127,8 +128,8 @@ def reformatSentence(sentence, operatorType):
                 else:
                     equation = equation + char
     elif operatorType == "words": # this part runs if the equation uses words, like "plus"
-        sentenceParce = sentence.split()
-        for i in sentenceParce:
+        sentenceParse = sentence.split()
+        for i in sentenceParse:
             if i == 'what' or i == 'is':
                 continue
             else:
