@@ -10,10 +10,12 @@ def determineUserInput(sentence):
     sentence = sentence.lower()
     #first - getting rid of unwanted chars
     unwantedChar = [".","'","!","?",","]
+    
     for char in unwantedChar:
-        sentence.replace(char,"")
-
+        sentence = sentence.replace(char," ")
+    print(sentence)
     sentenceParse = sentence.split()
+    print(sentenceParse)
     if sentenceParse[0] in questionStarters:  # ------------- execute the "what is" code here ---------------
         response = respondQuestion(sentence), 2
     elif sentenceParse[0] in greetings:
