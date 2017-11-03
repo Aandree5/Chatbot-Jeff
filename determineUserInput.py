@@ -13,10 +13,11 @@ def determineUserInput(sentence):
     if sentenceParse[0] in questionStarters:  # ------------- execute the "what is" code here ---------------
         response = respondQuestion(sentence), 2
     elif sentenceParse[0] in greetings:
-        return getName(sentence), 1
-           
+        response = getName(sentence), 1
+    elif sentence[0] in "abcd":
+        response = sentence, 3
     else:
-        return sentence, 0
+        response = sentence, 0
     return response
 #==========================================================================================================
 # list of casual conversation:
