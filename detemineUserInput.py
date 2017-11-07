@@ -53,9 +53,7 @@ def respondQuestion(sentence):
         response = executeAre(sentence)
     elif newSentence[0] == "tell":
         response = executeTell(sentence)
-    elif newSentence[1] in ["like", "enjoy", "love"]:
-        response = executeLike(sentence)
-    return response
+  
 
 def executeHow(sentence):
     """this is where all the "how" questions are dealt with"""
