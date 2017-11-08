@@ -10,8 +10,16 @@ def receiveMessage():
         sends EndOfMessage and displays the recieved messages on the user
         interface'''
 
+    global username
+    username = "User"
+    
     message = thisSocket.recv(1024).decode()
+    print(message)
     while (message != "EndOfMessage"):
+        if username == "User" and "YOURNAMEWILLBE" in message:
+            nameholder = message.split()[1:]
+            username = nameholder[1:]
+            continue
         chatHistory.configure(state="normal")
         thisSocket.send("Received".encode())
         chatHistory.insert(tk.END, "Jeff: " + message + "\n")
@@ -30,7 +38,7 @@ def sendMessage(event):
 
     thisSocket.send(sMessage.encode())
     chatHistory.configure(state="normal")
-    chatHistory.insert(tk.END, "User: " + sMessage + "\n")
+    chatHistory.insert(tk.END, username + ": " + sMessage + "\n")
     chatHistory.see(tk.END)
     chatHistory.configure(state="disabled")
     userInput.delete(0, tk.END)
