@@ -42,8 +42,8 @@ def receiveMessage():
             
     print ("CLIENT: {}".format(message))
         
-    answerUserInput = determineUserInput(message)        
-        
+    answerUserInput = determineUserInput(message)
+    
     return(answerUserInput)
 
 def askSomething(answerType, sendMessages, noAnswers, defaultAnswer):
@@ -60,9 +60,10 @@ def askSomething(answerType, sendMessages, noAnswers, defaultAnswer):
 
         if(answerType == -1):
             for cat in sendMessages:
-                if (answer[0].casefold() in cat.casefold()):
+                if (answer[0].casefold() == cat.casefold()):
                     answer = (answer[0], -1)
                     break
+            break
         
         if (answer[1] == 2): # If the use  asked a questions
             sendMessage("The answer to that is {}.".format(answer[0]), False)
