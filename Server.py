@@ -97,6 +97,8 @@ def qChallenge():
                 ["You can choose a category from the list above, like 'Music'.",
                  "Hmmm, I see you are afraid of making a mistake."], "Any")
     
+    
+    
     # Get a question and answers, from the user choice
     questionSet = getQuestion(receivedMessage, "")
     if ("Error" in questionSet):
@@ -153,6 +155,8 @@ def qChallenge():
 clientName = askSomething(1, ["Hi! What's your name?"],
                           ["I would prefer to know your name.",
                           "I see you don't want to tell me."], "Mr. Nobody")
+
+sendMessage("YOURNAMEWILLBE " + clientName, False)
 
 sendMessage("So, {}, I will teach you something today!"
             .format(clientName.title()), False)
