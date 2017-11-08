@@ -20,8 +20,10 @@ def determineUserInput(sentence):
         response = respondQuestion(sentence), 2
     elif sentenceParse[0] in greetings:
         response = getName(sentence), 1
-    elif sentenceParse[0] in "abcd":
+    elif sentence in "abcd":
         response = sentence, 3
+    elif (sentence.casefold() == "Yes") or (sentence.casefold() == "No"):
+        response = sentence, 4        
     else:
         response = sentence, 0
     return response

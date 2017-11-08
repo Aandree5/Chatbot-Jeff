@@ -55,6 +55,7 @@ def askSomething(answerType, sendMessages, noAnswers, defaultAnswer):
         sendMessage(item, (True if i == len(sendMessages) - 1 else False))
         
     answer = receiveMessage()
+    
     while ((answer[1] != answerType and len(noAnswers) > 0) or
            ((answer[0] == "" or answer[1] in [0, 2]) and len(noAnswers) > 0)):
 
@@ -65,7 +66,7 @@ def askSomething(answerType, sendMessages, noAnswers, defaultAnswer):
                     break
             break
         
-        if (answer[1] == 2): # If the use  asked a questions
+        elif (answer[1] == 2): # If the use  asked a questions
             sendMessage("The answer to that is {}.".format(answer[0]), False)
             sendMessage(noAnswers[0])
             noAnswers.pop(0)
@@ -95,7 +96,7 @@ def qChallenge():
     receivedMessage = askSomething(-1, ["Pick a subject.", cat[0], cat[1], cat[2]],
                 ["You can choose a category from the list above, like 'Music'.",
                  "Hmmm, I see you are afraid of making a mistake."], "Any")
-
+    
     # Get a question and answers, from the user choice
     questionSet = getQuestion(receivedMessage, "")
     if ("Error" in questionSet):
@@ -112,7 +113,7 @@ def qChallenge():
                         ["You can choose one of the options.",
                         "Hmmm, I see you are afraid of making a mistake."], "X")
     else:
-        receivedMessage = askSomething(0, [questionSet["Question"],
+        receivedMessage = askSomething(3, [questionSet["Question"],
                                            "A: {}".format(questionSet["A"]),
                                            "B: {}".format(questionSet["B"])],
                         ["You can choose one of the options.",
@@ -121,7 +122,7 @@ def qChallenge():
     if (receivedMessage[0].casefold() == questionSet["corrAnswer"].casefold()):
         sendMessage("Congratulations! That was the right answer!!", False)
         sendMessage("-" * 50, False)
-        receivedMessage = askSomething(0, ["Would you like to answer another question?"],
+        receivedMessage = askSomething(4, ["Would you like to answer another question?"],
                         ["Are you afraid?? :D.",
                         "Hmmm, I see you are afraid of making a mistake."], "No")
 
@@ -137,7 +138,7 @@ def qChallenge():
                             questionSet[questionSet["corrAnswer"]]), False)
         sendMessage("I know you can get the next one!!", False)
         sendMessage("-" * 50, False)
-        receivedMessage = askSomething(0, ["Would you like to answer another question?"],
+        receivedMessage = askSomething(4, ["Would you like to answer another question?"],
                         ["Are you afraid?? :D.",
                         "Hmmm, I see you are afraid of making a mistake."], "No")
                                            
