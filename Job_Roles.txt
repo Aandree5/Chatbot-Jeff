@@ -1,9 +1,20 @@
-Below are the job roles for this week. Please add what you plan to work on so nothing gets duplicated.
+Below are the job roles for the week. Please add what you plan to work on so nothing gets duplicated.
 
 Everyone: Flowcharts for the code you have made so far and for the code you are currently working on
 
-Suraj: 
-Delia: 
-Andre: 
-Jasper: 
+Suraj: Improve the chatbot's repsonses to user input that it doesn't understand such as random answers to questions or statements
+       that make no sense etc.
+
+Delia: Work on the casual conversation questions and casual conversation in-general
+       Make holding a conversation between the chatbot and the user easier
+
+Andre: Add a score system for when the user asks for multiple trivia questions so they can see how they did
+       Recommend places to check for answers to a question if the chatbot doesn't know the answer (Possibly work with Suraj on
+       this one)
+       
+Jasper: N/A
+
 Richard: Make the GUI look less awful
+         Fill in meeting logs
+         Combine the GUI.py and Client.py to make the interface fully functional
+         Complete storyboard for chatbot
