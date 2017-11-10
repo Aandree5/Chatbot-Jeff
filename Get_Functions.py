@@ -2,7 +2,7 @@ import random
 from DataAPI import getQuestion, getCategories
 
 greetings = ["hi","hello","hey","sup","howdy","henlo","waddup","wassup","heyo","hiya"
-             ,"im","i","am","called","my","name","is"]
+             ,"im","i am","am","called","my","name","is"]
 
 randomStuff = ["Cherophobia is the fear of fun","A flock of crows is called a murder",
                "A single cloud can weight more than 1 million pounds",
