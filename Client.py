@@ -66,12 +66,12 @@ chatHistory = tk.Text(window)
 chatHistory.pack(padx=30)
 chatHistory.configure(state="disabled")
 
-userInput = tk.Entry(window)
+userInput = tk.Entry(window, width=50)
 userInput.pack(pady=15)
 userInput.bind("<Return>", sendMessage)
 
-sendBtn = tk.Button(window, command=sendMessage)
-sendBtn.pack(side="left", pady=15)
+sendBtn = tk.Button(window, text="Send Message", command=sendMessage)
+sendBtn.pack(side="right", pady=15)
 
 receiveMessage(i) #Receives the initial message from the chatbot
 i = i + 1
