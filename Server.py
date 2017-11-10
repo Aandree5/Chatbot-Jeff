@@ -55,22 +55,23 @@ def askSomething(answerType, sendMessages, noAnswers, defaultAnswer):
         sendMessage(item, (True if i == len(sendMessages) - 1 else False))
         
     answer = receiveMessage()
-    
+    print(answer)
     while ((answer[1] != answerType and len(noAnswers) > 0) or
            ((answer[0] == "" or answer[1] in [0, 2]) and len(noAnswers) > 0)):
-
-        if(answerType == -1):
+        
+        if(answerType == -1 and answer[1] == 0):
             for cat in sendMessages:
+                
                 if (answer[0].casefold() == cat.casefold()):
                     answer = (answer[0], -1)
                     break
             break
         
-        elif (answer[1] == 2): # If the use  asked a questions
+        if (answer[1] == 2): # If the use  asked a questions
             sendMessage("The answer to that is {}.".format(answer[0]), False)
             sendMessage(noAnswers[0])
             noAnswers.pop(0)
-        elif (answer[1] == 0): # If the user doesn't want to answer
+        elif (answer[1] in [4, 5]): # If the user doesn't want to answer
             sendMessage("You should, it would be more fun!")
             noAnswers.pop(len(noAnswers) - 1)
         else:
@@ -82,7 +83,7 @@ def askSomething(answerType, sendMessages, noAnswers, defaultAnswer):
 
     if (answer[1] != answerType):
         answer = (defaultAnswer, 0)
-        
+
     return (answer[0])
 
 def qChallenge():
@@ -96,7 +97,6 @@ def qChallenge():
     receivedMessage = askSomething(-1, ["Pick a subject.", cat[0], cat[1], cat[2]],
                 ["You can choose a category from the list above, like 'Music'.",
                  "Hmmm, I see you are afraid of making a mistake."], "Any")
-    
     
     
     # Get a question and answers, from the user choice
@@ -127,11 +127,11 @@ def qChallenge():
         receivedMessage = askSomething(4, ["Would you like to answer another question?"],
                         ["Are you afraid?? :D.",
                         "Hmmm, I see you are afraid of making a mistake."], "No")
-
+        
         if (receivedMessage[0].casefold() == "No".casefold()):
             return (False)
         else:
-            sendMessage("Awesome! Lets see if you know the next one.")
+            sendMessage("Awesome! Lets see if you know the next one.", False)
             return (True)
     else:
         sendMessage("Nice try, but that's not the right answer.", False)
@@ -143,29 +143,28 @@ def qChallenge():
         receivedMessage = askSomething(4, ["Would you like to answer another question?"],
                         ["Are you afraid?? :D.",
                         "Hmmm, I see you are afraid of making a mistake."], "No")
-                                           
+        
         if (receivedMessage[0].casefold() == "No".casefold()):
             return (False)
         else:
-            sendMessage("Great! Lets try again.")
+            sendMessage("Great! Lets try again.", False)
             return(True)
 
-
+    
 # Say hi to client and get name
-clientName = askSomething(1, ["Hi! What's your name?"],
-                          ["I would prefer to know your name.",
-                          "I see you don't want to tell me."], "Mr. Nobody")
+clientName = askSomething(1, ["Hi! I am Jeff.", "I can give really nice challanges!", "What's your name?"],
+                              ["I would prefer to know your name.",
+                              "I see you don't want to tell me."], "Mr. Nobody")
 
 sendMessage("YOURNAMEWILLBE " + clientName, False)
 
 sendMessage("So, {}, I will teach you something today!"
-            .format(clientName.title()), False)
+                .format(clientName.title()), False)
 
 cont = True
 while cont:
-    print()
     
-    # Get questions for user
+        # Get questions for user
     cont = qChallenge()
 
 
