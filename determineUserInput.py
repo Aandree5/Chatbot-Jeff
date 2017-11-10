@@ -1,6 +1,7 @@
 operatorList = ["+","-","*","/","plus","minus","times","divided"]
 numberList = ["1","2","3","4","5","6","7","8","9","0"]
 questionStarters = ["what","whats","are","how","hows","do"]
+notAnswer = ["dont want to", "i dont want to", "its enough", "dont want more"]
 
 from Get_Functions import *
 
@@ -16,14 +17,20 @@ def determineUserInput(sentence):
 
     sentenceParse = sentence.split()
 
+    if (sentenceParse[0] == "i" and len(sentenceParse) > 1):
+        if (sentenceParse[1] == "am"):
+            sentenceParse.insert(0, " ".join(sentenceParse[0:2]))
+
     if sentenceParse[0] in questionStarters:  # ------------- execute the "what is" code here ---------------
         response = respondQuestion(sentence), 2
     elif sentenceParse[0] in greetings:
         response = getName(sentence), 1
     elif sentence in "abcd":
         response = sentence, 3
-    elif (sentence.casefold() == "Yes") or (sentence.casefold() == "No"):
-        response = sentence, 4        
+    elif (sentence.casefold() == "Yes".casefold()) or (sentence.casefold() == "No".casefold()):
+        response = sentence, 4  
+    elif sentence in notAnswer:
+        response = sentence, 5      
     else:
         response = sentence, 0
     return response
