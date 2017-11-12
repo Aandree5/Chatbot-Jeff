@@ -14,7 +14,7 @@ conn, addr = thisSocket.accept()
 print ("The Connection ip is : " + str(addr))
 
 def sendMessage(message, EOM = True):
-    ''' Given a message input, and a Flase value, send the message and the
+    ''' Given a message input, and a False value, send the message and the
         client keeps wayting for another message '''
     resp = ""
     if (EOM):
@@ -90,9 +90,12 @@ def qChallenge():
     ''' Question challenge, test user knowledge with some questions '''
     cat = getCategories(True, 3)
     if ("Error" in cat):
-        sendMessage(cat[1], False)
-        sendMessage("Lets try again.")
-        return (True)
+        sendMessage("{}: {}".format(cat[0], cat[1]), False)
+        if (cat[1] == 7):
+            sendMessage("Lets try again.")
+            return(True)
+        else:
+            return(False)
     
     receivedMessage = askSomething(-1, ["Pick a subject.", cat[0], cat[1], cat[2]],
                 ["You can choose a category from the list above, like 'Music'.",
