@@ -111,10 +111,10 @@ def respondQuestion(sentence):
 
 # ----------------------------------------------------------------------------------------------------------
 def executeAre(sentence):
-     """this is where all the "are" questions are dealt with"""
+    """this is where all the "are" questions are dealt with"""
     if "you alive" in sentence:
         response = "Yes, I'm alive. I'm talking to you right now. What something else would you like to know?"
-    elif "boy or girl" in sentence:
+    elif "a boy or a girl" in sentence:
         response = "My name is Jeff so I'm a boy I guess. Please, ask me more question."
     elif "you real" in sentence:
         response = "I'm talking to you so I exist so yes, I'm real. I'm waiting for your next question"
@@ -164,7 +164,7 @@ def executeWho(sentence):
         response = "Facebook was founded by Mark Zuckerberg with his college roommate and fellow Harvard University student Eduardo Saverin. I'm waiting for your next question"
     elif "queen of england" in sentence or "uk queen" in sentence:
         response = "Elizabeth II (born Elizabeth Alexandra Mary; 21 April 1926) has been Queen of the United Kingdom, Canada, Australia, and New Zealand since 6 February 1952. Please, ask me more questions."
-    elif "president of usa" in sentence:
+    elif "president of usa" in sentence or "usa president":
         response = "Donald Trump has become the 45th President of the USA since 2016. What something else would you like to know?"
     elif "god" in sentence:
         response = "Einstein believed in a God represented by order, harmony, beauty, simplicity and elegance. Ask me everything you want to know"
@@ -191,7 +191,7 @@ def executeDo(sentence):
     elif "programming" in sentence:
         response = "Of course! Due of it I'm alive. What something else would you like to know?"
     elif "have brain" in sentence:
-        response = "No, I'm a robot. Ask me everything you want to know."
+       response = "No, I'm a robot. Ask me everything you want to know."
     elif "like someone" in sentence:
         response = "I like Rihanna, she is a really good singer. I'm waiting for your next question."
     elif "love someone" in sentence:
@@ -237,7 +237,7 @@ def executeHow(sentence):
 
 
 def executeTell(sentence):
-    """this is where all the "tell" sentences are dealt with"""
+    """this is where all the "tell" sentence are dealt with"""
     if "time" in sentence:
         response = "The time is: " + str(now.hour) + str(":") + str(now.minute) + str(":") + str(now.second) + "If you have more curiosities, please tell me."
     elif "date" in sentence:
