@@ -124,7 +124,6 @@ def executeAre(sentence):
         answer = input("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link: " + "https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP"  + " to find information about your topic. Type 'open' if you want to acces it or ask me something else.").casefold()
         if answer=="open":
             new=2
-            ans = sentence.split()
             url="https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP";
             response = webbrowser.open(url,new=new)
         else:
@@ -145,7 +144,6 @@ def executeWhich(sentence):
         answer = input("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link: " + "https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP"  + " to find information about your topic. Type 'open' if you want to acces it or ask me something else.").casefold()
         if answer=="open":
             new=2
-            ans = sentence.split()
             url="https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP";
             response = webbrowser.open(url,new=new)
         else:
@@ -176,7 +174,6 @@ def executeWho(sentence):
         answer = input("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link: " + "https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP"  + " to find information about your topic. Type 'open' if you want to acces it or ask me something else.").casefold()
         if answer=="open":
             new=2
-            ans = sentence.split()
             url="https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP";
             response = webbrowser.open(url,new=new)
         else:
@@ -200,7 +197,6 @@ def executeDo(sentence):
         answer = input("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link: " + "https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP"  + " to find information about your topic. Type 'open' if you want to acces it or ask me something else.").casefold()
         if answer=="open":
             new=2
-            ans = sentence.split()
             url="https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP";
             response = webbrowser.open(url,new=new)
         else:
@@ -227,7 +223,6 @@ def executeHow(sentence):
         answer = input("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link: " + "https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP"  + " to find information about your topic. Type 'open' if you want to acces it or ask me something else.").casefold()
         if answer=="open":
             new=2
-            ans = sentence.split()
             url="https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP";
             response = webbrowser.open(url,new=new)
         else:
@@ -252,7 +247,6 @@ def executeTell(sentence):
         answer = input("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link: " + "https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP"  + " to find information about your topic. Type 'open' if you want to acces it or ask me something else.").casefold()
         if answer=="open":
             new=2
-            ans = sentence.split()
             url="https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP";
             response = webbrowser.open(url,new=new)
         else:
@@ -317,7 +311,6 @@ def executeWhat(sentence):
             answer = input("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link: " + "https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP"  + " to find information about your topic. Type 'open' if you want to acces it or ask me something else.").casefold()
             if answer=="open":
                 new=2
-                ans = sentence.split()
                 url="https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP";
                 response = webbrowser.open(url,new=new)
             else:
