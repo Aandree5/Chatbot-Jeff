@@ -97,11 +97,7 @@ def respondQuestion(sentence):
     elif newSentence[0] in ["what","whats"]:
         response = executeWhat(sentence), 3
     elif newSentence[0] == "are":
-<<<<<<< HEAD
         response = executeAre(sentence), 4
-            
-=======
-        response = executeAre(sentence)
     elif newSentence[0] == "tell":
         response = executeTell(sentence) 
     elif newSentence[0]== "do":
@@ -111,7 +107,6 @@ def respondQuestion(sentence):
     elif newSentence[0]=="which":
         response = executeWhich(sentence)
         
->>>>>>> b7a60192002be12cb4161f5a82a085f5b9b8f27e
     return response
 
 # ----------------------------------------------------------------------------------------------------------
