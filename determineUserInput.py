@@ -22,15 +22,15 @@ def determineUserInput(sentence):
             sentenceParse.insert(0, " ".join(sentenceParse[0:2]))
 
     if sentenceParse[0] in questionStarters:  # ------------- execute the "what is" code here ---------------
-        response = respondQuestion(sentence), 2
+        response = respondQuestion(sentence)
     elif sentenceParse[0] in greetings:
         response = getName(sentence), 1
     elif sentence in "abcd":
-        response = sentence, 3
+        response = sentence, 5
     elif (sentence.casefold() == "Yes".casefold()) or (sentence.casefold() == "No".casefold()):
-        response = sentence, 4  
+        response = sentence, 6  
     elif sentence in notAnswer:
-        response = sentence, 5      
+        response = sentence, 7      
     else:
         response = sentence, 0
     return response
@@ -57,11 +57,11 @@ feelingList = ["feeling great","feeling good","fine","well","great","good"]
 def respondQuestion(sentence):
     newSentence = sentence.split()
     if newSentence[0] in ["how","hows"]:
-        response = executeHow(sentence)
+        response = executeHow(sentence), 2
     elif newSentence[0] in ["what","whats"]:
-        response = executeWhat(sentence)
+        response = executeWhat(sentence), 3
     elif newSentence[0] == "are":
-        response = executeAre(sentence)
+        response = executeAre(sentence), 4
             
     return response
 

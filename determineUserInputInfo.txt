@@ -1,0 +1,9 @@
+##### Return Input Type Code #####
+0 - Not Recognized
+1 - Get Name From Sentence
+2 - How Question
+3 - What Question
+4 - Are Question
+5 - ACBD Answer Question Choice
+6 - Yes/ No Answer
+7 - Don't Want To Answer

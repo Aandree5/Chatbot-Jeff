@@ -12,6 +12,7 @@ thisSocket.listen(1)
 # Connect to client
 conn, addr = thisSocket.accept()
 print ("The Connection ip is : " + str(addr))
+print(conn)
 
 def sendMessage(message, EOM = True):
     ''' Given a message input, and a False value, send the message and the
@@ -57,21 +58,24 @@ def askSomething(answerType, sendMessages, noAnswers, defaultAnswer):
     answer = receiveMessage()
     print(answer)
     while ((answer[1] != answerType and len(noAnswers) > 0) or
-           ((answer[0] == "" or answer[1] in [0, 2]) and len(noAnswers) > 0)):
+           ((answer[0] == "" or answer[1] in [0, 2, 3, 4]) and len(noAnswers) > 0)):
         
         if(answerType == -1 and answer[1] == 0):
             for cat in sendMessages:
-                
                 if (answer[0].casefold() == cat.casefold()):
                     answer = (answer[0], -1)
                     break
             break
         
-        if (answer[1] == 2): # If the use  asked a questions
+        if (answer[1] in [2, 4]): # If the user asked a how or are question
+            sendMessage(answer[0], False)
+            sendMessage(noAnswers[0])
+            noAnswers.pop(0)
+        elif (answer[1] == 3): # If the user  asked a what question
             sendMessage("The answer to that is {}.".format(answer[0]), False)
             sendMessage(noAnswers[0])
             noAnswers.pop(0)
-        elif (answer[1] in [4, 5]): # If the user doesn't want to answer
+        elif (answer[1] == 7): # If the user doesn't want to answer
             sendMessage("You should, it would be more fun!")
             noAnswers.pop(len(noAnswers) - 1)
         else:
@@ -87,7 +91,7 @@ def askSomething(answerType, sendMessages, noAnswers, defaultAnswer):
     return (answer[0])
 
 def qChallenge():
-    ''' Question challenge, test user knowledge with some questions '''
+    ''' Output a set of questions with a category choosen by the user '''
     cat = getCategories(True, 3)
     if ("Error" in cat):
         sendMessage("{}: {}".format(cat[0], cat[1]), False)
@@ -108,17 +112,19 @@ def qChallenge():
         sendMessage(questionSet[1], False)
         sendMessage("Lets try again.", False)
         return (True)
-    
+
+    # If question set of multiple type
     if (questionSet["Type"] == "multiple"):
-        receivedMessage = askSomething(3, [questionSet["Question"],
+        receivedMessage = askSomething(5, [questionSet["Question"],
                                            "A: {}".format(questionSet["A"]),
                                            "B: {}".format(questionSet["B"]),
                                            "C: {}".format(questionSet["C"]),
                                            "D: {}".format(questionSet["D"])],
                         ["You can choose one of the options.",
                         "Hmmm, I see you are afraid of making a mistake."], "X")
+    # If question set of boolean type
     else:
-        receivedMessage = askSomething(3, [questionSet["Question"],
+        receivedMessage = askSomething(5, [questionSet["Question"],
                                            "A: {}".format(questionSet["A"]),
                                            "B: {}".format(questionSet["B"])],
                         ["You can choose one of the options.",
@@ -127,7 +133,8 @@ def qChallenge():
     if (receivedMessage[0].casefold() == questionSet["corrAnswer"].casefold()):
         sendMessage("Congratulations! That was the right answer!!", False)
         sendMessage("-" * 50, False)
-        receivedMessage = askSomething(4, ["Would you like to answer another question?"],
+        
+        receivedMessage = askSomething(6, ["Would you like to answer another question?"],
                         ["Are you afraid?? :D.",
                         "Hmmm, I see you are afraid of making a mistake."], "No")
         
@@ -143,7 +150,8 @@ def qChallenge():
                             questionSet[questionSet["corrAnswer"]]), False)
         sendMessage("I know you can get the next one!!", False)
         sendMessage("-" * 50, False)
-        receivedMessage = askSomething(4, ["Would you like to answer another question?"],
+        
+        receivedMessage = askSomething(6, ["Would you like to answer another question?"],
                         ["Are you afraid?? :D.",
                         "Hmmm, I see you are afraid of making a mistake."], "No")
         
@@ -152,6 +160,8 @@ def qChallenge():
         else:
             sendMessage("Great! Lets try again.", False)
             return(True)
+
+
 
     
 # Say hi to client and get name
