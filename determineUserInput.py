@@ -111,6 +111,7 @@ def respondQuestion(sentence):
 
 # ----------------------------------------------------------------------------------------------------------
 def executeAre(sentence):
+     """this is where all the "are" questions are dealt with"""
     if "you alive" in sentence:
         response = "Yes, I'm alive. I'm talking to you right now. What something else would you like to know?"
     elif "boy or girl" in sentence:
@@ -190,7 +191,7 @@ def executeDo(sentence):
     elif "programming" in sentence:
         response = "Of course! Due of it I'm alive. What something else would you like to know?"
     elif "have brain" in sentence:
-       response = "No, I'm a robot. Ask me everything you want to know."
+        response = "No, I'm a robot. Ask me everything you want to know."
     elif "like someone" in sentence:
         response = "I like Rihanna, she is a really good singer. I'm waiting for your next question."
     elif "love someone" in sentence:
@@ -236,7 +237,7 @@ def executeHow(sentence):
 
 
 def executeTell(sentence):
-    """this is where all the "tell" sentence are dealt with"""
+    """this is where all the "tell" sentences are dealt with"""
     if "time" in sentence:
         response = "The time is: " + str(now.hour) + str(":") + str(now.minute) + str(":") + str(now.second) + "If you have more curiosities, please tell me."
     elif "date" in sentence:
