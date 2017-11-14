@@ -5,6 +5,7 @@
 	To get a random category or difficulty ("" or "Any" or "Random")
 
 -Output (questionsSet) 
+	A dictionary if one question, a list of dictionaries if more than one
 
 
 ### getCategories

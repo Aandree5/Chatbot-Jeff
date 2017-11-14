@@ -57,8 +57,7 @@ def askSomething(answerType, sendMessages, noAnswers, defaultAnswer):
         
     answer = receiveMessage()
     print(answer)
-    while ((answer[1] != answerType and len(noAnswers) > 0) or
-           ((answer[0] == "" or answer[1] in [0, 2, 3, 4]) and len(noAnswers) > 0)):
+    while (answer[1] != answerType or answer[0] == ""  and len(noAnswers) > 0):
         
         if(answerType == -1 and answer[1] == 0):
             for cat in sendMessages:
@@ -90,7 +89,7 @@ def askSomething(answerType, sendMessages, noAnswers, defaultAnswer):
 
     return (answer[0])
 
-def qChallenge():
+def oneQuestion():
     ''' Output a set of questions with a category choosen by the user '''
     cat = getCategories(True, 3)
     if ("Error" in cat):
@@ -132,36 +131,76 @@ def qChallenge():
         
     if (receivedMessage[0].casefold() == questionSet["corrAnswer"].casefold()):
         sendMessage("Congratulations! That was the right answer!!", False)
-        sendMessage("-" * 50, False)
-        
-        receivedMessage = askSomething(6, ["Would you like to answer another question?"],
-                        ["Are you afraid?? :D.",
-                        "Hmmm, I see you are afraid of making a mistake."], "No")
-        
-        if (receivedMessage[0].casefold() == "No".casefold()):
-            return (False)
-        else:
-            sendMessage("Awesome! Lets see if you know the next one.", False)
-            return (True)
+        sendMessage("-" * 50)
     else:
         sendMessage("Nice try, but that's not the right answer.", False)
         sendMessage("The right answer was {} ({})."
                     .format(questionSet["corrAnswer"],
                             questionSet[questionSet["corrAnswer"]]), False)
         sendMessage("I know you can get the next one!!", False)
-        sendMessage("-" * 50, False)
-        
-        receivedMessage = askSomething(6, ["Would you like to answer another question?"],
-                        ["Are you afraid?? :D.",
-                        "Hmmm, I see you are afraid of making a mistake."], "No")
-        
-        if (receivedMessage[0].casefold() == "No".casefold()):
-            return (False)
-        else:
-            sendMessage("Great! Lets try again.", False)
+        sendMessage("-" * 50)
+
+
+def quizChallange(nrQuestions):
+    if (nrQuestions < 1 or nrQuestions > 50):
+        sendMessage("For a Quiz challenge ou have to choose between 2 and 50 quesitons.")
+        return(True)
+
+    cat = getCategories(True, 3)
+    if ("Error" in cat):
+        sendMessage("{}: {}".format(cat[0], cat[1]), False)
+        if (cat[1] == 7):
+            sendMessage("Lets try again.")
             return(True)
+        else:
+            return(False)
+    
+    receivedMessage = askSomething(-1, ["Pick a subject.", cat[0], cat[1], cat[2]],
+                ["You can choose a category from the list above, like 'Music'.",
+                 "Hmmm, I see you are afraid of making a mistake."], "Any")
 
+    
+    # Get a question and answers, from the user choice
+    qChaSet = getQuestion(receivedMessage, "", nrQuestions)
+    if ("Error" in qChaSet):
+        sendMessage(qChaSet[1], False)
+        sendMessage("Lets try again.", False)
+        return (True)
 
+    Score = 0
+
+    for questionSet in qChaSet:
+        # If question set of multiple type
+        if (questionSet["Type"] == "multiple"):
+            receivedMessage = askSomething(5, [questionSet["Question"],
+                                               "A: {}".format(questionSet["A"]),
+                                               "B: {}".format(questionSet["B"]),
+                                               "C: {}".format(questionSet["C"]),
+                                               "D: {}".format(questionSet["D"])],
+                            ["You can choose one of the options.",
+                            "Hmmm, I see you are afraid of making a mistake."], "X")
+        # If question set of boolean type
+        else:
+            receivedMessage = askSomething(5, [questionSet["Question"],
+                                               "A: {}".format(questionSet["A"]),
+                                               "B: {}".format(questionSet["B"])],
+                            ["You can choose one of the options.",
+                            "Hmmm, I see you are afraid of making a mistake."], "X")
+            
+        if (receivedMessage[0].casefold() == questionSet["corrAnswer"].casefold()):
+            sendMessage("Congratulations! That was the right answer!!", False)
+            sendMessage("-" * 50, False)
+            Score += 1
+        else:
+            sendMessage("Nice try, but that's not the right answer.", False)
+            sendMessage("The right answer was {} ({})."
+                        .format(questionSet["corrAnswer"],
+                                questionSet[questionSet["corrAnswer"]]), False)
+            sendMessage("I know you can get the next one!!", False)
+            sendMessage("-" * 50, False)
+
+    return(Score)
+                
 
     
 # Say hi to client and get name
@@ -171,14 +210,27 @@ clientName = askSomething(1, ["Hi! I am Jeff.", "I can give really nice challang
 
 sendMessage("YOURNAMEWILLBE " + clientName, False)
 
-sendMessage("So, {}, I will teach you something today!"
-                .format(clientName.title()), False)
-
-cont = True
-while cont:
+message = askSomething(0, ["So, {}, I will teach you something today!"
+                .format(clientName.title()), "Would you like a challenge or have any questions?"],
+                       ["You can ask for a Question challenge",
+                        "If you want you could go for a Quiz Challenge!"], None)
     
-        # Get questions for user
-    cont = qChallenge()
+while True:
+    if (type(message) == str and "question challange".casefold() in message.casefold()):
+        oneQuestion()
+    elif (type(message) == str and "quiz challange".casefold() in message.casefold()):
+        nr = askSomething(0, ["How many questions would you like to answer?"],
+                              ["Just pick a number."], "5")
+        
+        score = quizChallange(int(nr))
+        
+        sendMessage("You got {} of {} quesions right!".format(score, nr), False)
+    elif (message == "END"):
+        break
+
+    
+    message = askSomething(0, ["If you want you can ask anything else!"],
+                       ["You can choose more Questions to challenge your self."], None)
 
 
 sendMessage("See you next time! Bye!")
