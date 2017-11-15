@@ -50,9 +50,9 @@ def sendMessage(event=None):
        interface and then takes this input from the user and feeds it to the
        chatbot/server, allowing it to respond to the input appropriately.'''
 
-    sMessage = ""
-    while sMessage is None or sMessage == "": #loops through until user actually says something
-        sMessage = userInput.get() #input from user, needs to come from interface
+    sMessage = userInput.get()
+    if sMessage is None or sMessage == "": #Checks if the user has actually entered anything before sending
+        return None #Ends the function before any message is sent to prevent sending of blank message
 
     thisSocket.send(sMessage.encode())
     chatHistory.configure(state="normal")
