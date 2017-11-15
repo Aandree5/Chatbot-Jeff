@@ -2,20 +2,20 @@ import random
 from DataAPI import getQuestion, getCategories
 
 greetings = ["hi","hello","hey","sup","howdy","henlo","waddup","wassup","heyo","hiya"
-             ,"im","i am","am","called","my","name","is"]
+             ,"i m","i am","called","my","name","is"]
 
 randomStuff = ["Cherophobia is the fear of fun","A flock of crows is called a murder",
                "A single cloud can weight more than 1 million pounds",
                "A crocodile can't stick it's tongue out","A shrimp's heart is in it's head",
                "A pregnant goldfish is called a twit","Rats and horses can't vomit.",
-               "If you sneeze too hard, you can fracture a rib.",]
+               "If you sneeze too hard, you can fracture a rib."]
 
 #=========================================================================================================
 
 def getName(sentence):
     """get the name of the user from the inputed sentence"""
-    userWords = sentence.split() #the sentence is split up into words and put into a list
-
+    userWords = sentence.split()
+    
     # ways of introduction:
     # "Hello, my name is ___"
     # "Hi, I'm ____"
@@ -23,17 +23,21 @@ def getName(sentence):
     # Order: Greeting -> pronoun -> Name -> question (optional)
     # eg. "Hello, I'm Jasper. How are you?"
     
-    words = ["hi","hello","hey","sup","howdy","henlo","waddup","wassup","heyo","hiya"
-             ,"im","i","am","called","my","name","is"] #Single out the name
     
+    if (userWords[0] == "i" and len(userWords) > 1):
+        if (userWords[1] in ["m","am"]):
+            userWords.insert(0, " ".join(userWords[0:2]))
+            userWords.pop(2)
+            userWords.pop(1)
+            
     userName = ""
-    for i in range(len(userWords)):     #iterate throught the user's words
+    for userWord in userWords:     #iterate throught the user's words
         foundWord = False               #sets True when there's a similar word in the other list
-        for word in range(len(words)):  #iterates and compares the chosen word from the user's list of words to the words list
-            if userWords[i] == words[word] and foundWord == False:
+        for word in greetings:  #iterates and compares the chosen word from the user's list of words to the words list
+            if userWord == word and foundWord == False:
                 foundWord = True
         if foundWord == False:
-            userName = userName + userWords[i] + " "
+            userName = userName + userWord + " "
     return userName #this is the found name
 
 #=========================================================================================================
@@ -77,3 +81,7 @@ def getQuestion():
 #-----------------
 #testing zone
 #-----------------
+
+if (__name__ == "__main__"):
+    print(getName("i m Andre"))
+    print(getName("i am Andre"))
