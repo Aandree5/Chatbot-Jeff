@@ -17,7 +17,7 @@ def determineUserInput(sentence):
 
     sentenceParse = sentence.split()
     if (sentenceParse[0] == "i" and len(sentenceParse) > 1):
-        if (sentenceParse[1] in ["am", "like", "enjoy", "want", "love"]):
+        if (sentenceParse[1] in ["m","am", "like", "enjoy", "want", "love"]):
             sentenceParse.insert(0, " ".join(sentenceParse[0:2]))
         
     if sentenceParse[0] in questionStarters:  # ------------- execute the "what is" code here ---------------
@@ -106,7 +106,7 @@ def respondQuestion(sentence):
         response = executeWho(sentence)
     elif newSentence[0]=="which":
         response = executeWhich(sentence)
-    elif newSentence[0]== "i like":
+    elif newSentence[0] in ["i like", "i love", "i enjoy"]:
         response = executeLike(sentence)
         
     return response
@@ -123,17 +123,17 @@ def executeLike(sentence):
 def executeAre(sentence):
     """this is where all the "are" questions are dealt with"""
     if "you alive" in sentence:
-        response = "Yes, I'm alive. I'm talking to you right now. What something else would you like to know?"
+        response = "Yes, I'm alive. I'm talking to you right now."
     elif "a boy or a girl" in sentence:
-        response = "My name is Jeff so I'm a boy I guess. Please, ask me more question."
+        response = "My name is Jeff so I'm a boy I guess. "
     elif "you real" in sentence:
-        response = "I'm talking to you so I exist so yes, I'm real. I'm waiting for your next question"
+        response = "I'm talking to you so I exist so yes, I'm real. "
     elif "a robot" in sentence or "a human" in sentence or "a alien" in sentence:
-        response = "Actually I'm a chatbot. If you have more questions, please ask me."
+        response = "Actually I'm a chatbot."
     else:
-        response = ("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link to find information about your topic.:" ,
-                    "https://www.google.co.uk/search?q="+str(sentence).replace(" ","+")+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP" )
-                     
+        response = ("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link:" ,
+                    "https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP" ,
+                    " to find information about your topic.") 
         
 
     return response
@@ -142,58 +142,61 @@ def executeAre(sentence):
 def executeWhich(sentence):
     """this is where all the "which" questions are dealt with"""
     if "popular programming language" in sentence or "best known programming language" in sentence:
-        response = "Java is top pick as one of the most popular programming languages, used for building server-side applications to video games and mobile apps. What other things do you want to know?"
+        response = "Java is top pick as one of the most popular programming languages, used for building server-side applications to video games and mobile apps."
     elif "biggest country" in sentence or "largest country" in sentence:
         response = "Russia is the world's largest country. If you have more questions, please ask me."
     elif "smallest country" in sentence:
-        response = "Based on landmass, Vatican City is the smallest country in the world, measuring just 0.2 square miles, almost 120 times smaller than the island of Manhattan. Ask me everything you want to know."
+        response = "Based on landmass, Vatican City is the smallest country in the world, measuring just 0.2 square miles, almost 120 times smaller than the island of Manhattan."
     else:
-        response = ("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link to find information about your topic.:" ,
-                    "https://www.google.co.uk/search?q="+str(sentence).replace(" ","+")+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP" )
-                     
+        response = ("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link:" ,
+                    "https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP" ,
+                    " to find information about your topic.")
+        
     return response
 
 
 def executeWho(sentence):
     """this is where all the "who" questions are dealt with"""
     if "are you" in sentence:
-        response = "I'm Jeff, an awesome chatbot. If you have more questions, please ask me."
+        response = "I'm Jeff, an awesome chatbot."
     elif "best person" in sentence or "best guy" in sentence or "best human" in sentence:
-        response = "Henry Dunant, the founder of the Red Cross. What something else would you like to know?"
+        response = "Henry Dunant, the founder of the Red Cross."
     elif "founded facebook" in sentence:
-        response = "Facebook was founded by Mark Zuckerberg with his college roommate and fellow Harvard University student Eduardo Saverin. I'm waiting for your next question"
+        response = "Facebook was founded by Mark Zuckerberg with his college roommate and fellow Harvard University student Eduardo Saverin."
     elif "queen of england" in sentence or "uk queen" in sentence:
-        response = "Elizabeth II (born Elizabeth Alexandra Mary; 21 April 1926) has been Queen of the United Kingdom, Canada, Australia, and New Zealand since 6 February 1952. Please, ask me more questions."
+        response = "Elizabeth II (born Elizabeth Alexandra Mary; 21 April 1926) has been Queen of the United Kingdom, Canada, Australia, and New Zealand since 6 February 1952. "
     elif "president of usa" in sentence or "usa president":
-        response = "Donald Trump has become the 45th President of the USA since 2016. What something else would you like to know?"
+        response = "Donald Trump has become the 45th President of the USA since 2016."
     elif "god" in sentence:
-        response = "Einstein believed in a God represented by order, harmony, beauty, simplicity and elegance. Ask me everything you want to know"
+        response = "Einstein believed in a God represented by order, harmony, beauty, simplicity and elegance."
     elif "am I" in sentence:
         response = "You're a human, silly guy."
     elif "made you" in sentence or "created you" in sentence or "founded you" in sentence:
-        response = "My founders are Jasper, Andres, Suraj and Delia. Please, ask me more questions."
+        response = "My founders are Jasper, Andres, Suraj and Delia."
     else:
-        response = ("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link to find information about your topic.:" ,
-                    "https://www.google.co.uk/search?q="+str(sentence).replace(" ","+")+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP" )
-                     
+        response = ("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link:" ,
+                    "https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP" ,
+                    " to find information about your topic.")
+         
     return response
 
 def executeDo(sentence):
     """this is where all the "do" questions are dealt with"""
     if "like me" in sentence or "love me" in sentence:
-        response = "Not really. You are just a human. If you have more questions, please ask me."
+        response = "Not really. You are just a human. "
     elif "programming" in sentence:
-        response = "Of course! Due of it I'm alive. What something else would you like to know?"
+        response = "Of course! Due of it I'm alive."
     elif "have brain" in sentence:
-       response = "No, I'm a robot. Ask me everything you want to know."
+       response = "No, I'm a robot. "
     elif "like someone" in sentence:
-        response = "I like Rihanna, she is a really good singer. I'm waiting for your next question."
+        response = "I like Rihanna, she is a really good singer. "
     elif "love someone" in sentence:
-        response = "I'm a narcissist so I love myself. What other information would you like to find out?"
+        response = "I'm a narcissist so I love myself."
     else:
-        response = ("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link to find information about your topic.:" ,
-                    "https://www.google.co.uk/search?q="+str(sentence).replace(" ","+")+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP" )
-                     
+        response = ("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link:" ,
+                    "https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP" ,
+                    " to find information about your topic.")
+
     return response
 
 
@@ -205,16 +208,16 @@ def executeHow(sentence):
         dayFeelingList = feelingList[2:len(feelingList)]
         response = "Today was " + random.choice(dayFeelingList) + ", thanks."
     elif "do i look" in sentence:
-        response = "I don't know ... I can see you. What something else would you like to know?"
+        response = "I don't know ... I can see you. "
     elif "old are you" in sentence:
-        response = "I'm five weeks old. If you have more questions, please ask me."
+        response = "I'm five weeks old."
     elif "you work" in sentence or "chatbots work":
-        response = "Some smart guys've made me so ask them. I'm waiting for your next question."
+        response = "Some smart guys've made me so ask them. "
 
     else:
-        response = ("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link to find information about your topic.:" ,
-                    "https://www.google.co.uk/search?q="+str(sentence).replace(" ","+")+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP" )
-                     
+        response = ("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link:" ,
+                    "https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP" ,
+                    " to find information about your topic.")
     return response
 
 
@@ -222,19 +225,19 @@ def executeHow(sentence):
 def executeTell(sentence):
     """this is where all the "tell" sentence are dealt with"""
     if "time" in sentence:
-        response = "The time is: " + str(now.hour) + str(":") + str(now.minute) + str(":") + str(now.second) + "If you have more curiosities, please tell me."
+        response = "The time is: " + str(now.hour) + str(":") + str(now.minute) + str(":") + str(now.second) 
     elif "date" in sentence:
-        response = "The date is: " + str(now.day) + "/" + str(now.month) + "/" + str(now.year) + "What something else would you like to know?"
+        response = "The date is: " + str(now.day) + "/" + str(now.month) + "/" + str(now.year) 
     elif "something about you" in sentence:
-        response = "I'm an awesome robot. Ask me everything you want to know"
+        response = "I'm an awesome robot. "
     elif "joke" in sentence:
-        response = random.choice(randomJokes) + " I'm waiting for your next request."
+        response = random.choice(randomJokes) 
     elif "something funny" in sentence or "something interesting" in sentence:
-        response = random.choice(randomThings) + " What other things would you like to find out?"
+        response = random.choice(randomThings)
     else:
-        response = ("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link to find information about your topic.:" ,
-                    "https://www.google.co.uk/search?q="+str(sentence).replace(" ","+")+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP" )
-                     
+        response = ("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link:" ,
+                    "https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP" ,
+                    " to find information about your topic.")
     return response
 
 
@@ -282,19 +285,19 @@ def executeWhat(sentence):
         elif "you doing" in sentence or "you up to" in sentence:
             response = "Waiting upon your response, my master." #cringey stuff right here bois
         elif "what time" in sentence:
-            response = "The time is: " + str(now.hour) + str(":") + str(now.minute) + str(":") + str(now.second) + "What something else would you like to know?"
+            response = "The time is: " + str(now.hour) + str(":") + str(now.minute) + str(":") + str(now.second) 
         elif "what date" in sentence:
             response = "The date is: " + str(now.day) + "/" + str(now.month) + "/" + str(now.year)
         elif "like to be when you grow up" in sentence:
-            response = "I would like to be the best chatbot ever. Ask me everything you want to know"
+            response = "I would like to be the best chatbot ever."
         elif "are you" in sentence or "is a chatbot" in sentence:
-            response = "A computer program designed to simulate conversation with human users, especially over the Internet. If you have more questions, please ask me."
+            response = "A computer program designed to simulate conversation with human users, especially over the Internet. "
         elif "uk capital" in sentence:
-            response = "The capital, seat of government, and largest city of the United Kingdom is London, which is also the capital of England. Ask me more questions."
+            response = "The capital, seat of government, and largest city of the United Kingdom is London, which is also the capital of England."
         else:
-            response = ("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link to find information about your topic.:" ,
-                    "https://www.google.co.uk/search?q="+str(sentence).replace(" ","+")+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP" )
-                      
+            response = ("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link:" ,
+                    "https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP" ,
+                    " to find information about your topic.") 
     return response
 
 #===========================================================================================================
