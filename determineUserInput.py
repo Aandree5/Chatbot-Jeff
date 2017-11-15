@@ -1,6 +1,6 @@
 operatorList = ["+","-","*","/","plus","minus","times","divided"]
 numberList = ["1","2","3","4","5","6","7","8","9","0"]
-questionStarters = ["what","whats","are","how","hows","do","tell", "who", "which"]
+questionStarters = ["what","whats","are","how","hows","do","tell", "who", "which", "i like", "i want", "i enjoy", "i love"]
 notAnswer = ["dont want to", "i dont want to", "its enough", "dont want more"]
 
 from Get_Functions import *
@@ -17,9 +17,9 @@ def determineUserInput(sentence):
 
     sentenceParse = sentence.split()
     if (sentenceParse[0] == "i" and len(sentenceParse) > 1):
-        if (sentenceParse[1] == "am"):
+        if (sentenceParse[1] == ["am", "like", "enjoy", "want", "love"]):
             sentenceParse.insert(0, " ".join(sentenceParse[0:2]))
-
+        
     if sentenceParse[0] in questionStarters:  # ------------- execute the "what is" code here ---------------
         response = respondQuestion(sentence), 2
     elif sentenceParse[0] in greetings:
@@ -106,10 +106,17 @@ def respondQuestion(sentence):
         response = executeWho(sentence)
     elif newSentence[0]=="which":
         response = executeWhich(sentence)
+    elif newSentence[0] in ["i like", "i love", "i enjoy"]:
+        response = executeLike(sentence)
         
     return response
 
 # ----------------------------------------------------------------------------------------------------------
+
+
+
+
+
 def executeAre(sentence):
     """this is where all the "are" questions are dealt with"""
     if "you alive" in sentence:
@@ -121,13 +128,10 @@ def executeAre(sentence):
     elif "a robot" in sentence or "a human" in sentence or "a alien" in sentence:
         response = "Actually I'm a chatbot. If you have more questions, please ask me."
     else:
-        answer = input("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link: " + "https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP"  + " to find information about your topic. Type 'open' if you want to acces it or ask me something else.").casefold()
-        if answer=="open":
-            new=2
-            url="https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP";
-            response = webbrowser.open(url,new=new)
-        else:
-            return None 
+        response = ("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link:" ,
+                    "https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP" ,
+                    " to find information about your topic.") 
+        
 
     return response
 
@@ -141,13 +145,9 @@ def executeWhich(sentence):
     elif "smallest country" in sentence:
         response = "Based on landmass, Vatican City is the smallest country in the world, measuring just 0.2 square miles, almost 120 times smaller than the island of Manhattan. Ask me everything you want to know."
     else:
-        answer = input("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link: " + "https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP"  + " to find information about your topic. Type 'open' if you want to acces it or ask me something else.").casefold()
-        if answer=="open":
-            new=2
-            url="https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP";
-            response = webbrowser.open(url,new=new)
-        else:
-            return None
+        response = ("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link:" ,
+                    "https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP" ,
+                    " to find information about your topic.")
         
     return response
 
@@ -171,13 +171,9 @@ def executeWho(sentence):
     elif "made you" in sentence or "created you" in sentence or "founded you" in sentence:
         response = "My founders are Jasper, Andres, Suraj and Delia. Please, ask me more questions."
     else:
-        answer = input("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link: " + "https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP"  + " to find information about your topic. Type 'open' if you want to acces it or ask me something else.").casefold()
-        if answer=="open":
-            new=2
-            url="https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP";
-            response = webbrowser.open(url,new=new)
-        else:
-            return None
+        response = ("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link:" ,
+                    "https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP" ,
+                    " to find information about your topic.")
          
     return response
 
@@ -194,13 +190,9 @@ def executeDo(sentence):
     elif "love someone" in sentence:
         response = "I'm a narcissist so I love myself. What other information would you like to find out?"
     else:
-        answer = input("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link: " + "https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP"  + " to find information about your topic. Type 'open' if you want to acces it or ask me something else.").casefold()
-        if answer=="open":
-            new=2
-            url="https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP";
-            response = webbrowser.open(url,new=new)
-        else:
-            return None        
+        response = ("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link:" ,
+                    "https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP" ,
+                    " to find information about your topic.")
 
     return response
 
@@ -220,13 +212,9 @@ def executeHow(sentence):
         response = "Some smart guys've made me so ask them. I'm waiting for your next question."
 
     else:
-        answer = input("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link: " + "https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP"  + " to find information about your topic. Type 'open' if you want to acces it or ask me something else.").casefold()
-        if answer=="open":
-            new=2
-            url="https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP";
-            response = webbrowser.open(url,new=new)
-        else:
-            return None
+        response = ("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link:" ,
+                    "https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP" ,
+                    " to find information about your topic.")
     return response
 
 
@@ -244,13 +232,9 @@ def executeTell(sentence):
     elif "something funny" in sentence or "something interesting" in sentence:
         response = random.choice(randomThings) + " What other things would you like to find out?"
     else:
-        answer = input("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link: " + "https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP"  + " to find information about your topic. Type 'open' if you want to acces it or ask me something else.").casefold()
-        if answer=="open":
-            new=2
-            url="https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP";
-            response = webbrowser.open(url,new=new)
-        else:
-            return None
+        response = ("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link:" ,
+                    "https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP" ,
+                    " to find information about your topic.")
     return response
 
 
@@ -308,13 +292,9 @@ def executeWhat(sentence):
         elif "uk capital" in sentence:
             response = "The capital, seat of government, and largest city of the United Kingdom is London, which is also the capital of England. Ask me more questions."
         else:
-            answer = input("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link: " + "https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP"  + " to find information about your topic. Type 'open' if you want to acces it or ask me something else.").casefold()
-            if answer=="open":
-                new=2
-                url="https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP";
-                response = webbrowser.open(url,new=new)
-            else:
-                return None
+            response = ("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link:" ,
+                    "https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP" ,
+                    " to find information about your topic.") 
     return response
 
 #===========================================================================================================
