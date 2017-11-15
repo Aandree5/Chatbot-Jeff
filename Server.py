@@ -57,12 +57,11 @@ def askSomething(answerType, sendMessages, noAnswers, defaultAnswer):
             break
         
         if (answer[1] == 2): # If the user asked a how or are question
-            if (len(answer[1]) == 1):
+            if (type(answer[0]) == str):
                 sendMessage(answer[0], False)
             else:
                 sendMessage(answer[0][0], False)
                 sendMessage(answer[0][1], False)
-                sendMessage(answer[0][2], False)
                 
             sendMessage(noAnswers[0])
             noAnswers.pop(0)
