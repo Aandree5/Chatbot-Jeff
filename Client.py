@@ -1,9 +1,14 @@
 import socket
 import tkinter as tk
+import tkHyperlinkManager as tkHLM
+import webbrowser
 
 # Create Socket and connect to server
 thisSocket = socket.socket()
 thisSocket.connect(("127.0.0.1",5001))
+
+def openLink(url):
+    webbrowser.open(url, new=2)
 
 def receiveMessage(i):
     ''' Receives multiple messages from server if needed, until server
@@ -17,13 +22,22 @@ def receiveMessage(i):
     message = thisSocket.recv(1024).decode()
     print(message)
     while (message != "EndOfMessage"):
-        if username == "User" and "YOURNAMEWILLBE" in message:
+        if username == "User" and "YOURNAMEWILLBE" in message: #Checks if username has been changed and for tag identifying new name
             nameholder = message.split()[1:]
             username = ''.join(nameholder)
-            username = username.title()
+            username = username.title()  #Assigns username
             thisSocket.send("Received".encode())
             message = thisSocket.recv(1024).decode()
             continue
+        if "https://" in message:
+            searchLink = message
+            hyperlinkObj = tkHLM.HyperlinkManager(chatHistory)
+            chatHistory.configure(state="normal")
+            chatHistory.insert(tk.END, "Click here", hyperlinkObj.add()) #broken line
+            chatHistory.insert(tk.END, "\n")
+            chatHistory.configure(state="disabled")
+            thisSocket.send("Received".encode())
+            message = thisSocket.recv(1024).decode()
         chatHistory.configure(state="normal")
         thisSocket.send("Received".encode())
         chatHistory.insert(tk.END, "Jeff: " + message + "\n")
