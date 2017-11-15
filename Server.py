@@ -4,16 +4,6 @@ import random
 from DataAPI import getQuestion, getCategories
 from determineUserInput import determineUserInput
 
-# Create Socket and bind server to socket
-thisSocket = socket.socket()
-thisSocket.bind(("127.0.0.1", 5001))
-# Listen for clients
-thisSocket.listen(1)
-# Connect to client
-conn, addr = thisSocket.accept()
-print ("The Connection ip is : " + str(addr))
-print(conn)
-
 def sendMessage(message, EOM = True):
     ''' Given a message input, and a False value, send the message and the
         client keeps wayting for another message '''
@@ -196,8 +186,21 @@ def quizChallange(nrQuestions):
             sendMessage("-" * 50, False)
 
     return(Score)
-                
 
+
+#### CONNECTION ####
+       
+# Create Socket and bind server to socket
+thisSocket = socket.socket()
+thisSocket.bind(("127.0.0.1", 5001))
+# Listen for clients
+thisSocket.listen(1)
+# Connect to client
+conn, addr = thisSocket.accept()
+print ("The Connection ip is : " + str(addr))
+print(conn)
+
+####################
     
 # Say hi to client and get name
 clientName = askSomething(1, ["Hi! I am Jeff.", "I can give really nice challanges!", "What's your name?"],
@@ -216,11 +219,11 @@ while True:
         oneQuestion()
     elif (type(message) == str and "quiz challange".casefold() in message.casefold()):
         nr = askSomething(0, ["How many questions would you like to answer?"],
-                              ["Just pick a number."], "5")
+                              ["Pick a number between 2 and 50."], "5")
         
         score = quizChallange(int(nr))
         
-        sendMessage("You got {} of {} quesions right!".format(score, nr), False)
+        sendMessage("You got {} out of {} quesions right!".format(score, nr), False)
     elif (message == "END"):
         break
 
