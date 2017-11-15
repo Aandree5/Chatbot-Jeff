@@ -2,19 +2,15 @@ Below are the job roles for the week. Please add what you plan to work on so not
 
 Everyone: Flowcharts for the code you have made so far and for the code you are currently working on
 
-Suraj: Improve the chatbot's repsonses to user input that it doesn't understand such as random answers to questions or statements
-       that make no sense etc.
+Suraj: Get name from user when it is all they respond with at the start of the conversation
 
-Delia: Work on the casual conversation questions and casual conversation in-general
-       Make holding a conversation between the chatbot and the user easier
+Delia: Make holding a conversation between the chatbot and the user easier
 
-Andre: Add a score system for when the user asks for multiple trivia questions so they can see how they did
-       Recommend places to check for answers to a question if the chatbot doesn't know the answer (Possibly work with Suraj on
-       this one)
+Andre: Work on making the conversation a bit less robotic in terms of what is actually said by the chatbot to the user
        
 Jasper: N/A
 
-Richard: Make the GUI look less awful
+Richard: Make the GUI look less awful (align send message button with meesage entry box)
          Fill in meeting logs
-         Combine the GUI.py and Client.py to make the interface fully functional
          Complete storyboard for chatbot
+         Get URL/hyperlink system working
