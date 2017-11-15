@@ -10,13 +10,13 @@ def sendMessage(message, EOM = True):
     resp = ""
     if (EOM):
         while (resp != "Received"): # If client doesn't receive message, send again
-            conn.send(message.encode())
+            conn.send(str(message).encode())
             print("SERVER: {}".format(message))
             resp = conn.recv(1024).decode() # Waits for client feedback 
         conn.send("EndOfMessage".encode())
     else:
         while (resp != "Received"): # If client doesn't receive message, send again
-            conn.send(message.encode())
+            conn.send(str(message).encode())
             print("SERVER: {}".format(message))
             resp = conn.recv(1024).decode() # Waits for client feedback 
 
