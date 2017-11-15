@@ -33,7 +33,7 @@ def receiveMessage(i):
             searchLink = message
             hyperlinkObj = tkHLM.HyperlinkManager(chatHistory)
             chatHistory.configure(state="normal")
-            chatHistory.insert(tk.END, "Click here", hyperlinkObj.add()) #broken line
+            chatHistory.insert(tk.END, "Click here", hyperlinkObj.add(openLink(url))) #broken line
             chatHistory.insert(tk.END, "\n")
             chatHistory.configure(state="disabled")
             thisSocket.send("Received".encode())
