@@ -106,14 +106,17 @@ def respondQuestion(sentence):
         response = executeWho(sentence)
     elif newSentence[0]=="which":
         response = executeWhich(sentence)
-    elif newSentence[0] in ["i like", "i love", "i enjoy"]:
+    elif newSentence[0]== "i like":
         response = executeLike(sentence)
         
     return response
 
 # ----------------------------------------------------------------------------------------------------------
 
-
+def executeLike(sentence):
+    if "I like you" in sentence:
+        response = "Nice"
+    return response
 
 
 
@@ -128,9 +131,9 @@ def executeAre(sentence):
     elif "a robot" in sentence or "a human" in sentence or "a alien" in sentence:
         response = "Actually I'm a chatbot. If you have more questions, please ask me."
     else:
-        response = ("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link:" ,
-                    "https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP" ,
-                    " to find information about your topic.") 
+        response = ("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link to find information about your topic.:" ,
+                    "https://www.google.co.uk/search?q="+str(sentence).replace(" ","+")+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP" )
+                     
         
 
     return response
@@ -145,10 +148,9 @@ def executeWhich(sentence):
     elif "smallest country" in sentence:
         response = "Based on landmass, Vatican City is the smallest country in the world, measuring just 0.2 square miles, almost 120 times smaller than the island of Manhattan. Ask me everything you want to know."
     else:
-        response = ("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link:" ,
-                    "https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP" ,
-                    " to find information about your topic.")
-        
+        response = ("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link to find information about your topic.:" ,
+                    "https://www.google.co.uk/search?q="+str(sentence).replace(" ","+")+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP" )
+                     
     return response
 
 
@@ -171,10 +173,9 @@ def executeWho(sentence):
     elif "made you" in sentence or "created you" in sentence or "founded you" in sentence:
         response = "My founders are Jasper, Andres, Suraj and Delia. Please, ask me more questions."
     else:
-        response = ("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link:" ,
-                    "https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP" ,
-                    " to find information about your topic.")
-         
+        response = ("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link to find information about your topic.:" ,
+                    "https://www.google.co.uk/search?q="+str(sentence).replace(" ","+")+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP" )
+                     
     return response
 
 def executeDo(sentence):
@@ -190,10 +191,9 @@ def executeDo(sentence):
     elif "love someone" in sentence:
         response = "I'm a narcissist so I love myself. What other information would you like to find out?"
     else:
-        response = ("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link:" ,
-                    "https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP" ,
-                    " to find information about your topic.")
-
+        response = ("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link to find information about your topic.:" ,
+                    "https://www.google.co.uk/search?q="+str(sentence).replace(" ","+")+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP" )
+                     
     return response
 
 
@@ -212,9 +212,9 @@ def executeHow(sentence):
         response = "Some smart guys've made me so ask them. I'm waiting for your next question."
 
     else:
-        response = ("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link:" ,
-                    "https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP" ,
-                    " to find information about your topic.")
+        response = ("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link to find information about your topic.:" ,
+                    "https://www.google.co.uk/search?q="+str(sentence).replace(" ","+")+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP" )
+                     
     return response
 
 
@@ -232,9 +232,9 @@ def executeTell(sentence):
     elif "something funny" in sentence or "something interesting" in sentence:
         response = random.choice(randomThings) + " What other things would you like to find out?"
     else:
-        response = ("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link:" ,
-                    "https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP" ,
-                    " to find information about your topic.")
+        response = ("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link to find information about your topic.:" ,
+                    "https://www.google.co.uk/search?q="+str(sentence).replace(" ","+")+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP" )
+                     
     return response
 
 
@@ -292,9 +292,9 @@ def executeWhat(sentence):
         elif "uk capital" in sentence:
             response = "The capital, seat of government, and largest city of the United Kingdom is London, which is also the capital of England. Ask me more questions."
         else:
-            response = ("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link:" ,
-                    "https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP" ,
-                    " to find information about your topic.") 
+            response = ("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link to find information about your topic.:" ,
+                    "https://www.google.co.uk/search?q="+str(sentence).replace(" ","+")+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP" )
+                      
     return response
 
 #===========================================================================================================
