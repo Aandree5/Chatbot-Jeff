@@ -21,15 +21,15 @@ def determineUserInput(sentence):
             sentenceParse.insert(0, " ".join(sentenceParse[0:2]))
 
     if sentenceParse[0] in questionStarters:  # ------------- execute the "what is" code here ---------------
-        response = respondQuestion(sentence)
+        response = respondQuestion(sentence), 2
     elif sentenceParse[0] in greetings:
         response = getName(sentence), 1
     elif sentence in "abcd":
-        response = sentence, 5
+        response = sentence, 3
     elif (sentence.casefold() == "Yes".casefold()) or (sentence.casefold() == "No".casefold()):
-        response = sentence, 6  
+        response = sentence, 4  
     elif sentence in notAnswer:
-        response = sentence, 7      
+        response = sentence, 5      
     else:
         response = sentence, 0
     return response
@@ -93,11 +93,11 @@ randomJokes = ["Knock, knock!/ Who’s there?/ Opportunity!/ That is impossible.
 def respondQuestion(sentence):
     newSentence = sentence.split()
     if newSentence[0] in ["how","hows"]:
-        response = executeHow(sentence), 2
+        response = executeHow(sentence)
     elif newSentence[0] in ["what","whats"]:
-        response = executeWhat(sentence), 3
+        response = executeWhat(sentence)
     elif newSentence[0] == "are":
-        response = executeAre(sentence), 4
+        response = executeAre(sentence)
     elif newSentence[0] == "tell":
         response = executeTell(sentence) 
     elif newSentence[0]== "do":

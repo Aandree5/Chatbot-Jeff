@@ -66,15 +66,11 @@ def askSomething(answerType, sendMessages, noAnswers, defaultAnswer):
                     break
             break
         
-        if (answer[1] in [2, 4]): # If the user asked a how or are question
+        if (answer[1] == 2): # If the user asked a how or are question
             sendMessage(answer[0], False)
             sendMessage(noAnswers[0])
             noAnswers.pop(0)
-        elif (answer[1] == 3): # If the user  asked a what question
-            sendMessage("The answer to that is {}.".format(answer[0]), False)
-            sendMessage(noAnswers[0])
-            noAnswers.pop(0)
-        elif (answer[1] == 7): # If the user doesn't want to answer
+        elif (answer[1] == 5): # If the user doesn't want to answer
             sendMessage("You should, it would be more fun!")
             noAnswers.pop(len(noAnswers) - 1)
         else:
@@ -114,7 +110,7 @@ def oneQuestion():
 
     # If question set of multiple type
     if (questionSet["Type"] == "multiple"):
-        receivedMessage = askSomething(5, [questionSet["Question"],
+        receivedMessage = askSomething(3, [questionSet["Question"],
                                            "A: {}".format(questionSet["A"]),
                                            "B: {}".format(questionSet["B"]),
                                            "C: {}".format(questionSet["C"]),
@@ -123,7 +119,7 @@ def oneQuestion():
                         "Hmmm, I see you are afraid of making a mistake."], "X")
     # If question set of boolean type
     else:
-        receivedMessage = askSomething(5, [questionSet["Question"],
+        receivedMessage = askSomething(3, [questionSet["Question"],
                                            "A: {}".format(questionSet["A"]),
                                            "B: {}".format(questionSet["B"])],
                         ["You can choose one of the options.",
@@ -172,7 +168,7 @@ def quizChallange(nrQuestions):
     for questionSet in qChaSet:
         # If question set of multiple type
         if (questionSet["Type"] == "multiple"):
-            receivedMessage = askSomething(5, [questionSet["Question"],
+            receivedMessage = askSomething(3, [questionSet["Question"],
                                                "A: {}".format(questionSet["A"]),
                                                "B: {}".format(questionSet["B"]),
                                                "C: {}".format(questionSet["C"]),
@@ -181,7 +177,7 @@ def quizChallange(nrQuestions):
                             "Hmmm, I see you are afraid of making a mistake."], "X")
         # If question set of boolean type
         else:
-            receivedMessage = askSomething(5, [questionSet["Question"],
+            receivedMessage = askSomething(3, [questionSet["Question"],
                                                "A: {}".format(questionSet["A"]),
                                                "B: {}".format(questionSet["B"])],
                             ["You can choose one of the options.",
