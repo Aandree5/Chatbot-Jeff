@@ -80,6 +80,7 @@ def getOpentDB(category, difficulty, nrQuestions = 1):
         outputs the questions with that criteria '''
     import html
     import json
+    import random
 
     ### Check if the number of questions is valid, more than 0 and less than 50
     if (nrQuestions is None or nrQuestions == ""
@@ -134,37 +135,51 @@ def getOpentDB(category, difficulty, nrQuestions = 1):
 
     # Check website API response message
     if (opentDBJson["response_code"] == 0): # Success - Read the data into variables
-        if (nrQuestions == 1): # If just one question output string, if not, a list
-            data = opentDBJson["results"][0]
-            questions = html.unescape(data["question"])
-            rightAns = html.unescape(data["correct_answer"])
-            if (data["type"] == "boolean"):
-                worngAns = [html.unescape(data["incorrect_answers"][0])]
-            elif (data["type"] == "multiple"):
-                worngAns = [html.unescape(data["incorrect_answers"][0]),
-                            html.unescape(data["incorrect_answers"][1]),
-                            html.unescape(data["incorrect_answers"][2])]
+        data = opentDBJson["results"][0]
+        if (nrQuestions == 1):
+            questionSet = {}
+            questionSet["Type"] = html.unescape(data["type"]).title()
+            questionSet["Question"] = html.unescape(data["question"])
+            questionSet["corrAnswer"] = html.unescape(data["correct_answer"])
+            if (questionSet["Type"] == "Multiple"):
+                choices = ["A", "B", "C", "D"]
+                ansTemp = [html.unescape(data["correct_answer"]),
+                           html.unescape(data["incorrect_answers"][0]),
+                           html.unescape(data["incorrect_answers"][1]),
+                           html.unescape(data["incorrect_answers"][2])]
             else:
-                worngAns = html.unescape(data["incorrect_answers"])
-            qTypes = html.unescape(data["type"])
+                choices = ["A", "B"]
+                ansTemp = [html.unescape(data["correct_answer"]),
+                           html.unescape(data["incorrect_answers"][0])]
+                
+            random.shuffle(ansTemp)
+            for i, item in enumerate(ansTemp):
+                questionSet[choices[i]] = item
         else:
-            questions = []
-            rightAns = []
-            worngAns = []
-            qTypes = []
-            for i in opentDBJson["results"]:
-                questions.append(html.unescape(i["question"]))
-                rightAns.append(html.unescape(i["correct_answer"]))
-
-                if (i["type"] == "boolean"):
-                    worngAns.append([html.unescape(i["incorrect_answers"][0])])
-                elif (i["type"] == "multiple"):
-                    worngAns.append([html.unescape(i["incorrect_answers"][0]),
-                                     html.unescape(i["incorrect_answers"][1]),
-                                     html.unescape(i["incorrect_answers"][2])])
+            questionSet = []
+            for s in opentDBJson["results"]:
+                setTemp = {}
+                setTemp["Type"] = html.unescape(s["type"]).title()
+                setTemp["Question"] = html.unescape(s["question"])
+                setTemp["corrAnswer"] = html.unescape(s["correct_answer"])
+                setTemp["corrAnswer"] = html.unescape(s["correct_answer"])
+                if (setTemp["Type"] == "Multiple"):
+                    choices = ["A", "B", "C", "D"]
+                    ansTemp = [html.unescape(s["correct_answer"]),
+                               html.unescape(s["incorrect_answers"][0]),
+                               html.unescape(s["incorrect_answers"][1]),
+                               html.unescape(s["incorrect_answers"][2])]
                 else:
-                    worngAns.append(html.unescape(i["incorrect_answers"]))
-                qTypes.append(html.unescape(i["type"]))            
+                    choices = ["A", "B"]
+                    ansTemp = [html.unescape(s["correct_answer"]),
+                               html.unescape(s["incorrect_answers"][0])]
+                    
+                random.shuffle(ansTemp)   
+                for i, item in enumerate(ansTemp):
+                    setTemp[choices[i]] = item
+                    
+                questionSet.append(setTemp)
+          
     elif (opentDBJson["response_code"] == 1): #No Results
         return("Error", 5)
     elif (opentDBJson["response_code"] == 2): #Invalid Parameter
@@ -172,75 +187,100 @@ def getOpentDB(category, difficulty, nrQuestions = 1):
     elif (opentDBJson["response_code"] >= 3): #Token Not Found (3) and Token Empty (4)
         return("Error", 7)
 
-    return(questions, rightAns, worngAns, qTypes)
+    return(questionSet)
+
+def getBirthday():
+    ''' Get a random birthday from a JSON file on github and output a dictionairy with name as string,
+        the date as string and a questions and righ answer as strings '''
+    import json
+    import random
+
+    # Get JSON data from GitHub file 
+    birthdaysJson = readJSON("https://github.coventry.ac.uk/raw/hortonr6/chatbot-jeff/master/data/Birthdays.json?token=AAAIWA9gX7wN-fXNV6l2E7WBYQwV7a1Fks5aFgGzwA%3D%3D")
+    if ("Error" in birthdaysJson):
+        return(birthdaysJson)
+
+    chooseBirthday = random.choice(birthdaysJson)
+    birthdaySet = {"Type": "Birthday", "Name": chooseBirthday["Name"], "Date": chooseBirthday["Date"],
+                   "Question": "In what year was " + chooseBirthday["Name"] + " born?", "corrAnswer": chooseBirthday["Date"].split("-")[0]}
+        
+    return(birthdaySet)
+
+def getHistory():
+    ''' Get a random history event from a JSON file on github and output a dictionairy with
+        the event as string, the date as string and a questions and righ answer as strings '''
+    import json
+    import random
+
+    # Get JSON data from GitHub file 
+    historyJson = readJSON("https://github.coventry.ac.uk/raw/hortonr6/chatbot-jeff/master/data/History.json?token=AAAIWGsqhT6le5g3fQBEHXbKDXuo5lOQks5aFgd3wA%3D%3D")
+    if ("Error" in historyJson):
+        return(historyJson)
+
+    chooseHistory = random.choice(historyJson)
+    historySet = {"Type": "History", "Event": chooseHistory["Event"], "Date": chooseHistory["Date"],
+                   "Question": chooseHistory["Event"] + " in what year?", "corrAnswer": chooseHistory["Date"].split("-")[0]}
+        
+    return(historySet)
+
+def getQuote():
+    ''' Get a random quote from a JSON file on github and output a dictionairy with
+        the quotetype as string, the name and quote as string and a questions and righ answer as strings '''
+    import json
+    import random
+
+    # Get JSON data from GitHub file 
+    quoteJson = readJSON("https://github.coventry.ac.uk/raw/hortonr6/chatbot-jeff/master/data/Quotes.json?token=AAAIWNQvyBUwZre3_VZqwp8aZUHHL4umks5aFgdiwA%3D%3D")
+    if ("Error" in quoteJson):
+        return(quoteJson)
+
+    chooseQuote = random.choice(quoteJson)
+    quoteSet = {"Type": "Quote", "QuoteType": chooseQuote["Type"], "Name": chooseQuote["Name"], "Quote": chooseQuote["Quote"],
+                   "Question": "Who said '" + chooseQuote["Quote"] + "' ?", "corrAnswer": chooseQuote["Name"]}
+        
+    return(quoteSet)
 
 # Main function to get questions, choose database and check for the error messages
-def getQuestion(category, difficulty, nrQuestions = 1):
+def getQuestion(category, difficulty, nrQuestions = 1, qSource = "opentDB"):
     ''' Given a category, diffculty as strings and number
         of questions as integer return a dictionary with
         type, question, possible answers and correct answer '''
-    import random
 
-    allData = getOpentDB(category, difficulty, nrQuestions)
-    if ("Error" in allData):
-        if (allData[1] == 0):
+    if (qSource == "opentDB"):
+        questionSet = getOpentDB(category, difficulty, nrQuestions)
+    elif (qSource == "Birthday"):
+        questionSet = getBirthday()
+    elif (qSource == "History"):
+        questionSet = getHistory()
+    elif (qSource == "Quote"):
+        questionSet = getQuote()
+
+        
+    if ("Error" in questionSet):
+        if (questionSet[1] == 0):
             return("Error", "There was an error opening the URL")
-        elif (allData[1] == 1):
+        elif (questionSet[1] == 1):
             return("Error", "Error reading JSON data")
-        elif (allData[1] == 2):
+        elif (questionSet[1] == 2):
             return("Error", "The number of questions requested not valid")
-        elif (allData[1] == 3):
+        elif (questionSet[1] == 3):
             return("Error", "Category not valid")
-        elif (allData[1] == 4):
+        elif (questionSet[1] == 4):
             return("Error", "Difficulty not valid")
-        elif (allData[1] == 5):
+        elif (questionSet[1] == 5):
             return("Error", "No results were found")
-        elif (allData[1] == 6):
+        elif (questionSet[1] == 6):
             return("Error", "Invalid parameter")
-        elif (allData[1] == 7):
+        elif (questionSet[1] == 7):
             import os
 
             print("Token not found or all available question were used")
             print("Reseting token...")
             os.remove("./data/token.jeff")
-            allData = getOpentDB(category, difficulty, nrQuestions)
-            if ("Error" in allData):
+            questionSet = getOpentDB(category, difficulty, nrQuestions)
+            if ("Error" in questionSet):
                 return("Error", "Token not found or all available question were used")
-
-    ### Creates a dictionary with all the questios info, randomizes
-    # the answers as a A, B, C, D multiple choice option, ouputs
-    # a list of dictionaries if more than one questions is requested, also
-    # appends the correct answer for later comparison
-    if (nrQuestions == 1):
-        questionSet = {}
-        questionSet["Type"] = allData[3]
-        questionSet["Question"] = allData[0]
-        choices = (["A", "B", "C", "D"] if (allData[3] == "multiple")
-                    else ["A", "B"])
-        ansTemp = allData[2] 
-        ansTemp.append(allData[1])
-        random.shuffle(ansTemp)
-        for i, item in enumerate(ansTemp):
-            questionSet[choices[i]] = item
-            if item == allData[1]:
-                questionSet["corrAnswer"] = choices[i]
-    else:
-        questionSet = []
-        for i in range(len(allData[2])):
-            setTemp = {}
-            setTemp["Type"] = allData[3][i]
-            setTemp["Question"] = allData[0][i]
-            choices = (["A", "B", "C", "D"] if (allData[3][i] == "multiple")
-                                                else ["A", "B"])
-            ansTemp = allData[2][i]
-            ansTemp.append(allData[1][i])
-            random.shuffle(ansTemp)   
-            for a, item in enumerate(ansTemp):
-                setTemp[choices[a]] = item
-                if item == allData[1][i]:
-                    setTemp["corrAnswer"] = choices[a]
-            questionSet.append(setTemp)
-                
+        
     return(questionSet)
 
 # Testing area, test all funcions with possible inputs
@@ -331,7 +371,7 @@ if (__name__ == "__main__"):
           else "NOT OK\n{}".format(test_onlyCategories))
     # Test 3 - If returns a set number of random categories
     test_nrCat = [-30, -24, -10, -1, 0, 1, 10, 24, 30]
-    print(" - Rendom Categories: ", end="")
+    print(" - Random Categories: ", end="")
 
     for i in test_nrCat:
         test_randomCat = getCategories(True, i)
@@ -345,58 +385,6 @@ if (__name__ == "__main__"):
     print()
     print("#" * 50)
     print("# Checking getOpentDB function, get data from OpentDB")
-    time_Start = time.perf_counter()
-    # Test 1 - If function gets random data
-    print(" - Random data: ", end="")
-    
-    test_Data = getOpentDB("", "")
-    test_Error = (False if (len(test_Data) == 4) else True)
-    
-    print("{}".format("OK" if not test_Error else "NOT OK\n{}".format(test_Data)))
-    # Test 2 - If function gets all possible categories
-    print(" - All Categories: ", end="")
-    
-    test_Error = False
-    test_catList = getCategories(True)
-    if ("Error" in test_catList):
-        test_Error = True
-        test_Cat = test_catList
-    else:
-        for i in test_catList:
-            test_Data = getOpentDB(i, "")
-            if (len(test_Data) != 4 and test_Data[1] != 3):
-                test_Error = True
-                break
-            
-    print("OK" if not test_Error else "NOT OK\n{}".format(test_Data))
-    # Test 3 - If function gets all difficulties
-    print(" - All Difficulties: ", end="")
-    
-    test_Error = False
-    for i in ["easy", "medium", "hard"]:
-        test_Data = getOpentDB("", i)
-        if (len(test_Data) != 4 and test_Data[1] != 4):
-            test_Error = True
-            break
-        
-    print("OK" if not test_Error else "NOT OK\n{}".format(test_Data))
-    # Test 4 - If function possible number of questions Input
-    print(" - Number Questions: ", end="")
-    
-    test_Error = False
-    test_nrQuest = [-50, -1, 0, 1, 50]
-    for i in test_nrQuest:
-        test_Data = getOpentDB("", "", i)
-        if (len(test_Data) != 4 and test_Data[1] != 2):
-            test_Error = True
-            break
-        
-    print("OK" if not test_Error else "NOT OK\n{}".format(test_Data))
-    print("# Ran 4 test in {}s".format(round(time.perf_counter() - time_Start, 3)))
-    ########## Test getQuestion function ##########
-    print()
-    print("#" * 50)
-    print("# Checking getQuestion function, format questions and check for errors")
     time_Start = time.perf_counter()
     # Test 1 - If function gets random data
     print(" - Random data: ", end="")
@@ -462,4 +450,15 @@ if (__name__ == "__main__"):
                                             "corrAnswer" in i) else True)
         
     print("OK" if not test_Error else "NOT OK\n{}".format(test_Data))
+    print("# Ran 4 test in {}s".format(round(time.perf_counter() - time_Start, 3)))
+    ########## Test getQuestion function ##########
+    print()
+    print("#" * 50)
+    print("# Checking getQuestion function, format questions and check for errors")
+    time_Start = time.perf_counter()
+
+    #                    #
+    #  CONTINUE TESTING  #
+    #                    #
+    
     print("# Ran 4 test in {}s".format(round(time.perf_counter() - time_Start, 3)))
