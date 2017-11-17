@@ -287,14 +287,13 @@ def getQuestion(category, difficulty, nrQuestions = 1, qSource = "OpentDB"):
 def getGoogleSearch(toSearch):
     ''' With a input search as string, return the first google search as a string'''
 
-    search = readJSON("https://www.googleapis.com/customsearch/v1?q={}&cx=001954664739637419008%3Aprvczty2gta&num=1&key=AIzaSyArPcOPqon_MSxFKkB41qCexrCVZ5AHfoU"
+    search = readJSON("https://www.googleapis.com/customsearch/v1?q={}&cx=001954664739637419008%3Aprvczty2gta&num=1&safe=medium&key=AIzaSyArPcOPqon_MSxFKkB41qCexrCVZ5AHfoU"
                       .format(toSearch.replace(" ", "+")))["items"][0]
 
-    snippet = search["snippet"].replace("\xa0","")
+    snippet = search["snippet"].replace("\xa0...",".").replace("\n","")
     url = search["link"]
 
     return(snippet, url)
-
 
 ########################################################
 #                                                      #
@@ -575,5 +574,45 @@ if (__name__ == "__main__"):
             
 
         print("OK" if not test_Error else "NOT OK\n{}".format(test_Data))
+    
+    print("# Ran 4 test in {}s".format(round(time.perf_counter() - time_Start, 3)))
+
+    ########## Test getGoogleSearch function ##########
+    print()
+    print("#" * 50)
+    print("# Checking getGoogleSearch function, gets the first search from google")
+    time_Start = time.perf_counter()
+
+    # Test 1 - Get a random search
+    print(" - Get Search: ", end="")
+        
+    test_Error = False
+    test_Data = getGoogleSearch("Hi")
+    
+    test_Error = (False if (type(test_Data) == tuple) else True)
+
+    print("OK" if not test_Error else "NOT OK\n{}".format(test_Data))
+
+    # Test 2 - Get known search result 1
+    print(" - What is pizza: ", end="")
+        
+    test_Error = False
+    test_Data = getGoogleSearch("What is pizza")
+    
+    test_Error = (False if (test_Data[0] == "Pizza is a yeasted flatbread typically topped with tomato sauce and cheese and baked in an oven. It is commonly topped with a selection of meats, vegetables." and
+                            test_Data[1] == "https://en.wikipedia.org/wiki/Pizza") else True)
+
+    print("OK" if not test_Error else "NOT OK\n{}".format(test_Data))
+
+    # Test 3 - Get known search result 1
+    print(" - How train works: ", end="")
+        
+    test_Error = False
+    test_Data = getGoogleSearch("How train works")
+    
+    test_Error = (False if (test_Data[0] == "Trains act as a major form of transportation worldwide. Learn how trains evolved from horse-drawn carts to the high-speed sleek railways of today." and
+                            test_Data[1] == "https://science.howstuffworks.com/transport/engines-equipment/train.htm") else True)
+
+    print("OK" if not test_Error else "NOT OK\n{}".format(test_Data))
     
     print("# Ran 4 test in {}s".format(round(time.perf_counter() - time_Start, 3)))
