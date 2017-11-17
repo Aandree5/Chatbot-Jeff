@@ -1,23 +1,46 @@
+# Google API Key
+AIzaSyArPcOPqon_MSxFKkB41qCexrCVZ5AHfoU 
+
+# Search Engine ID
+001954664739637419008:prvczty2gta
+
 # Functions
 
 ### getQuestion 
--Input (category, difficulty, nrQuestions = 1) 
+- Input (category, difficulty, nrQuestions = 1, qSource = "opentDB") 
 	To get a random category or difficulty ("" or "Any" or "Random")
+	Source can be: opentDB, Birthday, History or Quote
 
--Output (questionsSet) 
-	A dictionary if one question, a list of dictionaries if more than one
+- Output (questionsSet) 
+	A dictionary with the keys: Type, Question, A, B, C, D and corrAnswer all as string
+	If more than one question returns a list of dictionaries
 
 
 ### getCategories
--Input (onlyCategories = False, , nrCat = 0) 
+- Input (onlyCategories = False, , nrCat = 0) 
 	True returns categories without ID numbers 
 	nrCat returns a set number of random categories
 
--Output (categories) 
+- Output (categories)
+ 	A list with the choosen number of categories 
 
+### getBirthday
+- No Input 
 
+- Output
+	A dictionary of a radom birthday with the keys: Type, Name, Date, Question, corrAnswer all as string
 
+### getHistory
+- No Input 
 
+- Output
+	A dictionary of a radom birthday with the keys: Type, Event, Date, Question, corrAnswer all as string
+
+### getQuote
+- No Input 
+
+- Output
+	A dictionary of a radom birthday with the keys: Type, Name, Quote, Question, corrAnswer all as string
 
 #### Error Codes 
 0 - There was an error opening the URL 

@@ -190,7 +190,7 @@ def getOpentDB(category, difficulty, nrQuestions = 1):
     return(questionSet)
 
 def getBirthday():
-    ''' Get a random birthday from a JSON file on github and output a dictionairy with name as string,
+    ''' Get a random birthday and output a dictionairy with name as string,
         the date as string and a questions and righ answer as strings '''
     import json
     import random
@@ -207,8 +207,8 @@ def getBirthday():
     return(birthdaySet)
 
 def getHistory():
-    ''' Get a random history event from a JSON file on github and output a dictionairy with
-        the event as string, the date as string and a questions and righ answer as strings '''
+    ''' Get a random history event and output a dictionairy with the event as string,
+        the date as string and a questions and righ answer as strings '''
     import json
     import random
 
@@ -224,8 +224,8 @@ def getHistory():
     return(historySet)
 
 def getQuote():
-    ''' Get a random quote from a JSON file on github and output a dictionairy with
-        the quotetype as string, the name and quote as string and a questions and righ answer as strings '''
+    ''' Get a random quote and output a dictionairy with the quotetype as string,
+the name and quote as string and a questions and righ answer as strings '''
     import json
     import random
 
@@ -241,12 +241,12 @@ def getQuote():
     return(quoteSet)
 
 # Main function to get questions, choose database and check for the error messages
-def getQuestion(category, difficulty, nrQuestions = 1, qSource = "opentDB"):
+def getQuestion(category, difficulty, nrQuestions = 1, qSource = "OpentDB"):
     ''' Given a category, diffculty as strings and number
         of questions as integer return a dictionary with
         type, question, possible answers and correct answer '''
 
-    if (qSource == "opentDB"):
+    if (qSource == "OpentDB"):
         questionSet = getOpentDB(category, difficulty, nrQuestions)
     elif (qSource == "Birthday"):
         questionSet = getBirthday()
@@ -283,7 +283,25 @@ def getQuestion(category, difficulty, nrQuestions = 1, qSource = "opentDB"):
         
     return(questionSet)
 
-# Testing area, test all funcions with possible inputs
+
+def getGoogleSearch(toSearch):
+    ''' With a input search as string, return the first google search as a string'''
+
+    search = readJSON("https://www.googleapis.com/customsearch/v1?q={}&cx=001954664739637419008%3Aprvczty2gta&num=1&key=AIzaSyArPcOPqon_MSxFKkB41qCexrCVZ5AHfoU"
+                      .format(toSearch.replace(" ", "+")))["items"][0]
+
+    snippet = search["snippet"].replace("\xa0","")
+    url = search["link"]
+
+    return(snippet, url)
+
+
+########################################################
+#                                                      #
+#                     Testing area                     #
+#                                                      #
+########################################################
+
 if (__name__ == "__main__"):
     import json
     import os
@@ -310,6 +328,7 @@ if (__name__ == "__main__"):
 
     print("OK" if not test_Error else "NOT OK\n{}".format(test_Json))
     print("# Ran 1 test in {}s".format(round(time.perf_counter() - time_Start, 3)))
+
     ########## Test tokenGetSet function ##########
     print()    
     print("#" * 50)
@@ -451,14 +470,110 @@ if (__name__ == "__main__"):
         
     print("OK" if not test_Error else "NOT OK\n{}".format(test_Data))
     print("# Ran 4 test in {}s".format(round(time.perf_counter() - time_Start, 3)))
+
+    ########## Test getBirthday function ##########
+    print()
+    print("#" * 50)
+    print("# Checking getBirthday function, get data from a JSON file on GitHub")
+    time_Start = time.perf_counter()
+    print(" - Get Birthday: ", end="")
+
+    test_Error = False
+    test_Data = getBirthday()
+    
+    test_Error = (False if ("Type" in test_Data and
+                            "Name" in test_Data and
+                            "Date" in test_Data and
+                            "Question" in test_Data and
+                            "corrAnswer" in test_Data) else True)
+
+    print("OK" if not test_Error else "NOT OK\n{}".format(test_Data))
+    print("# Ran 4 test in {}s".format(round(time.perf_counter() - time_Start, 3)))
+
+    ########## Test getHistory function ##########
+    print()
+    print("#" * 50)
+    print("# Checking getHistory function, get data from a JSON file on GitHub")
+    time_Start = time.perf_counter()
+    print(" - Get History: ", end="")
+
+    test_Error = False
+    test_Data = getHistory()
+    
+    test_Error = (False if ("Type" in test_Data and
+                            "Event" in test_Data and
+                            "Date" in test_Data and
+                            "Question" in test_Data and
+                            "corrAnswer" in test_Data) else True)
+
+    print("OK" if not test_Error else "NOT OK\n{}".format(test_Data))
+    print("# Ran 4 test in {}s".format(round(time.perf_counter() - time_Start, 3)))
+
+    ########## Test getQuote function ##########
+    print()
+    print("#" * 50)
+    print("# Checking getQuote function, get data from a JSON file on GitHub")
+    time_Start = time.perf_counter()
+    print(" - Get Quote: ", end="")
+
+    test_Error = False
+    test_Data = getQuote()
+    
+    test_Error = (False if ("Type" in test_Data and
+                            "Name" in test_Data and
+                            "Quote" in test_Data and
+                            "Question" in test_Data and
+                            "corrAnswer" in test_Data) else True)
+
+    print("OK" if not test_Error else "NOT OK\n{}".format(test_Data))
+    print("# Ran 4 test in {}s".format(round(time.perf_counter() - time_Start, 3)))
+
     ########## Test getQuestion function ##########
     print()
     print("#" * 50)
-    print("# Checking getQuestion function, format questions and check for errors")
+    print("# Checking getQuestion function, get questions from the choosen type and check for errors")
     time_Start = time.perf_counter()
 
-    #                    #
-    #  CONTINUE TESTING  #
-    #                    #
+    # Test 1 - OpentDB with one question
+    print(" - OpentDB 1 Question: ", end="")
+        
+    test_Error = False
+    test_Data = getQuestion("", "", 1, "OpentDB")
+    test_Error = (False if ("Type" in test_Data and
+                            "Question" in test_Data and
+                            "A" in test_Data and
+                            "B" in test_Data and
+                            "corrAnswer" in test_Data) else True)
+            
+
+    print("OK" if not test_Error else "NOT OK\n{}".format(test_Data))
+
+    # Test 2 - OpentDB with ten question
+    print(" - OpentDB 10 Question: ", end="")
+        
+    test_Error = False
+    test_Data = getQuestion("", "", 10, "OpentDB")
+    
+    for q in test_Data:
+        if ("Type" not in q or "Question" not in q or "A" not in q or "B" not in q or "corrAnswer" not in q):
+            test_Error = True
+            break
+
+    print("OK" if not test_Error else "NOT OK\n{}".format(test_Data))
+    
+    # Test 3, 4 and 5 - Birthday, History and Quote
+    for source in ["Birthday", "History", "Quote"]:
+        
+        print(" - {} Question: ".format(source), end="")
+        
+        test_Error = False
+        test_Data = getQuestion("", "", 1, source)
+
+        test_Error = (False if ("Type" in test_Data and
+                                "Question" in test_Data and
+                                "corrAnswer" in test_Data) else True)
+            
+
+        print("OK" if not test_Error else "NOT OK\n{}".format(test_Data))
     
     print("# Ran 4 test in {}s".format(round(time.perf_counter() - time_Start, 3)))
