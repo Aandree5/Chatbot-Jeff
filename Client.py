@@ -88,7 +88,7 @@ sendBtn = tk.Button(window, text="Send Message", command=sendMessage)
 sendBtn.pack(side="right", pady=15)
 
 receiveMessage(i) #Receives the initial message from the chatbot
-i = i + 1
+i = i + 1   #Used to prevent global variable username being reset after initial declaration
 
 tk.mainloop() #Runs the GUI
     
