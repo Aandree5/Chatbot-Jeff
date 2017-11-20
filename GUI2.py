@@ -1,7 +1,7 @@
 import tkinter as tk
 import determineUserInput as detUsrIn
 
-def chat(event):
+def chat(event): #Richard
     '''This function takes the input from the user and feeds it to the chatbot, allowing
        the chatbot to respond to the input appropriately. Essentially this function
        bridges the GUI and chatbot'''

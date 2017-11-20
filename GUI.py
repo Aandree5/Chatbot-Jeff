@@ -15,7 +15,7 @@ userInput.pack()
 lbl = tk.Label(window, text="\nChatHistory", bg="cornflower blue")
 lbl.pack()
 
-def cb(event):
+def cb(event): #Richard
     userText = userInput.get()
     userName = gf.getName(userText)
     userName = userName.title()

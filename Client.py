@@ -7,7 +7,7 @@ import webbrowser
 thisSocket = socket.socket()
 thisSocket.connect(("127.0.0.1",5001))
 
-def chatbotExit():
+def chatbotExit(): #Richard
     ''' Sends a message to the server to notify it that the chatbot is
         quitting and then closes the interface and allows other functions
         to end properly'''
@@ -16,11 +16,11 @@ def chatbotExit():
     window.quit()
     return None
 
-def openLink(url):
+def openLink(url): #Richard
     ''' Opens the link sent by the server'''
     webbrowser.open(url, new=2)
 
-def receiveMessage(i):
+def receiveMessage(i): #Richard
     ''' Receives multiple messages from server if needed, until server
         sends EndOfMessage and displays the recieved messages on the user
         interface'''
@@ -57,7 +57,7 @@ def receiveMessage(i):
         chatHistory.configure(state="disabled") #prevents user from editing the chat history
         message = thisSocket.recv(1024).decode()
 
-def sendMessage(event=None):
+def sendMessage(event=None): #Richard
     '''Waits for the user to enter a messasge in the text entry box in the
        interface and then takes this input from the user and feeds it to the
        chatbot/server, allowing it to respond to the input appropriately.'''
