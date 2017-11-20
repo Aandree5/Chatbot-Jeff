@@ -223,9 +223,7 @@ def executeAre(sentence):
     elif "a robot" in sentence or "a human" in sentence or "a alien" in sentence:
         response = "Actually I'm a chatbot."
     else:
-        response = ("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces the following link  to find information about your topic.:" ,
-                    "https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP" )
-        
+        response = getGoogleSearch(sentence)
 
     return response
 
