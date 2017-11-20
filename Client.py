@@ -80,7 +80,7 @@ def sendMessage(event=None): #Richard
 
 i = 0 #Counter used later to prevent the global variable username being reset
 
-
+#GUI Start
 window = tk.Tk() #Creates the main window for the interface
 window.title("Chatbot Jeff")
 window.geometry("600x600")
@@ -102,6 +102,7 @@ userInput.bind("<Return>", sendMessage)
 
 sendBtn = tk.Button(window, text="Send Message", command=sendMessage)
 sendBtn.pack(side="right", pady=15)
+#GUI End
 
 receiveMessage(i) #Receives the initial message from the chatbot
 i = i + 1   #Used to prevent global variable username being reset after initial declaration

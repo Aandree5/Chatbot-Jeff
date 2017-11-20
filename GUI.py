@@ -1,3 +1,5 @@
+#Obselete code - GUI is now integrated into Client.py
+
 import tkinter as tk
 import Get_Functions as gf
 
