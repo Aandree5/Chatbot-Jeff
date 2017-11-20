@@ -46,7 +46,6 @@ def askSomething(answerType, sendMessages, noAnswers, defaultAnswer):
         sendMessage(item, (True if i == len(sendMessages) - 1 else False))
         
     answer = receiveMessage()
-    print(answer)
     while (answer[1] != answerType or answer[0] == ""  and len(noAnswers) > 0):
         
         if(answer[1] == 0 and answerType == -1):
@@ -54,7 +53,9 @@ def askSomething(answerType, sendMessages, noAnswers, defaultAnswer):
                 if (answer[0].casefold() == cat.casefold()):
                     answer = (answer[0], -1)
                     break
-        elif (answer[1] == 2): # If the user asked a how or are question
+            break
+
+        if (answer[1] == 2): # If the user asked a how or are question
             if (type(answer[0]) == str):
                 sendMessage(answer[0], False)
             else:
@@ -80,16 +81,12 @@ def askSomething(answerType, sendMessages, noAnswers, defaultAnswer):
 
 def oneQuestion(qType):
     ''' Output a set of questions with a category choosen by the user '''
-    if (qType == "opentDB"):
+    if (qType == "OpentDB"):
         cat = getCategories(True, 3)
         if ("Error" in cat):
             sendMessage("{}: {}".format(cat[0], cat[1]), False)
-            if (cat[1] == 7):
-                sendMessage("Lets try again.")
-                return(True)
-            else:
-                return(False)
-        
+            return(cat)
+            
         receivedMessage = askSomething(-1, ["Pick a subject.", cat[0], cat[1], cat[2]],
                     ["You can choose a category from the list above, like 'Music'.",
                      "Hmmm, I see you are afraid of making a mistake."], "Any")
@@ -97,7 +94,7 @@ def oneQuestion(qType):
        receivedMessage = "" 
     
     # Get a question and answers, from the user choice
-    questionSet = getQuestion(receivedMessage, "", 1, qType)
+    questionSet = getQuestion(receivedMessage, "", 1, qType)[0]
     if ("Error" in questionSet):
         sendMessage(questionSet[1], False)
         sendMessage("Lets try again.", False)
@@ -237,7 +234,7 @@ message = askSomething(0, ["So, {}, I will teach you something today!"
     
 while True:
     if (type(message) == str and "question challange".casefold() in message.casefold()):
-        oneQuestion("opentDB")
+        oneQuestion("OpentDB")
     elif (type(message) == str and "quiz challange".casefold() in message.casefold()):
         nr = askSomething(0, ["How many questions would you like to answer?"],
                               ["Pick a number between 2 and 50."], "5")

@@ -90,15 +90,13 @@ def getOpentDB(category, difficulty, nrQuestions = 1):
     ### Get possible categories, check for validity and respective ID
     if (category is None):
         return("Error" , 3)        
-    if (category != "" and category.casefold() != "Any".casefold()
-    and category.casefold() != "Random".casefold()):
+    if (category.casefold() not in ["", "Any", "Random"]):
         cat = getCategories()
         if ("Error" in cat):
             return(cat)
         catID = None
         for i in cat:
-            if (category is not None and category != ""
-            and category.casefold() in i["name"].casefold()):
+            if (category.casefold() in i["name"].casefold()):
                 catID = "&category={}".format(i["id"])
                 break
     
@@ -110,8 +108,7 @@ def getOpentDB(category, difficulty, nrQuestions = 1):
     ### Check difficulty
     if (difficulty is None):
         return("Error" , 4)   
-    if (difficulty != "" and difficulty.casefold() != "Any".casefold()
-    and difficulty.casefold() != "Random".casefold()):
+    if (difficulty.casefold() not in ["", "Any", "Random"]):
         if (difficulty.casefold() in ["easy","medium","hard"]):
             diffID = "&difficulty={}".format(difficulty)
         else:
@@ -136,49 +133,29 @@ def getOpentDB(category, difficulty, nrQuestions = 1):
     # Check website API response message
     if (opentDBJson["response_code"] == 0): # Success - Read the data into variables
         data = opentDBJson["results"][0]
-        if (nrQuestions == 1):
-            questionSet = {}
-            questionSet["Type"] = html.unescape(data["type"]).title()
-            questionSet["Question"] = html.unescape(data["question"])
-            questionSet["corrAnswer"] = html.unescape(data["correct_answer"])
-            if (questionSet["Type"] == "Multiple"):
+        questionSet = []
+        for s in opentDBJson["results"]:
+            setTemp = {}
+            setTemp["Type"] = html.unescape(s["type"]).title()
+            setTemp["Question"] = html.unescape(s["question"])
+            setTemp["corrAnswer"] = html.unescape(s["correct_answer"])
+            setTemp["corrAnswer"] = html.unescape(s["correct_answer"])
+            if (setTemp["Type"] == "Multiple"):
                 choices = ["A", "B", "C", "D"]
-                ansTemp = [html.unescape(data["correct_answer"]),
-                           html.unescape(data["incorrect_answers"][0]),
-                           html.unescape(data["incorrect_answers"][1]),
-                           html.unescape(data["incorrect_answers"][2])]
+                ansTemp = [html.unescape(s["correct_answer"]),
+                            html.unescape(s["incorrect_answers"][0]),
+                            html.unescape(s["incorrect_answers"][1]),
+                            html.unescape(s["incorrect_answers"][2])]
             else:
                 choices = ["A", "B"]
-                ansTemp = [html.unescape(data["correct_answer"]),
-                           html.unescape(data["incorrect_answers"][0])]
-                
-            random.shuffle(ansTemp)
+                ansTemp = [html.unescape(s["correct_answer"]),
+                            html.unescape(s["incorrect_answers"][0])]
+                    
+            random.shuffle(ansTemp)   
             for i, item in enumerate(ansTemp):
-                questionSet[choices[i]] = item
-        else:
-            questionSet = []
-            for s in opentDBJson["results"]:
-                setTemp = {}
-                setTemp["Type"] = html.unescape(s["type"]).title()
-                setTemp["Question"] = html.unescape(s["question"])
-                setTemp["corrAnswer"] = html.unescape(s["correct_answer"])
-                setTemp["corrAnswer"] = html.unescape(s["correct_answer"])
-                if (setTemp["Type"] == "Multiple"):
-                    choices = ["A", "B", "C", "D"]
-                    ansTemp = [html.unescape(s["correct_answer"]),
-                               html.unescape(s["incorrect_answers"][0]),
-                               html.unescape(s["incorrect_answers"][1]),
-                               html.unescape(s["incorrect_answers"][2])]
-                else:
-                    choices = ["A", "B"]
-                    ansTemp = [html.unescape(s["correct_answer"]),
-                               html.unescape(s["incorrect_answers"][0])]
+                setTemp[choices[i]] = item
                     
-                random.shuffle(ansTemp)   
-                for i, item in enumerate(ansTemp):
-                    setTemp[choices[i]] = item
-                    
-                questionSet.append(setTemp)
+            questionSet.append(setTemp)
           
     elif (opentDBJson["response_code"] == 1): #No Results
         return("Error", 5)
@@ -201,8 +178,8 @@ def getBirthday():
         return(birthdaysJson)
 
     chooseBirthday = random.choice(birthdaysJson)
-    birthdaySet = {"Type": "Birthday", "Name": chooseBirthday["Name"], "Date": chooseBirthday["Date"],
-                   "Question": "In what year was " + chooseBirthday["Name"] + " born?", "corrAnswer": chooseBirthday["Date"].split("-")[0]}
+    birthdaySet = [{"Type": "Birthday", "Name": chooseBirthday["Name"], "Date": chooseBirthday["Date"],
+                   "Question": "In what year was " + chooseBirthday["Name"] + " born?", "corrAnswer": chooseBirthday["Date"].split("-")[0]}]
         
     return(birthdaySet)
 
@@ -218,8 +195,8 @@ def getHistory():
         return(historyJson)
 
     chooseHistory = random.choice(historyJson)
-    historySet = {"Type": "History", "Event": chooseHistory["Event"], "Date": chooseHistory["Date"],
-                   "Question": chooseHistory["Event"] + " in what year?", "corrAnswer": chooseHistory["Date"].split("-")[0]}
+    historySet = [{"Type": "History", "Event": chooseHistory["Event"], "Date": chooseHistory["Date"],
+                   "Question": chooseHistory["Event"] + " in what year?", "corrAnswer": chooseHistory["Date"].split("-")[0]}]
         
     return(historySet)
 
@@ -235,8 +212,8 @@ the name and quote as string and a questions and righ answer as strings '''
         return(quoteJson)
 
     chooseQuote = random.choice(quoteJson)
-    quoteSet = {"Type": "Quote", "QuoteType": chooseQuote["Type"], "Name": chooseQuote["Name"], "Quote": chooseQuote["Quote"],
-                   "Question": "Who said '" + chooseQuote["Quote"] + "' ?", "corrAnswer": chooseQuote["Name"]}
+    quoteSet = [{"Type": "Quote", "QuoteType": chooseQuote["Type"], "Name": chooseQuote["Name"], "Quote": chooseQuote["Quote"],
+                   "Question": "Who said '" + chooseQuote["Quote"] + "' ?", "corrAnswer": chooseQuote["Name"]}]
         
     return(quoteSet)
 
@@ -407,7 +384,7 @@ if (__name__ == "__main__"):
     # Test 1 - If function gets random data
     print(" - Random data: ", end="")
     
-    test_Data = getQuestion("", "")
+    test_Data = getQuestion("", "")[0]
     test_Error = (False if ("Type" in test_Data and "Question" in test_Data and
                             "A" in test_Data and "B" in test_Data and
                             "corrAnswer" in test_Data) else True)
@@ -423,7 +400,7 @@ if (__name__ == "__main__"):
         test_Cat = test_catList
     else:
         for i in test_catList:
-            test_Data = getQuestion(i, "")
+            test_Data = getQuestion(i, "")[0]
             if ("Type" not in test_Data or "Question" not in test_Data or
                 "A" not in test_Data or "B" not in test_Data or
                 "corrAnswer" not in test_Data):
@@ -436,7 +413,7 @@ if (__name__ == "__main__"):
     
     test_Error = False
     for i in ["easy", "medium", "hard"]:
-        test_Data = getQuestion("", i)
+        test_Data = getQuestion("", i)[0]
         if ("Type" not in test_Data or "Question" not in test_Data or
             "A" not in test_Data or "B" not in test_Data or
             "corrAnswer" not in test_Data):
@@ -453,10 +430,10 @@ if (__name__ == "__main__"):
         test_Data = getQuestion("", "", i)
         
         if (i == 1):
-            test_Error = (False if ("Type" in test_Data
-                                    and "Question" in test_Data and
-                                    "A" in test_Data and "B" in test_Data and
-                                    "corrAnswer" in test_Data) else True)
+            test_Error = (False if ("Type" in test_Data[0]
+                                    and "Question" in test_Data[0] and
+                                    "A" in test_Data and "B" in test_Data[0] and
+                                    "corrAnswer" in test_Data[0]) else True)
         else:
             if (len(test_Data) != i and test_Data[0] != "Error"):
                 test_Error = True
@@ -478,7 +455,7 @@ if (__name__ == "__main__"):
     print(" - Get Birthday: ", end="")
 
     test_Error = False
-    test_Data = getBirthday()
+    test_Data = getBirthday()[0]
     
     test_Error = (False if ("Type" in test_Data and
                             "Name" in test_Data and
@@ -497,7 +474,7 @@ if (__name__ == "__main__"):
     print(" - Get History: ", end="")
 
     test_Error = False
-    test_Data = getHistory()
+    test_Data = getHistory()[0]
     
     test_Error = (False if ("Type" in test_Data and
                             "Event" in test_Data and
@@ -516,7 +493,7 @@ if (__name__ == "__main__"):
     print(" - Get Quote: ", end="")
 
     test_Error = False
-    test_Data = getQuote()
+    test_Data = getQuote()[0]
     
     test_Error = (False if ("Type" in test_Data and
                             "Name" in test_Data and
@@ -537,7 +514,7 @@ if (__name__ == "__main__"):
     print(" - OpentDB 1 Question: ", end="")
         
     test_Error = False
-    test_Data = getQuestion("", "", 1, "OpentDB")
+    test_Data = getQuestion("", "", 1, "OpentDB")[0]
     test_Error = (False if ("Type" in test_Data and
                             "Question" in test_Data and
                             "A" in test_Data and
@@ -566,8 +543,7 @@ if (__name__ == "__main__"):
         print(" - {} Question: ".format(source), end="")
         
         test_Error = False
-        test_Data = getQuestion("", "", 1, source)
-
+        test_Data = getQuestion("", "", 1, source)[0]
         test_Error = (False if ("Type" in test_Data and
                                 "Question" in test_Data and
                                 "corrAnswer" in test_Data) else True)
