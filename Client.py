@@ -7,7 +7,17 @@ import webbrowser
 thisSocket = socket.socket()
 thisSocket.connect(("127.0.0.1",5001))
 
+def chatbotExit():
+    ''' Sends a message to the server to notify it that the chatbot is
+        quitting and then closes the interface and allows other functions
+        to end properly'''
+    exitMessage = "END"
+    thisSocket.send(exitMessage.encode())
+    window.quit()
+    return None
+
 def openLink(url):
+    ''' Opens the link sent by the server'''
     webbrowser.open(url, new=2)
 
 def receiveMessage(i):
@@ -29,6 +39,7 @@ def receiveMessage(i):
             thisSocket.send("Received".encode())
             message = thisSocket.recv(1024).decode()
             continue
+        
         if "https://" in message:
             searchLink = message
             hyperlinkObj = tkHLM.HyperlinkManager(chatHistory)
@@ -38,6 +49,7 @@ def receiveMessage(i):
             chatHistory.configure(state="disabled")
             thisSocket.send("Received".encode())
             message = thisSocket.recv(1024).decode()
+            
         chatHistory.configure(state="normal")
         thisSocket.send("Received".encode())
         chatHistory.insert(tk.END, "Jeff: " + message + "\n")
@@ -54,6 +66,10 @@ def sendMessage(event=None):
     if sMessage is None or sMessage == "": #Checks if the user has actually entered anything before sending
         return None #Ends the function before any message is sent to prevent sending of blank message
 
+    if sMessage.lower() == "exit" or sMessage.lower() == "quit" or sMessage.lower() == "goodbye":  #Allows the user to exit the chatbot
+        chatbotExit()
+        return None
+
     thisSocket.send(sMessage.encode())
     chatHistory.configure(state="normal")
     chatHistory.insert(tk.END, username + ": " + sMessage + "\n")
@@ -62,10 +78,10 @@ def sendMessage(event=None):
     userInput.delete(0, tk.END)
     receiveMessage(i)
 
-i = 0
+i = 0 #Counter used later to prevent the global variable username being reset
 
-#Creates the main window for the interface
-window = tk.Tk()
+
+window = tk.Tk() #Creates the main window for the interface
 window.title("Chatbot Jeff")
 window.geometry("600x600")
 window.configure(background="cornflower blue")
@@ -91,8 +107,6 @@ receiveMessage(i) #Receives the initial message from the chatbot
 i = i + 1   #Used to prevent global variable username being reset after initial declaration
 
 tk.mainloop() #Runs the GUI
-    
-sendMessage() #Allows the user to respond
 
 #Close Socket
 thisSocket.close()
