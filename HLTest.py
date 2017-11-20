@@ -1,29 +1,33 @@
+#Obselete Code - Used to test external code stored in tkHyperlinkManager.py
+
 import tkHyperlinkManager
 import webbrowser
-from tkinter import *
+import tkinter as tk
 
-root = Tk()
-root.title("hyperlink-1")
+root = tk.Tk()
+root.title("Hyperlink Manager Test")
 
-text = Text(root)
+text = tk.Text(root)
 text.pack()
 
 hyperlink = tkHyperlinkManager.HyperlinkManager(text)
 
-def click1():
+def click1(): #Richard
     print ("click 1")
     url = "https://www.google.co.uk"
     webbrowser.open(url, new=2)
 
-text.insert(INSERT, "this is a ")
-text.insert(INSERT, "link", hyperlink.add(click1))
-text.insert(INSERT, "\n\n")
+text.insert(tk.INSERT, "this is a ")
+text.insert(tk.INSERT, "link", hyperlink.add(click1))
+text.insert(tk.INSERT, "\n\n")
 
-def click2():
+def click2(): #Richard
     print ("click 2")
+    url = "https://www.google.co.uk"
+    webbrowser.open(url, new=2)
 
-text.insert(INSERT, "this is another ")
-text.insert(INSERT, "link", hyperlink.add(click2))
-text.insert(INSERT, "\n\n")
+text.insert(tk.INSERT, "this is another ")
+text.insert(tk.INSERT, "link", hyperlink.add(click2))
+text.insert(tk.INSERT, "\n\n")
 
-mainloop()
+tk.mainloop()
