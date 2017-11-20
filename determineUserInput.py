@@ -18,7 +18,7 @@ def determineUserInput(sentence):
 
     sentenceParse = sentence.split()
     if (sentenceParse[0] == "i" and len(sentenceParse) > 1):
-        if (sentenceParse[1] in ["m","am", "like", "enjoy", "want", "love"]):
+        if (sentenceParse[1] in ["m","am"]):
             sentenceParse.insert(0, " ".join(sentenceParse[0:2]))
         
     if sentenceParse[0] in questionStarters:  # ------------- execute the "what is" code here ---------------
