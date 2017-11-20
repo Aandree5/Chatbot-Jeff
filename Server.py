@@ -4,7 +4,7 @@ import random
 from DataAPI import getQuestion, getCategories
 from determineUserInput import determineUserInput
 
-def sendMessage(message, EOM = True):
+def sendMessage(message, EOM = True): # Andre
     ''' Given a message input, and a False value, send the message and the
         client keeps wayting for another message '''
     resp = ""
@@ -20,7 +20,7 @@ def sendMessage(message, EOM = True):
             print("SERVER: {}".format(message))
             resp = conn.recv(1024).decode() # Waits for client feedback 
 
-def receiveMessage():
+def receiveMessage(): # Andre
     ''' Receive a message from the client and check if received correctly,
         returns the message '''
     message = conn.recv(1024).decode()
@@ -37,7 +37,7 @@ def receiveMessage():
     
     return(answerUserInput)
 
-def askSomething(answerType, sendMessages, noAnswers, defaultAnswer):
+def askSomething(answerType, sendMessages, noAnswers, defaultAnswer): # Andre
     ''' With input of the type of answer code expected and a string question,
         a list of sentences if not expected answer, and the default fallback
         answer returns the answer to the question '''
@@ -48,10 +48,10 @@ def askSomething(answerType, sendMessages, noAnswers, defaultAnswer):
     answer = receiveMessage()
     while (answer[1] != answerType or answer[0] == ""  and len(noAnswers) > 0):
         
-        if(answer[1] == 0 and answerType == -1):
+        if(answerType == -1):
             for cat in sendMessages:
-                if (answer[0].casefold() == cat.casefold()):
-                    answer = (answer[0], -1)
+                if (cat.casefold() in answer[0].casefold()):
+                    answer = (cat, -1)
                     break
             break
 
@@ -79,7 +79,7 @@ def askSomething(answerType, sendMessages, noAnswers, defaultAnswer):
 
     return (answer[0])
 
-def oneQuestion(qType):
+def oneQuestion(qType): # Andre
     ''' Output a set of questions with a category choosen by the user '''
     if (qType == "OpentDB"):
         cat = getCategories(True, 3)
@@ -98,7 +98,7 @@ def oneQuestion(qType):
     if ("Error" in questionSet):
         sendMessage(questionSet[1], False)
         sendMessage("Lets try again.", False)
-        return (True)
+        return(questionSet)
 
     # If question set of Multiple type
     if (questionSet["Type"] == "Multiple"):
@@ -145,7 +145,7 @@ def oneQuestion(qType):
         sendMessage("-" * 50, False)
 
 
-def quizChallange(nrQuestions):
+def quizChallange(nrQuestions): # Andre
     if (nrQuestions < 1 or nrQuestions > 50):
         sendMessage("For a Quiz challenge ou have to choose between 2 and 50 quesitons.")
         return(True)
@@ -243,18 +243,26 @@ while True:
         
         sendMessage("You got {} out of {} quesions right!".format(score, nr), False)
 
-    if (type(message) == str and "birthday challange".casefold() in message.casefold()):
+    elif (type(message) == str and "birthday challange".casefold() in message.casefold()):
         oneQuestion("Birthday")
-    if (type(message) == str and "history challange".casefold() in message.casefold()):
+        
+    elif (type(message) == str and "history challange".casefold() in message.casefold()):
         oneQuestion("History")
-    if (type(message) == str and "quote challange".casefold() in message.casefold()):
+        
+    elif (type(message) == str and "quote challange".casefold() in message.casefold()):
         oneQuestion("Quote")
+        
+    elif (type(message) == str and "challange".casefold() in message.casefold()):
+        message = askSomething(0, ["You can ask for a question, quiz, history, birthday or quote challange."],
+                               ["You can ask me anything else, I will try to help you."], None)
+        continue
+    
     elif (message == "END"):
         break
 
     
     message = askSomething(0, ["If you want you can ask anything else!"],
-                       ["You can choose more Questions to challenge your self."], None)
+                       ["You can ask me anything else, I will try to help you."], None)
 
 
 sendMessage("See you next time! Bye!")

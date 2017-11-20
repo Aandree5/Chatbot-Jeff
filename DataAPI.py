@@ -1,5 +1,5 @@
 # Gets JSON file data from a url
-def readJSON(url):
+def readJSON(url): # Andre
     ''' Gets JSON file data from a url '''
     import urllib.request
     import json
@@ -22,7 +22,7 @@ def readJSON(url):
 
 # If desn't exist, ask for a new token and save it on the file, if it does, then
 # read it from the file
-def tokenGetSet():
+def tokenGetSet(): # Andre
     ''' Gets the token from the file, or requests a new one, outputs the token '''
     from pathlib import Path
 
@@ -44,7 +44,7 @@ def tokenGetSet():
 
 # Checks OpentDB categories and output them and the respective ID, if input true
 # only output the categories names
-def getCategories(onlyCategories = False, nrCat = 0):
+def getCategories(onlyCategories = False, nrCat = 0): # Andre
     ''' Gets opentDB possibible categories and ID, if true just show the categories '''
     import html
     import random
@@ -75,7 +75,7 @@ def getCategories(onlyCategories = False, nrCat = 0):
     return(categories)
 
 # Gets questions from OpentDB, with defined criteria
-def getOpentDB(category, difficulty, nrQuestions = 1):
+def getOpentDB(category, difficulty, nrQuestions = 1): # Andre
     ''' With a set number of questions, category and difficulty level
         outputs the questions with that criteria '''
     import html
@@ -166,7 +166,7 @@ def getOpentDB(category, difficulty, nrQuestions = 1):
 
     return(questionSet)
 
-def getBirthday():
+def getBirthday(): # Andre
     ''' Get a random birthday and output a dictionairy with name as string,
         the date as string and a questions and righ answer as strings '''
     import json
@@ -183,7 +183,7 @@ def getBirthday():
         
     return(birthdaySet)
 
-def getHistory():
+def getHistory(): # Andre
     ''' Get a random history event and output a dictionairy with the event as string,
         the date as string and a questions and righ answer as strings '''
     import json
@@ -200,7 +200,7 @@ def getHistory():
         
     return(historySet)
 
-def getQuote():
+def getQuote(): # Andre
     ''' Get a random quote and output a dictionairy with the quotetype as string,
 the name and quote as string and a questions and righ answer as strings '''
     import json
@@ -218,7 +218,7 @@ the name and quote as string and a questions and righ answer as strings '''
     return(quoteSet)
 
 # Main function to get questions, choose database and check for the error messages
-def getQuestion(category, difficulty, nrQuestions = 1, qSource = "OpentDB"):
+def getQuestion(category, difficulty, nrQuestions = 1, qSource = "OpentDB"): # Andre
     ''' Given a category, diffculty as strings and number
         of questions as integer return a dictionary with
         type, question, possible answers and correct answer '''
@@ -261,7 +261,7 @@ def getQuestion(category, difficulty, nrQuestions = 1, qSource = "OpentDB"):
     return(questionSet)
 
 
-def getGoogleSearch(toSearch):
+def getGoogleSearch(toSearch): # Andre
     ''' With a input search as string, return the first google search as a string'''
 
     search = readJSON("https://www.googleapis.com/customsearch/v1?q={}&cx=001954664739637419008%3Aprvczty2gta&num=1&safe=medium&key=AIzaSyArPcOPqon_MSxFKkB41qCexrCVZ5AHfoU"
