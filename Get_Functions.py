@@ -14,7 +14,8 @@ randomStuff = ["Cherophobia is the fear of fun","A flock of crows is called a mu
 
 def getName(sentence): #Jasper, Richard
     """get the name of the user from the inputed sentence"""
-    userWords = sentence.split()
+    userWords = sentence.lower()
+    userWords = userWords.split()
     
     # ways of introduction:
     # "Hello, my name is ___"
