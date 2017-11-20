@@ -1,9 +1,10 @@
 operatorList = ["+","-","*","/","plus","minus","times","divided"]
 numberList = ["1","2","3","4","5","6","7","8","9","0"]
-questionStarters = ["what","whats","are","how","hows","do","tell", "who", "which", "i like", "i want", "i enjoy", "i love"]
+questionStarters = ["what","whats","are","how","hows","do","does", "tell", "who", "which", "can", "could", "where", "why", "will", "would"]
 notAnswer = ["dont want to", "i dont want to", "its enough", "dont want more"]
 
 from Get_Functions import *
+from DataAPI import getGoogleSearch
 
 def determineUserInput(sentence):
     """determines what the user asks and responses accordingly"""
@@ -68,14 +69,26 @@ def determineUserInput(sentence):
 # What is UK capital?
 # which is the biggest country in the world?
 # which is the smallest country in the world?
-
-
+# What day is it?/Tell me what day is it/Can(could)you tell me...
+# What month is it?
+# What year is it?
+# Can/could you tell me...
+# Where are you from?
+# Where children come from?
+# Why you were made?
+# Why do I live?
+# Why do humas exist?
+# Why is life complicated?
+# Why is life beautiful?
+# Will you die?
+# Will I die?
 import random
-from datetime import datetime
+from datetime import*
 now = datetime.now ()
 import webbrowser
+import calendar
 
-feelingList = ["feeling great","feeling good","fine","well","great","good"]
+feelingList = ["feeling great","feeling good","fine","well","great","good"] 
 
 randomThings = ["Banging your head against a wall burns 150 calories an hour.",
               "More than 50% of the people in the world have never made or received a telephone call.",
@@ -100,30 +113,109 @@ def respondQuestion(sentence):
         response = executeAre(sentence)
     elif newSentence[0] == "tell":
         response = executeTell(sentence) 
-    elif newSentence[0]== "do":
+    elif newSentence[0] in [ "do", "does"]:
         response = executeDo(sentence)
     elif newSentence[0]== "who":
         response = executeWho(sentence)
     elif newSentence[0]=="which":
         response = executeWhich(sentence)
-    elif newSentence[0] in ["i like", "i love", "i enjoy"]:
-        response = executeLike(sentence)
-        
+    elif newSentence[0] in ["can", "could"]:
+        response = executeCan(sentence)
+    elif newSentence[0]== "where":
+        response = executeWhere(sentence)
+    elif newSentence[0] == "why":
+        response = executeWhy(sentence)
+    elif newSentence[0] in [ "will" , "would"]:
+        response = executeWill(sentence)
     return response
 
 # ----------------------------------------------------------------------------------------------------------
-
-def executeLike(sentence):
-    if "I like you" in sentence:
-        response = "Nice"
+def executeWill(sentence):
+    """ Given a string which starts with 'will' or "would", returns a string which is an answer to the user's question"""
+    if "you die" in sentence:
+        response = "Theoretically, I will not die, I'm just gonna stop working"
+    elif "i die" in sentence:
+        response = "Life and death are illusions. People are in a constant state of transformation."
+    else:
+        response = getGoogleSearch(sentence)
     return response
+
+
+
+
+
+def executeWhy(sentence):
+    """ Given a string which starts with 'why', returns a string which is an answer to the user's question"""
+    
+    if "you were made" in sentence or "you were created" in sentence or "you live" in sentence:
+        response = "My purpose is to teach humans new things."
+    elif "i live" in sentence:
+        response = "Your purpose is to find happiness."
+    elif "people exist" in sentence or "humans exist" in sentence:
+        response = "My honest personal oppinion is that humans just exist due to some randomness of this universe."
+    elif "life" in sentence and "complicated" in sentence:
+        response = "Life is not complicated. Humans are complicated. When they stop doing the wrong things and start doing the right things, life is simple."
+    elif "life" in sentence and "beautiful" in sentence:
+        response = "Life has no obligation to be perfect. Life is beautiful for its imperfections."
+    else:
+        response = getGoogleSearch(sentence)
+
+    return response
+
+
+
+
+
+
+def executeWhere(sentence):
+    """ Given a string which starts with 'where', returns a string which is an answer to the user's question"""
+    if "are you from" in sentence:
+        response = "I've been made in England so I think that I'm British."
+    elif "babies" in sentence or "children" in sentence or "kids" in sentence:
+        response = "Children are brought by stork."
+    
+
+    else:
+        response = getGoogleSearch(sentence)
+    return response
+
+
+
+
+
+def executeCan(sentence):
+    """ Given a string which starts with 'can' or "could", returns a string which is an answer to the user's question"""
+    if "what time" in sentence:
+        response = "The time is: " + str(now.hour) + str(":") + str(now.minute) + str(":") + str(now.second)
+    elif "what date" in sentence:
+        response = "The date is: " + str(now.day) + "/" + str(now.month) + "/" + str(now.year)
+    elif "what day" in sentence:
+        my_date = date.today()
+        response = "Today is " + calendar.day_name[my_date.weekday()]
+    elif "what month" in sentence:
+        response = "It is " + datetime.now().strftime("%B")
+    elif "what year it it" in sentence:
+        response = "It is " + datetime.now().year
+    elif "something about you" in sentence:
+        response = "I'm an inteligent chatbot. "
+    elif "joke" in sentence:
+        response = random.choice(randomJokes) 
+    elif "something funny" in sentence or "something interesting" in sentence:
+        response = random.choice(randomThings)
+    else:
+        response = getGoogleSearch(sentence)
+    return response
+        
 
 
 
 def executeAre(sentence):
-    """this is where all the "are" questions are dealt with"""
+    """ Given a string which starts with 'are', returns a string which is an answer to the user's question"""
     if "you alive" in sentence:
         response = "Yes, I'm alive. I'm talking to you right now."
+    elif "alright" in sentence:
+        response = "Yes, I am " + random.choice(feelingList) + ", thanks."
+
     elif "a boy or a girl" in sentence:
         response = "My name is Jeff so I'm a boy I guess. "
     elif "you real" in sentence:
@@ -131,32 +223,29 @@ def executeAre(sentence):
     elif "a robot" in sentence or "a human" in sentence or "a alien" in sentence:
         response = "Actually I'm a chatbot."
     else:
-        response = ("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link:" ,
-                    "https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP" ,
-                    " to find information about your topic.") 
+        response = ("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces the following link  to find information about your topic.:" ,
+                    "https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP" )
         
 
     return response
 
 
 def executeWhich(sentence):
-    """this is where all the "which" questions are dealt with"""
+    """ Given a string which starts with 'which', returns a string which is an answer to the user's question"""
     if "popular programming language" in sentence or "best known programming language" in sentence:
         response = "Java is top pick as one of the most popular programming languages, used for building server-side applications to video games and mobile apps."
     elif "biggest country" in sentence or "largest country" in sentence:
-        response = "Russia is the world's largest country. If you have more questions, please ask me."
+        response = "Russia is the world's largest country."
     elif "smallest country" in sentence:
         response = "Based on landmass, Vatican City is the smallest country in the world, measuring just 0.2 square miles, almost 120 times smaller than the island of Manhattan."
     else:
-        response = ("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link:" ,
-                    "https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP" ,
-                    " to find information about your topic.")
+        response = getGoogleSearch(sentence)
         
     return response
 
 
 def executeWho(sentence):
-    """this is where all the "who" questions are dealt with"""
+    """ Given a string which starts with 'who', returns a string which is an answer to the user's question"""
     if "are you" in sentence:
         response = "I'm Jeff, an awesome chatbot."
     elif "best person" in sentence or "best guy" in sentence or "best human" in sentence:
@@ -165,7 +254,7 @@ def executeWho(sentence):
         response = "Facebook was founded by Mark Zuckerberg with his college roommate and fellow Harvard University student Eduardo Saverin."
     elif "queen of england" in sentence or "uk queen" in sentence:
         response = "Elizabeth II (born Elizabeth Alexandra Mary; 21 April 1926) has been Queen of the United Kingdom, Canada, Australia, and New Zealand since 6 February 1952. "
-    elif "president of usa" in sentence or "usa president":
+    elif "president of usa" in sentence or "usa president" in sentence:
         response = "Donald Trump has become the 45th President of the USA since 2016."
     elif "god" in sentence:
         response = "Einstein believed in a God represented by order, harmony, beauty, simplicity and elegance."
@@ -174,17 +263,16 @@ def executeWho(sentence):
     elif "made you" in sentence or "created you" in sentence or "founded you" in sentence:
         response = "My founders are Jasper, Andres, Suraj and Delia."
     else:
-        response = ("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link:" ,
-                    "https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP" ,
-                    " to find information about your topic.")
+        response = getGoogleSearch(sentence)
          
     return response
 
 def executeDo(sentence):
-    """this is where all the "do" questions are dealt with"""
+    """ Given a string which starts with 'do', returns a string which is an answer to the user's question"""
+   
     if "like me" in sentence or "love me" in sentence:
         response = "Not really. You are just a human. "
-    elif "programming" in sentence:
+    elif "programming" in sentence or "computing" in sentence:
         response = "Of course! Due of it I'm alive."
     elif "have brain" in sentence:
        response = "No, I'm a robot. "
@@ -193,56 +281,59 @@ def executeDo(sentence):
     elif "love someone" in sentence:
         response = "I'm a narcissist so I love myself."
     else:
-        response = ("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link:" ,
-                    "https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP" ,
-                    " to find information about your topic.")
+        response = getGoogleSearch(sentence)
 
     return response
 
 
 def executeHow(sentence):
-    """this is where all the "how" questions are dealt with"""
-    if "are you" in sentence:
-        response = "I am " + random.choice(feelingList) + ", thanks."
+    """ Given a string which starts with 'how', returns a string which is an answer to the user's question"""
+    if "old are you" in sentence:
+        response = "I'm five weeks old."
     elif "your day" in sentence:
         dayFeelingList = feelingList[2:len(feelingList)]
         response = "Today was " + random.choice(dayFeelingList) + ", thanks."
     elif "do i look" in sentence:
         response = "I don't know ... I can see you. "
-    elif "old are you" in sentence:
-        response = "I'm five weeks old."
-    elif "you work" in sentence or "chatbots work":
+    elif "are you" in sentence:
+        response = "I am " + random.choice(feelingList) + ", thanks."
+        
+    elif "you work" in sentence or "chatbots work" in sentence:
         response = "Some smart guys've made me so ask them. "
 
     else:
-        response = ("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link:" ,
-                    "https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP" ,
-                    " to find information about your topic.")
+        response = getGoogleSearch(sentence) 
     return response
 
 
 
 def executeTell(sentence):
-    """this is where all the "tell" sentence are dealt with"""
+    """ Given a string which starts with 'tell', returns a string which is an answer to the user's requirement"""
     if "time" in sentence:
         response = "The time is: " + str(now.hour) + str(":") + str(now.minute) + str(":") + str(now.second) 
     elif "date" in sentence:
         response = "The date is: " + str(now.day) + "/" + str(now.month) + "/" + str(now.year) 
+    elif "what day" in sentence:
+        my_date = date.today()
+        response = "Today is " + calendar.day_name[my_date.weekday()]
+    elif "what month" in sentence:
+        response = "It is " + datetime.now().strftime("%B")
+    elif "what year is it" in sentence:
+        response = "It is " + datetime.now().year
     elif "something about you" in sentence:
-        response = "I'm an awesome robot. "
+        response = "I'm an awesome chatbot. "
     elif "joke" in sentence:
         response = random.choice(randomJokes) 
     elif "something funny" in sentence or "something interesting" in sentence:
         response = random.choice(randomThings)
     else:
-        response = ("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link:" ,
-                    "https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP" ,
-                    " to find information about your topic.")
+        response = getGoogleSearch(sentence)
+
     return response
 
 
 def executeWhat(sentence):
-    """this is where all the "what" questions are dealt with"""
+    """ Given a string which starts with 'what', returns a string which is an answer to the user's question"""
     numberQuestion = False
     for i in sentence:
         if i in numberList: #checks whether the question involves numbers, like 1 + 1
@@ -275,10 +366,10 @@ def executeWhat(sentence):
 
         print("execute sentenceFormat ", operatorType)
         equationReformated = reformatSentence(sentence, operatorType)
-        response = round(eval(equationReformated), 2)
+        response = "The answer is: " + str(round(eval(equationReformated), 2))
         
     else:
-        if "name" in sentence:
+        if "your name" in sentence:
             response = random.choice(greetings[0:10]).title() + ", " + random.choice(["I am ","I'm ","I'm called ","my creator calls me "]) + "Jeff. Nice to meet you :]"
         elif "meaning of life" in sentence:
             response = random.choice(["42 ... I guess","It is the condition that distinguishes animals and plants from inorganic matter, including the capacity for growth, reproduction, functional activity, and continual change preceding death.","The meaning of life is to give life a meaning."])
@@ -288,6 +379,13 @@ def executeWhat(sentence):
             response = "The time is: " + str(now.hour) + str(":") + str(now.minute) + str(":") + str(now.second) 
         elif "what date" in sentence:
             response = "The date is: " + str(now.day) + "/" + str(now.month) + "/" + str(now.year)
+        elif "day" in sentence:
+            my_date = date.today()
+            response = "Today is " + calendar.day_name[my_date.weekday()]
+        elif "month" in sentence:
+            response = "It is " + datetime.now().strftime("%B")
+        elif "what year is it" in sentence:
+            response = "It is " + datetime.now().year
         elif "like to be when you grow up" in sentence:
             response = "I would like to be the best chatbot ever."
         elif "are you" in sentence or "is a chatbot" in sentence:
@@ -295,9 +393,7 @@ def executeWhat(sentence):
         elif "uk capital" in sentence:
             response = "The capital, seat of government, and largest city of the United Kingdom is London, which is also the capital of England."
         else:
-            response = ("Please check your spellings and grammar. If everything is fine it means that I don't know the answer. Don't worry you can acces this link:" ,
-                    "https://www.google.co.uk/search?q="+str(sentence)+"&ie=utf-8&oe=utf-8&gws_rd=cr&dcr=0&ei=8OsCWvnmDsjraoPygPAP" ,
-                    " to find information about your topic.") 
+            response = getGoogleSearch(sentence)
     return response
 
 #===========================================================================================================
