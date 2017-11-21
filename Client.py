@@ -13,6 +13,7 @@ def chatbotExit(): #Richard
         to end properly'''
     exitMessage = "END"
     thisSocket.send(exitMessage.encode())
+    userInput.delete(0, tk.END)
     window.quit()
     return None
 
