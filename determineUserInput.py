@@ -196,7 +196,7 @@ def executeCan(sentence):
         response = "Today is " + calendar.day_name[my_date.weekday()]
     elif "what month" in sentence:
         response = "It is " + datetime.now().strftime("%B")
-    elif "what year it it" in sentence:
+    elif "what year is it" in sentence:
         response = "It is " + datetime.now().year
     elif "something about you" in sentence:
         response = "I'm an inteligent chatbot. "
