@@ -25,10 +25,13 @@ def receiveMessage(): # Andre
         if not message: # Couldn't receive message, exit
             sendMessage("Sorry, I not able to receive that, plese try again another day.")
             exit()
+    print(message)
+    if (message != "END"):
+        print ("CLIENT: {}".format(message))
             
-    print ("CLIENT: {}".format(message))
-        
-    answerUserInput = determineUserInput(message)
+        answerUserInput = determineUserInput(message)
+    else:
+        answerUserInput = message
     
     return(answerUserInput)
 
@@ -41,6 +44,9 @@ def askSomething(answerType, sendMessages, noAnswers, defaultAnswer): # Andre
         sendMessage(item, (True if i == len(sendMessages) - 1 else False))
         
     answer = receiveMessage()
+    if (type(answer) != tuple):
+        return(answer)
+    
     while (answer[1] != answerType or answer[0] == ""  and len(noAnswers) > 0):
         
         if(answerType == -1):
@@ -219,6 +225,11 @@ print(conn)
 clientName = askSomething(1, ["Hi! I am Jeff.", "I can give really nice challanges!", "What's your name?"],
                               ["I would prefer to know your name.",
                               "I see you don't want to tell me."], "Mr. Nobody")
+if (clientName == "END"):
+    sendMessage("See you next time! Bye!")
+    conn.close()
+    thisSocket.close
+    exit()
 
 sendMessage("YOURNAMEWILLBE " + clientName, False)
 
