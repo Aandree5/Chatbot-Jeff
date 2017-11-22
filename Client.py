@@ -33,7 +33,7 @@ def receiveMessage(i): #Richard
             message = thisSocket.recv(1024).decode()
             continue
         
-        if "https://" in message:
+        if "https://" in message or "http://" in message:
             searchLink = message
             hyperlinkObj = tkHLM.HyperlinkManager(chatHistory)
 
@@ -87,7 +87,7 @@ i = 0 #Counter used later to prevent the global variable username being reset
 #GUI Start
 window = tk.Tk() #Creates the main window for the interface
 window.title("Chatbot Jeff")
-window.geometry("600x600")
+window.geometry("600x550")
 window.configure(background="cornflower blue")
 
 lblTitle = tk.Label(window, text="CHATBOT JEFF", bg="cornflower blue", font=("Helvetica", 24)) #Main title for the chatbot GUI
@@ -103,7 +103,7 @@ chatHistory.configure(state="disabled") #Prevents the user from typing directly 
 userInputFrame = tk.Frame(window) #Creates a frame to hold the widgets related to user input
 userInputFrame.configure(background="cornflower blue")
 
-userInput = tk.Entry(userInputFrame, width=80) #Adds a text entry widget to the frame
+userInput = tk.Entry(userInputFrame, width=75) #Adds a text entry widget to the frame
 userInput.grid(row=0, column=0, ipady=3, padx=2)
 userInput.bind("<Return>", sendMessage) #Binds the return key to the widget so that it calls the sendMessage function when the key is pressed
 
