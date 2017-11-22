@@ -14,7 +14,7 @@ class HyperlinkManager:
 
         self.text.tag_config("hyper", foreground="blue", underline=1)
 
-        #self.text.tag_bind("hyper", "<Enter>", self._enter) #Removed to prevent conflict with pressing Enter to send a message
+        self.text.tag_bind("hyper", "<Enter>", self._enter) #Removed to prevent conflict with pressing Enter to send a message
         self.text.tag_bind("hyper", "<Leave>", self._leave)
         self.text.tag_bind("hyper", "<Button-1>", self._click)
 

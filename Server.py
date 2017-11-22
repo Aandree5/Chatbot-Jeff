@@ -8,24 +8,24 @@ def sendMessage(message, EOM = True): # Andre
     ''' Given a message input, and a False value, send the message and the
         client keeps wayting for another message '''
     resp = ""
-    while (resp != "Received"): # If client doesn't receive message, send again
-        conn.send(str(message).encode())
-        print("SERVER: {}".format(message))
-        resp = conn.recv(1024).decode() # Waits for client feedback 
-    if (EOM):
-        conn.send("EndOfMessage".encode())
+    while (resp != "Received"):             # Check if the client received the message.
+        conn.send(str(message).encode())    # Send message to client.
+        print("SERVER: {}".format(message)) # Print the message sent.
+        resp = conn.recv(1024).decode()     # Waits for client feedback 
+    if (EOM):                               # If this is the last message to be sent
+        conn.send("EndOfMessage".encode())  # Send a key word to the client to stop listening
 
 def receiveMessage(): # Andre
     ''' Receive a message from the client and check if received correctly,
         returns the message '''
     message = conn.recv(1024).decode()
-    if not message: # If message is None, try to receive again
+    if not message: # If message is empty, try to receive again
         sendMessage("Sorry, I couldn't get that, can you repeat?")
         message = conn.recv(1024).decode()
-        if not message: # Couldn't receive message, exit
+        if not message: # If message is empty again, send message and exit
             sendMessage("Sorry, I not able to receive that, plese try again another day.")
             exit()
-    print(message)
+            
     if (message != "END"):
         print ("CLIENT: {}".format(message))
             
@@ -56,15 +56,16 @@ def askSomething(answerType, sendMessages, noAnswers, defaultAnswer): # Andre
                     break
             break
 
-        if (answer[1] == 2): # If the user asked a how or are question
+        if (answer[1] == 2): # If the user asked a question
             if (type(answer[0]) == str):
                 sendMessage(answer[0], False)
             else:
                 sendMessage(answer[0][0], False)
                 sendMessage(answer[0][1], False)
                 
-            sendMessage(noAnswers[0])
-            noAnswers.pop(0)
+            sendMessage(noAnswers[0]) # FIX WHEN THE USER DOENS ANSWER FOR 3 TIMES
+            if (len(noAnswers) > 0):
+                noAnswers.pop(0)
         elif (answer[1] == 5): # If the user doesn't want to answer
             sendMessage("You should, it would be more fun!")
             noAnswers.pop(len(noAnswers) - 1)
