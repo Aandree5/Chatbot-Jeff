@@ -210,18 +210,20 @@ def executeCan(sentence):
 
 
 def executeAre(sentence):
+    sentenceParse = sentence.split()
+    #made an array of pronouns
+    pronoun = ["he","she","man","woman","boy","girl","male","female"]
     """ Given a string which starts with 'are', returns a string which is an answer to the user's question"""
     if "you alive" in sentence:
         response = "Yes, I'm alive. I'm talking to you right now."
     elif "alright" in sentence:
         response = "Yes, I am " + random.choice(feelingList) + ", thanks."
-
-    elif "a boy or a girl" in sentence:
-        response = "My name is Jeff so I'm a boy I guess. "
     elif "you real" in sentence:
         response = "I'm talking to you so I exist so yes, I'm real. "
     elif "a robot" in sentence or "a human" in sentence or "a alien" in sentence:
         response = "Actually I'm a chatbot."
+    elif sentenceParse[3] in pronoun:       #put to last because if sentenceParse doesnt have a index[3], runtime error occurs
+        response = "My name is Jeff so I'm a boy I guess. "
     else:
         response = getGoogleSearch(sentence)
 
@@ -256,7 +258,7 @@ def executeWho(sentence):
         response = "Donald Trump has become the 45th President of the USA since 2016."
     elif "god" in sentence:
         response = "Einstein believed in a God represented by order, harmony, beauty, simplicity and elegance."
-    elif "am I" in sentence:
+    elif "am i" in sentence:
         response = "You're a human, silly guy."
     elif "made you" in sentence or "created you" in sentence or "founded you" in sentence:
         response = "My founders are Jasper, Andres, Suraj and Delia."
@@ -267,17 +269,22 @@ def executeWho(sentence):
 
 def executeDo(sentence):
     """ Given a string which starts with 'do', returns a string which is an answer to the user's question"""
-   
-    if "like me" in sentence or "love me" in sentence:
-        response = "Not really. You are just a human. "
-    elif "programming" in sentence or "computing" in sentence:
-        response = "Of course! Due of it I'm alive."
-    elif "have brain" in sentence:
-       response = "No, I'm a robot. "
-    elif "like someone" in sentence:
-        response = "I like Rihanna, she is a really good singer. "
-    elif "love someone" in sentence:
-        response = "I'm a narcissist so I love myself."
+    sentenceParse = sentence.split()
+    if "like" in sentence or "love" in sentence:
+        if "me" in sentence:
+            response = "Not really. You are just a human."
+        elif "programming" in sentence or "computing" in sentence:
+            response = "Of course! Due of it I'm alive."
+        elif "like someone" in sentence:
+            response = "I like Rihanna, she is a really good singer. "
+        elif "love someone" in sentence:
+            response = "I'm a narcissist so I love myself."
+        else:
+            response = random.choice(["I do not like/love","I truly like/love","I really love/like","I hate","I like","I love"])
+            for i in range(len(sentenceParse) - 3):
+                response = response + " " + str(sentenceParse[i + 3])
+    elif "brain" in sentence:
+        response = "No, I'm a robot."
     else:
         response = getGoogleSearch(sentence)
 
@@ -444,8 +451,9 @@ def reformatSentence(sentence, operatorType):
 # ----------------------------------------
 
 if (__name__ == "__main__"):
-              
-    userInput = input("Input a question: \n")
-
-    print(determineUserInput(userInput))
+    while True:
+        userInput = input("Input a question: \n")
+        if userInput == "stop":
+            break
+        print(determineUserInput(userInput))
 
