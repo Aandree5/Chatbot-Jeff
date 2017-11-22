@@ -3,10 +3,6 @@ import tkinter as tk
 import tkHyperlinkManager as tkHLM
 import webbrowser
 
-# Create Socket and connect to server
-thisSocket = socket.socket()
-thisSocket.connect(("127.0.0.1",5001))
-
 def chatbotExit(): #Richard
     ''' Sends a message to the server to notify it that the chatbot is
         quitting and then closes the interface and allows other functions
@@ -14,10 +10,8 @@ def chatbotExit(): #Richard
     exitMessage = "END"
     thisSocket.send(exitMessage.encode())
     userInput.delete(0, tk.END)
-    window.quit()
+    window.quit() #Closes the GUI window which then leads to the rest of the program being able to end as mainloop() terminates
     return None
-
-
 
 def receiveMessage(i): #Richard
     ''' Receives multiple messages from server if needed, until server
@@ -43,6 +37,8 @@ def receiveMessage(i): #Richard
             searchLink = message
             hyperlinkObj = tkHLM.HyperlinkManager(chatHistory)
 
+            #This function is now local to remove the need to pass an argument which
+            #was breaking the external code used to manage the hyperlinks
             def openLink(): #Richard
                 ''' Opens the link sent by the server'''
                 webbrowser.open(searchLink, new=2)
@@ -82,6 +78,10 @@ def sendMessage(event=None): #Richard
     userInput.delete(0, tk.END)
     receiveMessage(i)
 
+# Create Socket and connect to server
+thisSocket = socket.socket()
+thisSocket.connect(("127.0.0.1",5001))
+
 i = 0 #Counter used later to prevent the global variable username being reset
 
 #GUI Start
@@ -90,22 +90,26 @@ window.title("Chatbot Jeff")
 window.geometry("600x600")
 window.configure(background="cornflower blue")
 
-lblTitle = tk.Label(window, text="CHATBOT JEFF", bg="cornflower blue", font=("Helvetica", 24))
+lblTitle = tk.Label(window, text="CHATBOT JEFF", bg="cornflower blue", font=("Helvetica", 24)) #Main title for the chatbot GUI
 lblTitle.pack()
 
-lbl = tk.Label(window, text="\nChatHistory", bg="cornflower blue", font=("Helvetica", 16))
+lbl = tk.Label(window, text="\nChatHistory", bg="cornflower blue", font=("Helvetica", 16)) #Title that sits above the chat history text widget
 lbl.pack()
 
-chatHistory = tk.Text(window)
+chatHistory = tk.Text(window) #Creates the text window that will be used to show the chat history
 chatHistory.pack(padx=30)
-chatHistory.configure(state="disabled")
+chatHistory.configure(state="disabled") #Prevents the user from typing directly into the chat history
 
-userInput = tk.Entry(window, width=50)
-userInput.pack(pady=15)
-userInput.bind("<Return>", sendMessage)
+userInputFrame = tk.Frame(window) #Creates a frame to hold the widgets related to user input
+userInputFrame.configure(background="cornflower blue")
 
-sendBtn = tk.Button(window, text="Send Message", command=sendMessage)
-sendBtn.pack(side="right", pady=15)
+userInput = tk.Entry(userInputFrame, width=80) #Adds a text entry widget to the frame
+userInput.grid(row=0, column=0, ipady=3, padx=2)
+userInput.bind("<Return>", sendMessage) #Binds the return key to the widget so that it calls the sendMessage function when the key is pressed
+
+sendBtn = tk.Button(userInputFrame, text="Send Message", command=sendMessage) #Adds a button widget that sends the message found in the entry widget to the server
+sendBtn.grid(row=0, column=1)
+userInputFrame.pack(pady=15) #Adds the frame and its contents to the GUI so it is displayed with the rest of the elements
 #GUI End
 
 receiveMessage(i) #Receives the initial message from the chatbot
