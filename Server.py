@@ -8,17 +8,12 @@ def sendMessage(message, EOM = True): # Andre
     ''' Given a message input, and a False value, send the message and the
         client keeps wayting for another message '''
     resp = ""
+    while (resp != "Received"): # If client doesn't receive message, send again
+        conn.send(str(message).encode())
+        print("SERVER: {}".format(message))
+        resp = conn.recv(1024).decode() # Waits for client feedback 
     if (EOM):
-        while (resp != "Received"): # If client doesn't receive message, send again
-            conn.send(str(message).encode())
-            print("SERVER: {}".format(message))
-            resp = conn.recv(1024).decode() # Waits for client feedback 
         conn.send("EndOfMessage".encode())
-    else:
-        while (resp != "Received"): # If client doesn't receive message, send again
-            conn.send(str(message).encode())
-            print("SERVER: {}".format(message))
-            resp = conn.recv(1024).decode() # Waits for client feedback 
 
 def receiveMessage(): # Andre
     ''' Receive a message from the client and check if received correctly,
