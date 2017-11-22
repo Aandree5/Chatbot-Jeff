@@ -17,9 +17,7 @@ def chatbotExit(): #Richard
     window.quit()
     return None
 
-def openLink(url): #Richard
-    ''' Opens the link sent by the server'''
-    webbrowser.open(url, new=2)
+
 
 def receiveMessage(i): #Richard
     ''' Receives multiple messages from server if needed, until server
@@ -44,8 +42,13 @@ def receiveMessage(i): #Richard
         if "https://" in message:
             searchLink = message
             hyperlinkObj = tkHLM.HyperlinkManager(chatHistory)
+
+            def openLink(): #Richard
+                ''' Opens the link sent by the server'''
+                webbrowser.open(searchLink, new=2)
+            
             chatHistory.configure(state="normal")
-            chatHistory.insert(tk.END, "Click here", hyperlinkObj.add(openLink(url))) #broken line
+            chatHistory.insert(tk.END, "Click here", hyperlinkObj.add(openLink)) #broken line
             chatHistory.insert(tk.END, "\n")
             chatHistory.configure(state="disabled")
             thisSocket.send("Received".encode())
