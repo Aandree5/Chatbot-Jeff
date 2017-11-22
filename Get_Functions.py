@@ -12,7 +12,7 @@ randomStuff = ["Cherophobia is the fear of fun","A flock of crows is called a mu
 
 #=========================================================================================================
 
-def getName(sentence): #Jasper, Richard
+def getName(sentence): #Jasper, Richard, Suraj
     """get the name of the user from the inputed sentence"""
     userWords = sentence.lower()
     userWords = userWords.split()
@@ -23,6 +23,9 @@ def getName(sentence): #Jasper, Richard
     # "Howdy, I'm called ____"
     # Order: Greeting -> pronoun -> Name -> question (optional)
     # eg. "Hello, I'm Jasper. How are you?"
+
+    if (userWords[0] in greetings): #the added code that stops iam from being added into the name if 2 greeting are added
+        userWords.pop(0) #pop and not .remove because
     
     
     if (userWords[0] == "i" and len(userWords) > 1):
