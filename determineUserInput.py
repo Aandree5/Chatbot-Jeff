@@ -222,7 +222,7 @@ def executeAre(sentence):
         response = "I'm talking to you so I exist so yes, I'm real. "
     elif "a robot" in sentence or "a human" in sentence or "a alien" in sentence:
         response = "Actually I'm a chatbot."
-    elif sentenceParse[3] in pronoun:       #put to last because if sentenceParse doesnt have a index[3], runtime error occurs
+    elif sentenceParse[2] in pronoun or sentenceParse[3] in pronoun:       #put to last because if sentenceParse doesnt have a index[3], runtime error occurs
         response = "My name is Jeff so I'm a boy I guess. "
     else:
         response = getGoogleSearch(sentence)
