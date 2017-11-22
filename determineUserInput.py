@@ -20,8 +20,10 @@ def determineUserInput(sentence):
     if (sentenceParse[0] == "i" and len(sentenceParse) > 1):
         if (sentenceParse[1] in ["m","am"]):
             sentenceParse.insert(0, " ".join(sentenceParse[0:2]))
-        
-    if sentenceParse[0] in questionStarters:  # ------------- execute the "what is" code here ---------------
+            
+    if len(sentenceParse) == 1 and sentenceParse[0] in greetings:
+        response = random.choice(greetings[0:10]), 2
+    elif sentenceParse[0] in questionStarters:  # ------------- execute the "what is" code here ---------------
         response = respondQuestion(sentence), 2
     elif sentenceParse[0] in greetings:
         response = getName(sentence), 1
