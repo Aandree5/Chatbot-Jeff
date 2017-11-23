@@ -22,7 +22,6 @@ def receiveMessage(i): #Richard
         username = "User"
     
     message = thisSocket.recv(1024).decode()
-    print(message)
     while (message != "EndOfMessage"):
         if username == "User" and "YOURNAMEWILLBE" in message: #Checks if username has been changed and for tag identifying new name
             nameholder = message.split()[1:]
