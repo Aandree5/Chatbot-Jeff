@@ -173,7 +173,7 @@ def getBirthday(): # Andre
     import random
 
     # Get JSON data from GitHub file 
-    birthdaysJson = readJSON("https://github.coventry.ac.uk/raw/hortonr6/chatbot-jeff/master/data/Birthdays.json?token=AAAIWA9gX7wN-fXNV6l2E7WBYQwV7a1Fks5aFgGzwA%3D%3D")
+    birthdaysJson = readJSON("http://andrefmsilva.coventry.domains/ALL%20Project%20One%20-%20Chatbot%20Data/Birthdays.json")
     if ("Error" in birthdaysJson):
         return(birthdaysJson)
 
@@ -190,7 +190,7 @@ def getHistory(): # Andre
     import random
 
     # Get JSON data from GitHub file 
-    historyJson = readJSON("https://github.coventry.ac.uk/raw/hortonr6/chatbot-jeff/master/data/History.json?token=AAAIWGsqhT6le5g3fQBEHXbKDXuo5lOQks5aFgd3wA%3D%3D")
+    historyJson = readJSON("http://andrefmsilva.coventry.domains/ALL%20Project%20One%20-%20Chatbot%20Data/History.json")
     if ("Error" in historyJson):
         return(historyJson)
 
@@ -207,7 +207,7 @@ the name and quote as string and a questions and righ answer as strings '''
     import random
 
     # Get JSON data from GitHub file 
-    quoteJson = readJSON("https://github.coventry.ac.uk/raw/hortonr6/chatbot-jeff/master/data/Quotes.json?token=AAAIWNQvyBUwZre3_VZqwp8aZUHHL4umks5aFgdiwA%3D%3D")
+    quoteJson = readJSON("http://andrefmsilva.coventry.domains/ALL%20Project%20One%20-%20Chatbot%20Data/Quotes.json")
     if ("Error" in quoteJson):
         return(quoteJson)
 
@@ -233,21 +233,21 @@ def getQuestion(category, difficulty, nrQuestions = 1, qSource = "OpentDB"): # A
         questionSet = getQuote()
 
         
-    if ("Error" in questionSet):
+    if ("Error" in questionSet): # Return every thing as a list to keep the same structure as getting multiple questions
         if (questionSet[1] == 0):
-            return("Error", "There was an error opening the URL")
+            return(["Error", "There was an error opening the URL"])
         elif (questionSet[1] == 1):
-            return("Error", "Error reading JSON data")
+            return(["Error", "Error reading JSON data"])
         elif (questionSet[1] == 2):
-            return("Error", "The number of questions requested not valid")
+            return(["Error", "The number of questions requested not valid"])
         elif (questionSet[1] == 3):
-            return("Error", "Category not valid")
+            return(["Error", "Category not valid"])
         elif (questionSet[1] == 4):
-            return("Error", "Difficulty not valid")
+            return(["Error", "Difficulty not valid"])
         elif (questionSet[1] == 5):
-            return("Error", "No results were found")
+            return(["Error", "No results were found"])
         elif (questionSet[1] == 6):
-            return("Error", "Invalid parameter")
+            return(["Error", "Invalid parameter"])
         elif (questionSet[1] == 7):
             import os
 
@@ -256,7 +256,7 @@ def getQuestion(category, difficulty, nrQuestions = 1, qSource = "OpentDB"): # A
             os.remove("./data/token.jeff")
             questionSet = getOpentDB(category, difficulty, nrQuestions)
             if ("Error" in questionSet):
-                return("Error", "Token not found or all available question were used")
+                return(["Error", "Token not found or all available question were used"])
         
     return(questionSet)
 

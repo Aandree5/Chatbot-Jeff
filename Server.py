@@ -1,7 +1,7 @@
 import socket
 import time
 import random
-from DataAPI import getQuestion, getCategories
+from DataAPI import getQuestion, getCategories, getBirthday, getHistory, getQuote
 from determineUserInput import determineUserInput
 
 def sendMessage(message, EOM = True): # Andre
@@ -26,7 +26,7 @@ def receiveMessage(): # Andre
             sendMessage("Sorry, I not able to receive that, plese try again another day.")
             exit()
             
-    if (message != "END"):
+    if (message != "END"): # Check if the user want to end the conversation
         print ("CLIENT: {}".format(message))
             
         answerUserInput = determineUserInput(message)
@@ -36,18 +36,18 @@ def receiveMessage(): # Andre
     return(answerUserInput)
 
 def askSomething(answerType, sendMessages, noAnswers, defaultAnswer): # Andre
-    ''' With input of the type of answer code expected and a string question,
-        a list of sentences if not expected answer, and the default fallback
+    ''' With input of the type of answer code expected and a list of messages to send,
+        another of sentences if not expected answer, and the default fallback
         answer returns the answer to the question '''
 
-    for i, item in enumerate(sendMessages):
+    for i, item in enumerate(sendMessages): # Send all the messages to client
         sendMessage(item, (True if i == len(sendMessages) - 1 else False))
         
     answer = receiveMessage()
-    if (type(answer) != tuple):
+    if (type(answer) != tuple): # If the answer if for exemple "END" just return it
         return(answer)
     
-    while (answer[1] != answerType or answer[0] == ""  and len(noAnswers) > 0):
+    while ((answer[1] != answerType or answer[0] == "")  and len(noAnswers) > 0):
         
         if(answerType == -1):
             for cat in sendMessages:
@@ -57,21 +57,21 @@ def askSomething(answerType, sendMessages, noAnswers, defaultAnswer): # Andre
             break
 
         if (answer[1] == 2): # If the user asked a question
-            if (type(answer[0]) == str):
-                sendMessage(answer[0], False)
-            else:
+            if (type(answer[0]) == tuple): # Send two messages, the text and the link of the google search 
                 sendMessage(answer[0][0], False)
                 sendMessage(answer[0][1], False)
+            else:
+                sendMessage(answer[0], False)
                 
-            sendMessage(noAnswers[0]) # FIX WHEN THE USER DOENS ANSWER FOR 3 TIMES
-            if (len(noAnswers) > 0):
-                noAnswers.pop(0)
+            sendMessage(noAnswers[0])
+            noAnswers.pop(0)
         elif (answer[1] == 5): # If the user doesn't want to answer
             sendMessage("You should, it would be more fun!")
             noAnswers.pop(len(noAnswers) - 1)
         else:
             sendMessage("Sorry I didn't undertood that.", False)
             sendMessage("Can you repeat please.")
+            noAnswers.pop(len(noAnswers) - 1)
 
         answer = receiveMessage()
             
@@ -82,7 +82,8 @@ def askSomething(answerType, sendMessages, noAnswers, defaultAnswer): # Andre
     return (answer[0])
 
 def oneQuestion(qType): # Andre
-    ''' Output a set of questions with a category choosen by the user '''
+    ''' Input of type of question as string Output a set of
+        a question of that type '''
     if (qType == "OpentDB"):
         cat = getCategories(True, 3)
         if ("Error" in cat):
@@ -101,7 +102,7 @@ def oneQuestion(qType): # Andre
         sendMessage(questionSet[1], False)
         sendMessage("Lets try again.", False)
         return(questionSet)
-
+    
     # If question set of Multiple type
     if (questionSet["Type"] == "Multiple"):
         receivedMessage = askSomething(3, [questionSet["Question"],
@@ -118,36 +119,42 @@ def oneQuestion(qType): # Andre
                                            "B: {}".format(questionSet["B"])],
                         ["You can choose one of the options.",
                         "Hmmm, I see you are afraid of making a mistake."], "X")
+        
     # If question set of Birthday type
     elif (questionSet["Type"] == "Birthday"):
         receivedMessage = askSomething(0, [questionSet["Question"]],
                         ["You can try a random one if felling lucky.",
                         "Hmmm, I see you are afraid of making a mistake."], "X")
+        questionSet[receivedMessage.upper()] = receivedMessage
+        
     # If question set of History type
     elif (questionSet["Type"] == "History"):
         receivedMessage = askSomething(0, [questionSet["Question"]],
                         ["You can try a random one if felling lucky.",
                         "Hmmm, I see you are afraid of making a mistake."], "X")
+        questionSet[receivedMessage.upper()] = receivedMessage
+        
     # If question set of Quote type
     elif (questionSet["Type"] == "Quote"):
         receivedMessage = askSomething(0, [questionSet["Question"]],
                         ["You can try a random one if felling lucky.",
                         "Hmmm, I see you are afraid of making a mistake."], "X")
+        questionSet[receivedMessage.upper()] = receivedMessage
 
-    print(receivedMessage.casefold())
-    print(questionSet["corrAnswer"].casefold())
-    if (receivedMessage.casefold() == questionSet["corrAnswer"].casefold()):
+
+    if (questionSet[receivedMessage.upper()] == questionSet["corrAnswer"]):
         sendMessage("Congratulations! That was the right answer!!", False)
         sendMessage("-" * 50, False)
     else:
         sendMessage("Nice try, but that's not the right answer.", False)
-        sendMessage("The right answer was {}."
-                    .format(questionSet["corrAnswer"]), False)
+        sendMessage("The right answer was {}.".format(questionSet["corrAnswer"]), False)
         sendMessage("I know you can get the next one!!", False)
         sendMessage("-" * 50, False)
 
 
 def quizChallange(nrQuestions): # Andre
+    ''' With input of a number of questions, output a list of question sets
+        with the lenght of the choosen input '''
     if (nrQuestions < 1 or nrQuestions > 50):
         sendMessage("For a Quiz challenge ou have to choose between 2 and 50 quesitons.")
         return(True)
@@ -177,7 +184,7 @@ def quizChallange(nrQuestions): # Andre
 
     for questionSet in qChaSet:
         # If question set of multiple type
-        if (questionSet["Type"] == "multiple"):
+        if (questionSet["Type"] == "Multiple"):
             receivedMessage = askSomething(3, [questionSet["Question"],
                                                "A: {}".format(questionSet["A"]),
                                                "B: {}".format(questionSet["B"]),
@@ -192,24 +199,44 @@ def quizChallange(nrQuestions): # Andre
                                                "B: {}".format(questionSet["B"])],
                             ["You can choose one of the options.",
                             "Hmmm, I see you are afraid of making a mistake."], "X")
-            
-        if (receivedMessage[0].casefold() == questionSet["corrAnswer"].casefold()):
+        
+        if (questionSet[receivedMessage.upper()] == questionSet["corrAnswer"]):
             sendMessage("Congratulations! That was the right answer!!", False)
             sendMessage("-" * 50, False)
             Score += 1
         else:
             sendMessage("Nice try, but that's not the right answer.", False)
-            sendMessage("The right answer was {} ({})."
-                        .format(questionSet["corrAnswer"],
-                                questionSet[questionSet["corrAnswer"]]), False)
+            sendMessage("The right answer was {}.".format(questionSet["corrAnswer"]), False)
             sendMessage("I know you can get the next one!!", False)
             sendMessage("-" * 50, False)
 
     return(Score)
 
+def funFacts(): # Andre
+    ''' With no input, output one fun fact '''
 
-#### CONNECTION ####
-       
+    fType = random.choice(["Birthday", "History", "Quote"])
+    
+    if (fType == "Birthday"):
+        fact = getBirthday()[0]
+        sendMessage("I know that {} was born in {}.".format(fact["Name"], fact["Date"]), False)
+        
+    elif (fType == "History"):
+        fact = getHistory()[0]
+        sendMessage("I found that '{}' in {}.".format(fact["Event"], fact["Date"]), False)
+        
+    elif (fType == "Quote"):
+        fact = getQuote()[0]
+        sendMessage("I know that {} said '{}'.".format(fact["Name"], fact["Quote"]), False)
+
+
+
+        
+####################
+#                  #
+#    CONNECTION    #
+#                  #
+####################       
 # Create Socket and bind server to socket
 thisSocket = socket.socket()
 thisSocket.bind(("127.0.0.1", 5001))
@@ -234,10 +261,10 @@ if (clientName == "END"):
 
 sendMessage("YOURNAMEWILLBE " + clientName, False)
 
-message = askSomething(0, ["So, {}, I will teach you something today!"
-                .format(clientName.title()), "Would you like a challenge or have any questions?"],
-                       ["You can ask for a Question challenge",
-                        "If you want you could go for a Quiz Challenge!"], None)
+message = askSomething(0, ["So, {}, I will teach you something today!".format(clientName.title()),
+                           "Would you like a 'challenge' or maybe just a 'fun fact'?"],
+                       ["You can ask for a 'Question challenge' or even a 'fun fact'.",
+                        "If you want you could go for a 'Quiz Challenge'!"], None)
     
 while True:
     if (type(message) == str and "question challange".casefold() in message.casefold()):
@@ -258,6 +285,9 @@ while True:
         
     elif (type(message) == str and "quote challange".casefold() in message.casefold()):
         oneQuestion("Quote")
+
+    elif (type(message) == str and "fun fact".casefold() in message.casefold()):
+        funFacts()
         
     elif (type(message) == str and "challange".casefold() in message.casefold()):
         message = askSomething(0, ["You can ask for a question, quiz, history, birthday or quote challange."],
@@ -268,9 +298,12 @@ while True:
         break
 
     
-    message = askSomething(0, ["If you want you can ask anything else!"],
-                       ["You can ask me anything else, I will try to help you."], None)
+    message = askSomething(0, ["If you want you can ask anything!"],
+                       ["You can ask me anything, I will try to help you."], None)
+
 
 
 sendMessage("See you next time! Bye!")
 conn.close()
+thisSocket.close
+exit()
