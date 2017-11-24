@@ -139,7 +139,7 @@ def oneQuestion(qType): # Andre
         sendMessage("-" * 50, False)
 
 
-def quizchallenge(nrQuestions): # Andre
+def quizChallenge(nrQuestions): # Andre
     ''' With input of a number of questions, output a list of question sets
         with the lenght of the choosen input '''
     if (nrQuestions < 1 or nrQuestions > 50):
@@ -255,7 +255,7 @@ while True:
         nr = askSomething(0, ["How many questions would you like to answer?"],
                               ["Pick a number between 2 and 50."], "5")
         
-        score = quizchallenge(int(nr))
+        score = quizChallenge(int(nr))
         
         sendMessage("You got {} out of {} quesions right!".format(score, nr), False)
 
