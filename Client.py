@@ -57,7 +57,7 @@ def receiveMessage(i): #Richard
         message = thisSocket.recv(1024).decode()
 
 def sendMessage(event=None): #Richard
-    '''Waits for the user to enter a messasge in the text entry box in the
+    '''Waits for the user to enter a message in the text entry box in the
        interface and then takes this input from the user and feeds it to the
        chatbot/server, allowing it to respond to the input appropriately.'''
 
