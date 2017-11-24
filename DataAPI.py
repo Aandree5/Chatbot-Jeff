@@ -172,7 +172,7 @@ def getBirthday(): # Andre
     import json
     import random
 
-    # Get JSON data from GitHub file 
+    # Get JSON data from portfolio website file 
     birthdaysJson = readJSON("http://andrefmsilva.coventry.domains/ALL%20Project%20One%20-%20Chatbot%20Data/Birthdays.json")
     if ("Error" in birthdaysJson):
         return(birthdaysJson)
@@ -189,7 +189,7 @@ def getHistory(): # Andre
     import json
     import random
 
-    # Get JSON data from GitHub file 
+    # Get JSON data from portfolio website file 
     historyJson = readJSON("http://andrefmsilva.coventry.domains/ALL%20Project%20One%20-%20Chatbot%20Data/History.json")
     if ("Error" in historyJson):
         return(historyJson)
@@ -206,7 +206,7 @@ the name and quote as string and a questions and righ answer as strings '''
     import json
     import random
 
-    # Get JSON data from GitHub file 
+    # Get JSON data from portfolio website file 
     quoteJson = readJSON("http://andrefmsilva.coventry.domains/ALL%20Project%20One%20-%20Chatbot%20Data/Quotes.json")
     if ("Error" in quoteJson):
         return(quoteJson)
@@ -450,7 +450,7 @@ if (__name__ == "__main__"):
     ########## Test getBirthday function ##########
     print()
     print("#" * 50)
-    print("# Checking getBirthday function, get data from a JSON file on GitHub")
+    print("# Checking getBirthday function, get data from a JSON file on portfolio website")
     time_Start = time.perf_counter()
     print(" - Get Birthday: ", end="")
 
@@ -469,7 +469,7 @@ if (__name__ == "__main__"):
     ########## Test getHistory function ##########
     print()
     print("#" * 50)
-    print("# Checking getHistory function, get data from a JSON file on GitHub")
+    print("# Checking getHistory function, get data from a JSON file on portfolio website")
     time_Start = time.perf_counter()
     print(" - Get History: ", end="")
 
@@ -488,7 +488,7 @@ if (__name__ == "__main__"):
     ########## Test getQuote function ##########
     print()
     print("#" * 50)
-    print("# Checking getQuote function, get data from a JSON file on GitHub")
+    print("# Checking getQuote function, get data from a JSON file on portfolio website")
     time_Start = time.perf_counter()
     print(" - Get Quote: ", end="")
 
