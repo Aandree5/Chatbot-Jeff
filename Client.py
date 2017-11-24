@@ -10,6 +10,7 @@ def chatbotExit(): #Richard
     exitMessage = "END"
     thisSocket.send(exitMessage.encode())
     window.quit() #Closes the GUI window which then leads to the rest of the program being able to end as mainloop() terminates
+    #The GUI will only close if the program is run normally such as from the terminal and not if it is run in the python shell due to how tkinter's quit function works
     return None
 
 def receiveMessage(i): #Richard
