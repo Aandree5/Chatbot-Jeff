@@ -139,7 +139,7 @@ def oneQuestion(qType): # Andre
         sendMessage("-" * 50, False)
 
 
-def quizChallange(nrQuestions): # Andre
+def quizchallenge(nrQuestions): # Andre
     ''' With input of a number of questions, output a list of question sets
         with the lenght of the choosen input '''
     if (nrQuestions < 1 or nrQuestions > 50):
@@ -232,7 +232,7 @@ print(conn)
 ####################
     
 # Say hi to client and get name
-clientName = askSomething(1, ["Hi! I am Jeff.", "I can give really nice challanges!", "What's your name?"],
+clientName = askSomething(1, ["Hi! I am Jeff.", "I can give really nice challenges!", "What's your name?"],
                               ["I would prefer to know your name.",
                               "I see you don't want to tell me."], "Mr. Nobody")
 if (clientName == "END"):
@@ -249,30 +249,30 @@ message = askSomething(0, ["So, {}, I will teach you something today!".format(cl
                         "If you want you could go for a 'Quiz Challenge'!"], None)
     
 while True:
-    if (type(message) == str and "question challange".casefold() in message.casefold()):
+    if (type(message) == str and "question challenge".casefold() in message.casefold()):
         oneQuestion("OpentDB")
-    elif (type(message) == str and "quiz challange".casefold() in message.casefold()):
+    elif (type(message) == str and "quiz challenge".casefold() in message.casefold()):
         nr = askSomething(0, ["How many questions would you like to answer?"],
                               ["Pick a number between 2 and 50."], "5")
         
-        score = quizChallange(int(nr))
+        score = quizchallenge(int(nr))
         
         sendMessage("You got {} out of {} quesions right!".format(score, nr), False)
 
-    elif (type(message) == str and "birthday challange".casefold() in message.casefold()):
+    elif (type(message) == str and "birthday challenge".casefold() in message.casefold()):
         oneQuestion("Birthday")
         
-    elif (type(message) == str and "history challange".casefold() in message.casefold()):
+    elif (type(message) == str and "history challenge".casefold() in message.casefold()):
         oneQuestion("History")
         
-    elif (type(message) == str and "quote challange".casefold() in message.casefold()):
+    elif (type(message) == str and "quote challenge".casefold() in message.casefold()):
         oneQuestion("Quote")
 
     elif (type(message) == str and "fun fact".casefold() in message.casefold()):
         funFacts()
         
-    elif (type(message) == str and "challange".casefold() in message.casefold()):
-        message = askSomething(0, ["You can ask for a question, quiz, history, birthday or quote challange."],
+    elif (type(message) == str and "challenge".casefold() in message.casefold()):
+        message = askSomething(0, ["You can ask for a question, quiz, history, birthday or quote challenge."],
                                ["You can ask me anything else, I will try to help you."], None)
         continue
     
