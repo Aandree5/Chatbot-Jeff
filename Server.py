@@ -77,6 +77,8 @@ def askSomething(answerType, sendMessages, noAnswers, defaultAnswer): # Andre
             
 
     if (answer[1] != answerType):
+        if (answer[1] == 2):
+            sendMessage(answer[0], False)            
         answer = (defaultAnswer, 0)
 
     return (answer[0])
