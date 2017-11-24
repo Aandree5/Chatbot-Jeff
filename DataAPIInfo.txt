@@ -11,10 +11,10 @@ AIzaSyArPcOPqon_MSxFKkB41qCexrCVZ5AHfoU
 	To get a random category or difficulty ("" or "Any" or "Random")
 	Source can be: opentDB, Birthday, History or Quote
 
-- Output (questionsSet) 
-	A dictionary with the keys: Type, Question, A, B, C, D and corrAnswer all as string
-	If more than one question returns a list of dictionaries
-
+- Output ([questionsSet]) 
+	A list of dictionaries with the keys: Type, Question, A, B, C, D and corrAnswer all as string for multiple choice questions
+					      Type, Question, A, B and corrAnswer all as string for true or false questions
+					      Type, Question and corrAnswer all as string for birthday, history and quote questions
 
 ### getCategories
 - Input (onlyCategories = False, , nrCat = 0) 
