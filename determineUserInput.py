@@ -104,7 +104,7 @@ randomJokes = ["Knock, knock!/ Who’s there?/ Opportunity!/ That is impossible.
 
 
 
-# branches from determineUserInput()
+# branches from determineUserInput()  #Delia 
 def respondQuestion(sentence):
     newSentence = sentence.split()
     if newSentence[0] in ["how","hows"]:
@@ -132,7 +132,7 @@ def respondQuestion(sentence):
     return response
 
 # ----------------------------------------------------------------------------------------------------------
-def executeWill(sentence):
+def executeWill(sentence): #Delia
     """ Given a string which starts with 'will' or "would", returns a string which is an answer to the user's question"""
     if "you die" in sentence:
         response = "Theoretically, I will not die, I'm just gonna stop working"
@@ -146,7 +146,7 @@ def executeWill(sentence):
 
 
 
-def executeWhy(sentence):
+def executeWhy(sentence):    #Delia
     """ Given a string which starts with 'why', returns a string which is an answer to the user's question"""
     
     if "you were made" in sentence or "you were created" in sentence or "you live" in sentence:
@@ -169,7 +169,7 @@ def executeWhy(sentence):
 
 
 
-def executeWhere(sentence):
+def executeWhere(sentence):    #Delia
     """ Given a string which starts with 'where', returns a string which is an answer to the user's question"""
     if "are you from" in sentence:
         response = "I've been made in England so I think that I'm British."
@@ -185,7 +185,7 @@ def executeWhere(sentence):
 
 
 
-def executeCan(sentence):
+def executeCan(sentence):   #Delia
     """ Given a string which starts with 'can' or "could", returns a string which is an answer to the user's question"""
     if "what time" in sentence:
         response = "The time is: " + str(now.hour) + str(":") + str(now.minute) + str(":") + str(now.second)
@@ -211,7 +211,7 @@ def executeCan(sentence):
 
 
 
-def executeAre(sentence):
+def executeAre(sentence):    #Delia
     sentenceParse = sentence.split()
     #made an array of pronouns
     pronoun = ["he","she","man","woman","boy","girl","male","female"]
@@ -232,7 +232,7 @@ def executeAre(sentence):
     return response
 
 
-def executeWhich(sentence):
+def executeWhich(sentence):   #Delia
     """ Given a string which starts with 'which', returns a string which is an answer to the user's question"""
     if "popular programming language" in sentence or "best known programming language" in sentence:
         response = "Java is top pick as one of the most popular programming languages, used for building server-side applications to video games and mobile apps."
@@ -246,7 +246,7 @@ def executeWhich(sentence):
     return response
 
 
-def executeWho(sentence):
+def executeWho(sentence):   #Delia
     """ Given a string which starts with 'who', returns a string which is an answer to the user's question"""
     if "are you" in sentence:
         response = "I'm Jeff, an awesome chatbot."
@@ -269,7 +269,7 @@ def executeWho(sentence):
          
     return response
 
-def executeDo(sentence):
+def executeDo(sentence):    #Delia
     """ Given a string which starts with 'do', returns a string which is an answer to the user's question"""
     sentenceParse = sentence.split()
     if "like" in sentence or "love" in sentence:
@@ -293,7 +293,7 @@ def executeDo(sentence):
     return response
 
 
-def executeHow(sentence):
+def executeHow(sentence):    #Delia
     """ Given a string which starts with 'how', returns a string which is an answer to the user's question"""
     if "old are you" in sentence:
         response = "I'm five weeks old."
@@ -314,7 +314,7 @@ def executeHow(sentence):
 
 
 
-def executeTell(sentence):
+def executeTell(sentence):   #Delia
     """ Given a string which starts with 'tell', returns a string which is an answer to the user's requirement"""
     if "time" in sentence:
         response = "The time is: " + str(now.hour) + str(":") + str(now.minute) + str(":") + str(now.second) 
@@ -339,7 +339,7 @@ def executeTell(sentence):
     return response
 
 
-def executeWhat(sentence):
+def executeWhat(sentence):    #Delia
     """ Given a string which starts with 'what', returns a string which is an answer to the user's question"""
     numberQuestion = False
     for i in sentence:
