@@ -12,7 +12,7 @@ randomStuff = ["Cherophobia is the fear of fun","A flock of crows is called a mu
 
 #=========================================================================================================
 
-def getName(sentence): #Jasper, Richard, Suraj
+def getName(sentence): #Jasper, Suraj
     """get the name of the user from the inputed sentence"""
     userWords = sentence.lower()
     userWords = userWords.split()
