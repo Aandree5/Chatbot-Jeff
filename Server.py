@@ -57,7 +57,7 @@ def askSomething(answerType, sendMessages, noAnswers, defaultAnswer): # Andre
             break
 
         if (answer[1] == 2): # If the user asked a question
-            if (type(answer[0]) == tuple): # Send two messages, the text and the link of the google search 
+            if (type(answer[0]) == tuple): # Send two messages, i.e. the text and the link of the google search 
                 sendMessage(answer[0][0], False)
                 sendMessage(answer[0][1], False)
             else:
@@ -68,7 +68,7 @@ def askSomething(answerType, sendMessages, noAnswers, defaultAnswer): # Andre
         elif (answer[1] == 5): # If the user doesn't want to answer
             sendMessage("You should, it would be more fun!")
             noAnswers.pop(len(noAnswers) - 1)
-        else:
+        elif (answer[1] != answerType):
             sendMessage("Sorry I didn't undertood that.", False)
             sendMessage("Can you repeat please.")
             noAnswers.pop(len(noAnswers) - 1)
@@ -94,13 +94,12 @@ def oneQuestion(qType): # Andre
                     ["You can choose a category from the list above, like 'Music'.",
                      "Hmmm, I see you are afraid of making a mistake."], "Any")
     else:
-       receivedMessage = "" 
+       receivedMessage = "" # Create the variable anyway, because it can be another type of question
     
     # Get a question and answers, from the user choice
     questionSet = getQuestion(receivedMessage, "", 1, qType)[0]
     if ("Error" in questionSet):
-        sendMessage(questionSet[1], False)
-        sendMessage("Lets try again.", False)
+        sendMessage("{}: {}".format(questionSet[0], questionSet[1]), False)
         return(questionSet)
     
     # If question set of Multiple type
@@ -120,24 +119,10 @@ def oneQuestion(qType): # Andre
                         ["You can choose one of the options.",
                         "Hmmm, I see you are afraid of making a mistake."], "X")
         
-    # If question set of Birthday type
-    elif (questionSet["Type"] == "Birthday"):
+    # If question set of Birthday or History or Quote type
+    elif (questionSet["Type"] in ["Birthday"], "History", "Quote"):
         receivedMessage = askSomething(0, [questionSet["Question"]],
-                        ["You can try a random one if felling lucky.",
-                        "Hmmm, I see you are afraid of making a mistake."], "X")
-        questionSet[receivedMessage.upper()] = receivedMessage
-        
-    # If question set of History type
-    elif (questionSet["Type"] == "History"):
-        receivedMessage = askSomething(0, [questionSet["Question"]],
-                        ["You can try a random one if felling lucky.",
-                        "Hmmm, I see you are afraid of making a mistake."], "X")
-        questionSet[receivedMessage.upper()] = receivedMessage
-        
-    # If question set of Quote type
-    elif (questionSet["Type"] == "Quote"):
-        receivedMessage = askSomething(0, [questionSet["Question"]],
-                        ["You can try a random one if felling lucky.",
+                        ["You can try a random answer if felling lucky.",
                         "Hmmm, I see you are afraid of making a mistake."], "X")
         questionSet[receivedMessage.upper()] = receivedMessage
 
@@ -157,16 +142,12 @@ def quizChallange(nrQuestions): # Andre
         with the lenght of the choosen input '''
     if (nrQuestions < 1 or nrQuestions > 50):
         sendMessage("For a Quiz challenge ou have to choose between 2 and 50 quesitons.")
-        return(True)
+        return(nrQuestions)
 
     cat = getCategories(True, 3)
     if ("Error" in cat):
         sendMessage("{}: {}".format(cat[0], cat[1]), False)
-        if (cat[1] == 7):
-            sendMessage("Lets try again.")
-            return(True)
-        else:
-            return(False)
+        return(cat)
     
     receivedMessage = askSomething(-1, ["Pick a subject.", cat[0], cat[1], cat[2]],
                 ["You can choose a category from the list above, like 'Music'.",
@@ -176,11 +157,10 @@ def quizChallange(nrQuestions): # Andre
     # Get a question and answers, from the user choice
     qChaSet = getQuestion(receivedMessage, "", nrQuestions)
     if ("Error" in qChaSet):
-        sendMessage(qChaSet[1], False)
-        sendMessage("Lets try again.", False)
-        return (True)
+        sendMessage("{}: {}".format(qChaSet[0], qChaSet[1]), False)
+        return(qChaSet)
 
-    Score = 0
+    Score = 0 # Initialize the variable to keep track of the right answers
 
     for questionSet in qChaSet:
         # If question set of multiple type
@@ -231,7 +211,7 @@ def funFacts(): # Andre
 
 
 
-        
+#   Start server   #     
 ####################
 #                  #
 #    CONNECTION    #

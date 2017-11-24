@@ -235,19 +235,19 @@ def getQuestion(category, difficulty, nrQuestions = 1, qSource = "OpentDB"): # A
         
     if ("Error" in questionSet): # Return every thing as a list to keep the same structure as getting multiple questions
         if (questionSet[1] == 0):
-            return(["Error", "There was an error opening the URL"])
+            return([("Error", "There was an error opening the URL")])
         elif (questionSet[1] == 1):
-            return(["Error", "Error reading JSON data"])
+            return([("Error", "Error reading JSON data")])
         elif (questionSet[1] == 2):
-            return(["Error", "The number of questions requested not valid"])
+            return([("Error", "The number of questions requested not valid")])
         elif (questionSet[1] == 3):
-            return(["Error", "Category not valid"])
+            return([("Error", "Category not valid")])
         elif (questionSet[1] == 4):
-            return(["Error", "Difficulty not valid"])
+            return([("Error", "Difficulty not valid")])
         elif (questionSet[1] == 5):
-            return(["Error", "No results were found"])
+            return([("Error", "No results were found")])
         elif (questionSet[1] == 6):
-            return(["Error", "Invalid parameter"])
+            return([("Error", "Invalid parameter")])
         elif (questionSet[1] == 7):
             import os
 
@@ -256,7 +256,7 @@ def getQuestion(category, difficulty, nrQuestions = 1, qSource = "OpentDB"): # A
             os.remove("./data/token.jeff")
             questionSet = getOpentDB(category, difficulty, nrQuestions)
             if ("Error" in questionSet):
-                return(["Error", "Token not found or all available question were used"])
+                return([("Error", "Token not found or all available question were used")])
         
     return(questionSet)
 
